@@ -6,17 +6,27 @@
 ![Performance](https://img.shields.io/badge/Performance-FF6B6B?style=for-the-badge&logo=speedometer&logoColor=white)
 ![Optimization](https://img.shields.io/badge/Optimization-4CAF50?style=for-the-badge&logo=chart&logoColor=white)
 ![Memory](https://img.shields.io/badge/Memory-2196F3?style=for-the-badge&logo=memory&logoColor=white)
+![Swift](https://img.shields.io/badge/Swift-5.7+-orange?style=for-the-badge&logo=swift&logoColor=white)
+![Xcode](https://img.shields.io/badge/Xcode-14.0+-blue?style=for-the-badge&logo=xcode&logoColor=white)
 
 [![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen?style=for-the-badge)](https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit)
 [![Performance Score](https://img.shields.io/badge/Performance%20Score-A%2B-brightgreen?style=for-the-badge)](https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit)
-[![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge)](https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit)
+[![Version](https://img.shields.io/badge/Version-2.1.0-blue?style=for-the-badge)](https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit)
+[![Swift Package Manager](https://img.shields.io/badge/SPM-Supported-brightgreen?style=for-the-badge)](https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit)
+[![CocoaPods](https://img.shields.io/badge/CocoaPods-Supported-brightgreen?style=for-the-badge)](https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit)
 
 **App Store Top 100 Performance Optimization - Enterprise-Grade Performance Tools for iOS Applications**
 
 [📊 Demo](#demo) • [🚀 Quick Start](#quick-start) • [📚 Documentation](#documentation) • [🤝 Contributing](#contributing) • [📄 License](#license)
 
 </div>
+
+---
+
+## 🏷️ Topics
+
+`ios` `swift` `performance` `optimization` `memory` `battery` `cpu` `ui` `analytics` `monitoring` `profiling` `debugging` `testing` `framework` `library` `enterprise` `app-store` `mobile` `development` `tools` `utilities` `best-practices` `clean-architecture` `solid-principles` `testing` `documentation`
 
 ---
 
@@ -529,12 +539,12 @@ class PerformanceOptimizationTests: XCTestCase {
 ## 📚 Documentation
 
 ### 📖 Comprehensive Documentation
-- [🚀 Getting Started](Documentation/GettingStarted.md)
-- [🔧 Performance Guide](Documentation/Performance.md)
-- [🧹 Memory Optimization](Documentation/MemoryOptimization.md)
-- [🔋 Battery Optimization](Documentation/BatteryOptimization.md)
-- [🚀 CPU Optimization](Documentation/CPUOptimization.md)
-- [🧪 Testing](Documentation/Testing.md)
+- [🚀 Getting Started](Documentation/GettingStarted/GettingStarted.md)
+- [🔧 Performance Guide](Documentation/Performance/Performance.md)
+- [🧹 Memory Optimization](Documentation/Memory/MemoryOptimization.md)
+- [🔋 Battery Optimization](Documentation/Battery/BatteryOptimization.md)
+- [🚀 CPU Optimization](Documentation/CPU/CPUOptimization.md)
+- [🧪 Testing](Documentation/Testing/Testing.md)
 
 ---
 
@@ -592,4 +602,6 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 
 **⚡ App Store Top 100 Performance Optimization Toolkit**
 
-</div> 
+</div> ## 🏷️ Topics
+
+`ios` `swift` `performance` `optimization` `memory` `battery` `cpu` `ui` `analytics` `monitoring` `profiling` `debugging` `testing` `framework` `library` `enterprise` `app-store` `mobile` `development` `tools` `utilities` `best-practices` `clean-architecture` `solid-principles` `testing` `documentation`
