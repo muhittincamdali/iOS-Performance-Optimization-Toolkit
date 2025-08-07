@@ -155,7 +155,6 @@
 * **Location Services Optimization**: Smart location service management
 * **Network Optimization**: Efficient network request handling
 * **Wake Lock Prevention**: Prevention of unnecessary wake locks
-* **Thermal Management**: Thermal throttling and heat management
 
 ### 🚀 CPU Optimization
 
@@ -265,7 +264,6 @@
 
 #### 1️⃣ **Clone the Repository**
 ```bash
-git clone https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit.git
 cd iOS-Performance-Optimization-Toolkit
 ```
 
@@ -314,7 +312,6 @@ Add the framework to your project:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit.git", from: "2.1.0")
 ]
 ```
 
@@ -763,7 +760,6 @@ advancedProfiler.enableBatteryProfiling = true
 advancedProfiler.startProfiling { profileData in
     print("🔍 Comprehensive Profile:")
     print("Memory leaks: \(profileData.memoryLeaks.count)")
-    print("CPU bottlenecks: \(profileData.cpuBottlenecks.count)")
     print("Network issues: \(profileData.networkIssues.count)")
     print("Battery drains: \(profileData.batteryDrains.count)")
     
@@ -815,19 +811,16 @@ let performanceTester = PerformanceTester()
 performanceTester.addTestScenario("app_launch") {
     // Test app launch performance
     let launchTime = measureAppLaunchTime()
-    XCTAssertLessThan(launchTime, 2.0) // Should launch in under 2 seconds
 }
 
 performanceTester.addTestScenario("memory_usage") {
     // Test memory usage
     let memoryUsage = measureMemoryUsage()
-    XCTAssertLessThan(memoryUsage, 200 * 1024 * 1024) // Should use less than 200MB
 }
 
 performanceTester.addTestScenario("battery_drain") {
     // Test battery drain
     let batteryDrain = measureBatteryDrain()
-    XCTAssertLessThan(batteryDrain, 5.0) // Should drain less than 5%/hour
 }
 
 // Run performance tests
@@ -847,16 +840,12 @@ let validationTools = PerformanceValidationTools()
 // Validate performance metrics
 let validationResults = try await validationTools.validatePerformance { metrics in
     // Validate memory usage
-    XCTAssertLessThan(metrics.memoryUsage, 200 * 1024 * 1024)
     
     // Validate CPU usage
-    XCTAssertLessThan(metrics.cpuUsage, 80.0)
     
     // Validate battery drain
-    XCTAssertLessThan(metrics.batteryDrain, 5.0)
     
     // Validate network latency
-    XCTAssertLessThan(metrics.networkLatency, 1000)
 }
 
 print("✅ Validation Results:")
@@ -958,11 +947,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
 
-![GitHub Stars](https://img.shields.io/github/stars/muhittincamdali/iOS-Performance-Optimization-Toolkit?style=for-the-badge&logo=star&logoColor=gold&color=gold&label=Stars)
-![GitHub Forks](https://img.shields.io/github/forks/muhittincamdali/iOS-Performance-Optimization-Toolkit?style=for-the-badge&logo=git&logoColor=white&color=blue&label=Forks)
-![GitHub Issues](https://img.shields.io/github/issues/muhittincamdali/iOS-Performance-Optimization-Toolkit?style=for-the-badge&logo=github&logoColor=white&color=red&label=Issues)
-![GitHub Pull Requests](https://img.shields.io/github/issues-pr/muhittincamdali/iOS-Performance-Optimization-Toolkit?style=for-the-badge&logo=github&logoColor=white&color=green&label=PRs)
-![GitHub License](https://img.shields.io/github/license/muhittincamdali/iOS-Performance-Optimization-Toolkit?style=for-the-badge&logo=github&logoColor=white&color=purple&label=License)
 
 </div>
 
@@ -979,7 +963,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ### 🌟 Stargazers Community
 
-[![Stargazers repo roster for @muhittincamdali/iOS-Performance-Optimization-Toolkit](https://reporoster.com/stars/muhittincamdali/iOS-Performance-Optimization-Toolkit)](https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/stargazers)
 
 **⭐ Star this repository if it helped you!**
 
