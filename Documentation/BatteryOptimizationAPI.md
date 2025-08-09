@@ -1,5 +1,37 @@
 # Battery Optimization API
 
+<!-- TOC START -->
+## Table of Contents
+- [Battery Optimization API](#battery-optimization-api)
+- [Overview](#overview)
+- [Core Components](#core-components)
+  - [BatteryMonitor](#batterymonitor)
+  - [PowerManager](#powermanager)
+  - [EnergyOptimizer](#energyoptimizer)
+- [Usage Examples](#usage-examples)
+  - [Basic Battery Monitoring](#basic-battery-monitoring)
+  - [Advanced Power Management](#advanced-power-management)
+  - [Energy Optimization](#energy-optimization)
+- [Performance Metrics](#performance-metrics)
+  - [Battery Monitoring](#battery-monitoring)
+  - [Power Management](#power-management)
+  - [Energy Optimization](#energy-optimization)
+- [Best Practices](#best-practices)
+  - [Battery Life Optimization](#battery-life-optimization)
+  - [Power Management](#power-management)
+  - [Energy Optimization](#energy-optimization)
+- [Error Handling](#error-handling)
+- [Integration with Other APIs](#integration-with-other-apis)
+- [Migration Guide](#migration-guide)
+  - [From Manual Battery Management](#from-manual-battery-management)
+  - [From Basic Power Management](#from-basic-power-management)
+- [Troubleshooting](#troubleshooting)
+  - [Common Issues](#common-issues)
+  - [Performance Tips](#performance-tips)
+- [API Reference](#api-reference)
+<!-- TOC END -->
+
+
 ## Overview
 
 The Battery Optimization API provides comprehensive tools for optimizing battery life in iOS applications. This API focuses on intelligent power management, background processing optimization, and energy consumption monitoring.

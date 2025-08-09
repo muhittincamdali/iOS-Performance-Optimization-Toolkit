@@ -1,5 +1,19 @@
 # Memory Optimization Examples
 
+<!-- TOC START -->
+## Table of Contents
+- [Memory Optimization Examples](#memory-optimization-examples)
+- [Examples](#examples)
+- [Memory Optimization Features](#memory-optimization-features)
+  - [Memory Leak Detection](#memory-leak-detection)
+  - [Cache Optimization](#cache-optimization)
+  - [Heap Management](#heap-management)
+  - [Reference Cycle Detection](#reference-cycle-detection)
+- [Requirements](#requirements)
+- [Usage](#usage)
+<!-- TOC END -->
+
+
 This directory contains comprehensive examples demonstrating iOS Performance Optimization Toolkit memory optimization features.
 
 ## Examples

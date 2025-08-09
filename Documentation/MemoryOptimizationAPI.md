@@ -1,5 +1,37 @@
 # Memory Optimization API
 
+<!-- TOC START -->
+## Table of Contents
+- [Memory Optimization API](#memory-optimization-api)
+- [Overview](#overview)
+- [Core Components](#core-components)
+  - [MemoryLeakDetector](#memoryleakdetector)
+  - [MemoryCleaner](#memorycleaner)
+  - [CacheOptimizer](#cacheoptimizer)
+- [Usage Examples](#usage-examples)
+  - [Basic Memory Leak Detection](#basic-memory-leak-detection)
+  - [Advanced Memory Cleanup](#advanced-memory-cleanup)
+  - [Intelligent Cache Optimization](#intelligent-cache-optimization)
+- [Performance Metrics](#performance-metrics)
+  - [Memory Leak Detection](#memory-leak-detection)
+  - [Memory Cleanup](#memory-cleanup)
+  - [Cache Optimization](#cache-optimization)
+- [Best Practices](#best-practices)
+  - [Memory Leak Prevention](#memory-leak-prevention)
+  - [Memory Cleanup](#memory-cleanup)
+  - [Cache Management](#cache-management)
+- [Error Handling](#error-handling)
+- [Integration with Other APIs](#integration-with-other-apis)
+- [Migration Guide](#migration-guide)
+  - [From Manual Memory Management](#from-manual-memory-management)
+  - [From Basic Caching](#from-basic-caching)
+- [Troubleshooting](#troubleshooting)
+  - [Common Issues](#common-issues)
+  - [Performance Tips](#performance-tips)
+- [API Reference](#api-reference)
+<!-- TOC END -->
+
+
 ## Overview
 
 The Memory Optimization API provides comprehensive tools for detecting memory leaks, optimizing memory usage, and managing application memory efficiently. This API focuses on preventing memory-related crashes and ensuring optimal performance.

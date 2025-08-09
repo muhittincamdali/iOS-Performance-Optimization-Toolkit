@@ -1,5 +1,27 @@
 # Getting Started Guide
 
+<!-- TOC START -->
+## Table of Contents
+- [Getting Started Guide](#getting-started-guide)
+- [Overview](#overview)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+  - [Swift Package Manager](#swift-package-manager)
+  - [CocoaPods](#cocoapods)
+- [Quick Start](#quick-start)
+  - [1. Import the Framework](#1-import-the-framework)
+  - [2. Initialize Performance Monitor](#2-initialize-performance-monitor)
+  - [3. Start Monitoring](#3-start-monitoring)
+  - [4. Configure Optimization Settings](#4-configure-optimization-settings)
+- [Basic Usage](#basic-usage)
+  - [Memory Optimization](#memory-optimization)
+  - [Battery Optimization](#battery-optimization)
+  - [CPU Optimization](#cpu-optimization)
+- [Next Steps](#next-steps)
+- [Support](#support)
+<!-- TOC END -->
+
+
 ## Overview
 
 This guide will help you get started with the iOS Performance Optimization Toolkit. You'll learn how to integrate the toolkit into your iOS project and begin optimizing your app's performance.

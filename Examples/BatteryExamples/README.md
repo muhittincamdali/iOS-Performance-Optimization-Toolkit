@@ -1,5 +1,19 @@
 # Battery Optimization Examples
 
+<!-- TOC START -->
+## Table of Contents
+- [Battery Optimization Examples](#battery-optimization-examples)
+- [Examples](#examples)
+- [Battery Optimization Features](#battery-optimization-features)
+  - [Power Management](#power-management)
+  - [Background Processing](#background-processing)
+  - [Energy Monitoring](#energy-monitoring)
+  - [Location Services](#location-services)
+- [Requirements](#requirements)
+- [Usage](#usage)
+<!-- TOC END -->
+
+
 This directory contains comprehensive examples demonstrating iOS Performance Optimization Toolkit battery optimization features.
 
 ## Examples
