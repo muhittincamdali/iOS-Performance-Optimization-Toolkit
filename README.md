@@ -1,4 +1,5 @@
 # ⚡ iOS Performance Optimization Toolkit
+[![CI](https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/actions/workflows/ci.yml)
 
 <!-- TOC START -->
 ## Table of Contents
