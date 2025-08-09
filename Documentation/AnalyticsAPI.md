@@ -1,5 +1,33 @@
 # 📊 Analytics API Documentation
 
+<!-- TOC START -->
+## Table of Contents
+- [📊 Analytics API Documentation](#-analytics-api-documentation)
+- [Overview](#overview)
+- [Core Features](#core-features)
+- [API Reference](#api-reference)
+  - [PerformanceAnalytics](#performanceanalytics)
+  - [PerformanceReport](#performancereport)
+- [Usage Examples](#usage-examples)
+  - [Basic Analytics Setup](#basic-analytics-setup)
+  - [Generate Performance Report](#generate-performance-report)
+  - [Export Performance Data](#export-performance-data)
+- [Configuration](#configuration)
+  - [Analytics Configuration](#analytics-configuration)
+  - [Custom Metrics](#custom-metrics)
+- [Best Practices](#best-practices)
+- [Error Handling](#error-handling)
+- [Integration Examples](#integration-examples)
+  - [UIKit Integration](#uikit-integration)
+  - [SwiftUI Integration](#swiftui-integration)
+- [Performance Considerations](#performance-considerations)
+- [Troubleshooting](#troubleshooting)
+  - [Common Issues](#common-issues)
+  - [Debug Mode](#debug-mode)
+- [Support](#support)
+<!-- TOC END -->
+
+
 ## Overview
 
 The Analytics API provides comprehensive performance analytics and monitoring capabilities for iOS applications. This API enables developers to track, analyze, and optimize application performance in real-time.

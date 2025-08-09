@@ -1,5 +1,37 @@
 # UI Performance API
 
+<!-- TOC START -->
+## Table of Contents
+- [UI Performance API](#ui-performance-api)
+- [Overview](#overview)
+- [Core Components](#core-components)
+  - [AnimationOptimizer](#animationoptimizer)
+  - [ImageOptimizer](#imageoptimizer)
+  - [LazyLoader](#lazyloader)
+- [Usage Examples](#usage-examples)
+  - [Basic Animation Optimization](#basic-animation-optimization)
+  - [Advanced Image Optimization](#advanced-image-optimization)
+  - [Intelligent Lazy Loading](#intelligent-lazy-loading)
+- [Performance Metrics](#performance-metrics)
+  - [Animation Performance](#animation-performance)
+  - [Image Performance](#image-performance)
+  - [Lazy Loading Performance](#lazy-loading-performance)
+- [Best Practices](#best-practices)
+  - [Animation Optimization](#animation-optimization)
+  - [Image Optimization](#image-optimization)
+  - [Lazy Loading](#lazy-loading)
+- [Error Handling](#error-handling)
+- [Integration with Other APIs](#integration-with-other-apis)
+- [Migration Guide](#migration-guide)
+  - [From Manual Optimization](#from-manual-optimization)
+  - [From Basic Image Loading](#from-basic-image-loading)
+- [Troubleshooting](#troubleshooting)
+  - [Common Issues](#common-issues)
+  - [Performance Tips](#performance-tips)
+- [API Reference](#api-reference)
+<!-- TOC END -->
+
+
 ## Overview
 
 The UI Performance API provides comprehensive tools for optimizing user interface performance in iOS applications. This API focuses on achieving smooth 60fps animations, efficient image handling, and optimal rendering performance.

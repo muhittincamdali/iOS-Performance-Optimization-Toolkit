@@ -1,5 +1,19 @@
 # CPU Optimization Examples
 
+<!-- TOC START -->
+## Table of Contents
+- [CPU Optimization Examples](#cpu-optimization-examples)
+- [Examples](#examples)
+- [CPU Optimization Features](#cpu-optimization-features)
+  - [CPU Profiling](#cpu-profiling)
+  - [Thread Management](#thread-management)
+  - [Algorithm Optimization](#algorithm-optimization)
+  - [Task Scheduling](#task-scheduling)
+- [Requirements](#requirements)
+- [Usage](#usage)
+<!-- TOC END -->
+
+
 This directory contains comprehensive examples demonstrating iOS Performance Optimization Toolkit CPU optimization features.
 
 ## Examples

@@ -1,5 +1,19 @@
 # UI Performance Examples
 
+<!-- TOC START -->
+## Table of Contents
+- [UI Performance Examples](#ui-performance-examples)
+- [Examples](#examples)
+- [UI Performance Features](#ui-performance-features)
+  - [Animation Optimization](#animation-optimization)
+  - [Image Optimization](#image-optimization)
+  - [Lazy Loading](#lazy-loading)
+  - [Rendering Optimization](#rendering-optimization)
+- [Requirements](#requirements)
+- [Usage](#usage)
+<!-- TOC END -->
+
+
 This directory contains comprehensive examples demonstrating iOS Performance Optimization Toolkit UI performance optimization features.
 
 ## Examples

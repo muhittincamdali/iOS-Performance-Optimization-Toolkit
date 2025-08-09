@@ -1,5 +1,37 @@
 # CPU Optimization API
 
+<!-- TOC START -->
+## Table of Contents
+- [CPU Optimization API](#cpu-optimization-api)
+- [Overview](#overview)
+- [Core Components](#core-components)
+  - [CPUProfiler](#cpuprofiler)
+  - [ThreadManager](#threadmanager)
+  - [AlgorithmOptimizer](#algorithmoptimizer)
+- [Usage Examples](#usage-examples)
+  - [Basic CPU Profiling](#basic-cpu-profiling)
+  - [Advanced Thread Management](#advanced-thread-management)
+  - [Algorithm Optimization](#algorithm-optimization)
+- [Performance Metrics](#performance-metrics)
+  - [CPU Profiling](#cpu-profiling)
+  - [Thread Management](#thread-management)
+  - [Algorithm Optimization](#algorithm-optimization)
+- [Best Practices](#best-practices)
+  - [CPU Optimization](#cpu-optimization)
+  - [Thread Management](#thread-management)
+  - [Algorithm Optimization](#algorithm-optimization)
+- [Error Handling](#error-handling)
+- [Integration with Other APIs](#integration-with-other-apis)
+- [Migration Guide](#migration-guide)
+  - [From Manual CPU Monitoring](#from-manual-cpu-monitoring)
+  - [From Basic Threading](#from-basic-threading)
+- [Troubleshooting](#troubleshooting)
+  - [Common Issues](#common-issues)
+  - [Performance Tips](#performance-tips)
+- [API Reference](#api-reference)
+<!-- TOC END -->
+
+
 ## Overview
 
 The CPU Optimization API provides comprehensive tools for optimizing CPU performance in iOS applications. This API focuses on efficient thread management, algorithm optimization, and CPU usage monitoring.
