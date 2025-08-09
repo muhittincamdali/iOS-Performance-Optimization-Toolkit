@@ -979,7 +979,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ### 🌟 Stargazers Community
 
-[![Stargazers repo roster for @muhittincamdali/iOS-Performance-Optimization-Toolkit](https://reporoster.com/stars/muhittincamdali/iOS-Performance-Optimization-Toolkit)](https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/stargazers)
+[![Stargazers repo roster for @muhittincamdali/iOS-Performance-Optimization-Toolkit](https://starchart.cc/muhittincamdali/iOS-Performance-Optimization-Toolkit.svg)](https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/stargazers)
 
 **⭐ Star this repository if it helped you!**
 
