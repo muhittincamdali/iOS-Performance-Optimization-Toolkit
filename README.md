@@ -989,3 +989,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **💫 Join our amazing community of developers!**
 
 </div>
+## 🌟 Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=muhittincamdali/iOS-Performance-Optimization-Toolkit&type=Date)](https://star-history.com/#muhittincamdali/iOS-Performance-Optimization-Toolkit&Date)
+
