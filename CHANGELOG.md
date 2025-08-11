@@ -242,4 +242,60 @@ let metrics = performanceManager.getPerformanceMetrics()
 
 ---
 
-**⚡ Build App Store Top 100 performance with iOS Performance Optimization Toolkit!** 
+**⚡ Build App Store Top 100 performance with iOS Performance Optimization Toolkit!** # iOS-Performance-Optimization-Toolkit - Update 1
+# iOS-Performance-Optimization-Toolkit - Update 2
+# iOS-Performance-Optimization-Toolkit - Update 3
+# iOS-Performance-Optimization-Toolkit - Update 4
+# iOS-Performance-Optimization-Toolkit - Update 5
+# iOS-Performance-Optimization-Toolkit - Update 6
+# iOS-Performance-Optimization-Toolkit - Update 7
+# iOS-Performance-Optimization-Toolkit - Update 8
+# iOS-Performance-Optimization-Toolkit - Update 9
+# iOS-Performance-Optimization-Toolkit - Update 10
+# iOS-Performance-Optimization-Toolkit - Update 11
+# iOS-Performance-Optimization-Toolkit - Update 12
+# iOS-Performance-Optimization-Toolkit - Update 13
+# iOS-Performance-Optimization-Toolkit - Update 14
+# iOS-Performance-Optimization-Toolkit - Update 15
+# iOS-Performance-Optimization-Toolkit - Update 16
+# iOS-Performance-Optimization-Toolkit - Update 17
+# iOS-Performance-Optimization-Toolkit - Update 18
+# iOS-Performance-Optimization-Toolkit - Update 19
+# iOS-Performance-Optimization-Toolkit - Update 20
+# iOS-Performance-Optimization-Toolkit - Update 21
+# iOS-Performance-Optimization-Toolkit - Update 22
+# iOS-Performance-Optimization-Toolkit - Update 23
+# iOS-Performance-Optimization-Toolkit - Update 24
+# iOS-Performance-Optimization-Toolkit - Update 25
+# iOS-Performance-Optimization-Toolkit - Update 26
+# iOS-Performance-Optimization-Toolkit - Update 27
+# iOS-Performance-Optimization-Toolkit - Update 28
+# iOS-Performance-Optimization-Toolkit - Update 29
+# iOS-Performance-Optimization-Toolkit - Update 30
+# iOS-Performance-Optimization-Toolkit - Update 31
+# iOS-Performance-Optimization-Toolkit - Update 32
+# iOS-Performance-Optimization-Toolkit - Update 33
+# iOS-Performance-Optimization-Toolkit - Update 34
+# iOS-Performance-Optimization-Toolkit - Update 35
+# iOS-Performance-Optimization-Toolkit - Update 36
+# iOS-Performance-Optimization-Toolkit - Update 37
+# iOS-Performance-Optimization-Toolkit - Update 38
+# iOS-Performance-Optimization-Toolkit - Update 39
+# iOS-Performance-Optimization-Toolkit - Update 40
+# iOS-Performance-Optimization-Toolkit - Update 41
+# iOS-Performance-Optimization-Toolkit - Update 42
+# iOS-Performance-Optimization-Toolkit - Update 43
+# iOS-Performance-Optimization-Toolkit - Update 44
+# iOS-Performance-Optimization-Toolkit - Update 45
+# iOS-Performance-Optimization-Toolkit - Update 46
+# iOS-Performance-Optimization-Toolkit - Update 47
+# iOS-Performance-Optimization-Toolkit - Update 48
+# iOS-Performance-Optimization-Toolkit - Update 49
+# iOS-Performance-Optimization-Toolkit - Update 50
+# iOS-Performance-Optimization-Toolkit - Update 51
+# iOS-Performance-Optimization-Toolkit - Update 52
+# iOS-Performance-Optimization-Toolkit - Update 53
+# iOS-Performance-Optimization-Toolkit - Update 54
+# iOS-Performance-Optimization-Toolkit - Update 55
+# iOS-Performance-Optimization-Toolkit - Update 56
+# iOS-Performance-Optimization-Toolkit - Update 57
