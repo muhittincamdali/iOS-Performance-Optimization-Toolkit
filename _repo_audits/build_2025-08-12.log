@@ -1,0 +1,42 @@
+Building for debugging...
+[0/11] Write sources
+[10/11] Write swift-version--58304C5D6DBC2206.txt
+[12/19] Compiling Logging LogHandler.swift
+[13/19] Compiling CoreMetrics Locks.swift
+[14/19] Emitting module CoreMetrics
+[15/19] Compiling CoreMetrics Metrics.swift
+[16/21] Emitting module Logging
+[17/21] Compiling Logging MetadataProvider.swift
+[18/21] Compiling Logging Locks.swift
+[19/21] Compiling Logging Logging.swift
+[20/21] Emitting module Metrics
+[21/21] Compiling Metrics Metrics.swift
+error: emit-module command failed with exit code 1 (use -v to see invocation)
+[22/25] Emitting module PerformanceCore
+/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/Sources/Core/MainFramework.swift:2:8: error: no such module 'UIKit'
+  1 | import Foundation
+  2 | import UIKit
+    |        `- error: no such module 'UIKit'
+  3 | 
+  4 | /**
+[23/25] Compiling PerformanceCore MainFramework.swift
+/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/Sources/Core/MainFramework.swift:2:8: error: no such module 'UIKit'
+  1 | import Foundation
+  2 | import UIKit
+    |        `- error: no such module 'UIKit'
+  3 | 
+  4 | /**
+[24/25] Compiling PerformanceCore PerformanceCore.swift
+/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/Sources/Core/MainFramework.swift:2:8: error: no such module 'UIKit'
+  1 | import Foundation
+  2 | import UIKit
+    |        `- error: no such module 'UIKit'
+  3 | 
+  4 | /**
+[25/25] Compiling PerformanceCore PerformanceManager.swift
+/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/Sources/Core/MainFramework.swift:2:8: error: no such module 'UIKit'
+  1 | import Foundation
+  2 | import UIKit
+    |        `- error: no such module 'UIKit'
+  3 | 
+  4 | /**
