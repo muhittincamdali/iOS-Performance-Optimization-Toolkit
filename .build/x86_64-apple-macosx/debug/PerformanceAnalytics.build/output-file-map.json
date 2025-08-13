@@ -1,0 +1,11 @@
+{
+  "": {
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/PerformanceAnalytics.build/master.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/Sources/Analytics/PerformanceAnalyticsManager.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/PerformanceAnalytics.build/PerformanceAnalyticsManager.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/PerformanceAnalytics.build/PerformanceAnalyticsManager.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/PerformanceAnalytics.build/PerformanceAnalyticsManager~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/PerformanceAnalytics.build/PerformanceAnalyticsManager.swiftdeps"
+  }
+}

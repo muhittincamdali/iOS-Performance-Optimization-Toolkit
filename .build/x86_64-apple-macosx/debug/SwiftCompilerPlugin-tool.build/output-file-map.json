@@ -1,0 +1,11 @@
+{
+  "": {
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/SwiftCompilerPlugin-tool.build/master.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-syntax/Sources/SwiftCompilerPlugin/CompilerPlugin.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/SwiftCompilerPlugin-tool.build/CompilerPlugin.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/SwiftCompilerPlugin-tool.build/CompilerPlugin.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/SwiftCompilerPlugin-tool.build/CompilerPlugin~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/SwiftCompilerPlugin-tool.build/CompilerPlugin.swiftdeps"
+  }
+}

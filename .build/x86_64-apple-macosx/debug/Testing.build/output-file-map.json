@@ -1,0 +1,533 @@
+{
+  "": {
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/master.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/ABI/EntryPoints/ABIEntryPoint.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIEntryPoint.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIEntryPoint.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIEntryPoint~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIEntryPoint.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/ABI/EntryPoints/EntryPoint.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/EntryPoint.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/EntryPoint.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/EntryPoint~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/EntryPoint.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/ABI/EntryPoints/SwiftPMEntryPoint.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SwiftPMEntryPoint.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SwiftPMEntryPoint.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SwiftPMEntryPoint~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SwiftPMEntryPoint.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/ABI/v0/ABIv0.Record+Streaming.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.Record+Streaming.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.Record+Streaming.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.Record+Streaming~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.Record+Streaming.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/ABI/v0/ABIv0.Record.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.Record.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.Record.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.Record~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.Record.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/ABI/v0/ABIv0.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/ABI/v0/Encoded/ABIv0.EncodedBacktrace.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.EncodedBacktrace.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.EncodedBacktrace.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.EncodedBacktrace~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.EncodedBacktrace.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/ABI/v0/Encoded/ABIv0.EncodedEvent.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.EncodedEvent.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.EncodedEvent.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.EncodedEvent~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.EncodedEvent.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/ABI/v0/Encoded/ABIv0.EncodedInstant.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.EncodedInstant.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.EncodedInstant.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.EncodedInstant~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.EncodedInstant.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/ABI/v0/Encoded/ABIv0.EncodedIssue.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.EncodedIssue.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.EncodedIssue.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.EncodedIssue~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.EncodedIssue.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/ABI/v0/Encoded/ABIv0.EncodedMessage.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.EncodedMessage.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.EncodedMessage.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.EncodedMessage~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.EncodedMessage.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/ABI/v0/Encoded/ABIv0.EncodedTest.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.EncodedTest.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.EncodedTest.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.EncodedTest~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ABIv0.EncodedTest.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Events/Clock.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Clock.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Clock.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Clock~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Clock.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Events/Event.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Event.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Event.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Event~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Event.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Events/Recorder/Event.ConsoleOutputRecorder.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Event.ConsoleOutputRecorder.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Event.ConsoleOutputRecorder.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Event.ConsoleOutputRecorder~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Event.ConsoleOutputRecorder.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Events/Recorder/Event.HumanReadableOutputRecorder.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Event.HumanReadableOutputRecorder.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Event.HumanReadableOutputRecorder.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Event.HumanReadableOutputRecorder~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Event.HumanReadableOutputRecorder.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Events/Recorder/Event.JUnitXMLRecorder.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Event.JUnitXMLRecorder.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Event.JUnitXMLRecorder.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Event.JUnitXMLRecorder~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Event.JUnitXMLRecorder.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Events/Recorder/Event.Symbol.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Event.Symbol.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Event.Symbol.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Event.Symbol~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Event.Symbol.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Events/TimeValue.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/TimeValue.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/TimeValue.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/TimeValue~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/TimeValue.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/ExitTests/ExitCondition.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ExitCondition.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ExitCondition.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ExitCondition~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ExitCondition.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/ExitTests/ExitTest.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ExitTest.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ExitTest.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ExitTest~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ExitTest.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/ExitTests/SpawnProcess.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SpawnProcess.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SpawnProcess.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SpawnProcess~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SpawnProcess.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/ExitTests/WaitFor.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/WaitFor.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/WaitFor.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/WaitFor~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/WaitFor.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Expectations/Expectation+Macro.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Expectation+Macro.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Expectation+Macro.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Expectation+Macro~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Expectation+Macro.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Expectations/Expectation.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Expectation.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Expectation.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Expectation~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Expectation.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Expectations/ExpectationChecking+Macro.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ExpectationChecking+Macro.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ExpectationChecking+Macro.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ExpectationChecking+Macro~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ExpectationChecking+Macro.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Issues/Confirmation.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Confirmation.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Confirmation.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Confirmation~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Confirmation.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Issues/ErrorSnapshot.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ErrorSnapshot.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ErrorSnapshot.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ErrorSnapshot~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ErrorSnapshot.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Issues/Issue+Recording.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Issue+Recording.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Issue+Recording.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Issue+Recording~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Issue+Recording.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Issues/Issue.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Issue.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Issue.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Issue~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Issue.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Issues/KnownIssue.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/KnownIssue.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/KnownIssue.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/KnownIssue~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/KnownIssue.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Parameterization/CustomTestArgumentEncodable.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/CustomTestArgumentEncodable.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/CustomTestArgumentEncodable.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/CustomTestArgumentEncodable~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/CustomTestArgumentEncodable.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Parameterization/Test.Case.Generator.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test.Case.Generator.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test.Case.Generator.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test.Case.Generator~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test.Case.Generator.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Parameterization/Test.Case.ID.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test.Case.ID.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test.Case.ID.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test.Case.ID~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test.Case.ID.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Parameterization/Test.Case.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test.Case.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test.Case.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test.Case~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test.Case.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Parameterization/TypeInfo.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/TypeInfo.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/TypeInfo.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/TypeInfo~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/TypeInfo.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Running/Configuration+EventHandling.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Configuration+EventHandling.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Configuration+EventHandling.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Configuration+EventHandling~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Configuration+EventHandling.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Running/Configuration.TestFilter.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Configuration.TestFilter.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Configuration.TestFilter.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Configuration.TestFilter~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Configuration.TestFilter.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Running/Configuration.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Configuration.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Configuration.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Configuration~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Configuration.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Running/Runner.Plan+Dumping.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Runner.Plan+Dumping.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Runner.Plan+Dumping.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Runner.Plan+Dumping~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Runner.Plan+Dumping.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Running/Runner.Plan.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Runner.Plan.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Runner.Plan.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Runner.Plan~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Runner.Plan.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Running/Runner.RuntimeState.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Runner.RuntimeState.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Runner.RuntimeState.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Runner.RuntimeState~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Runner.RuntimeState.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Running/Runner.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Runner.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Runner.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Runner~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Runner.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Running/SkipInfo.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SkipInfo.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SkipInfo.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SkipInfo~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SkipInfo.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/SourceAttribution/Backtrace+Symbolication.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Backtrace+Symbolication.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Backtrace+Symbolication.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Backtrace+Symbolication~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Backtrace+Symbolication.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/SourceAttribution/Backtrace.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Backtrace.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Backtrace.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Backtrace~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Backtrace.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/SourceAttribution/CustomTestStringConvertible.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/CustomTestStringConvertible.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/CustomTestStringConvertible.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/CustomTestStringConvertible~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/CustomTestStringConvertible.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/SourceAttribution/Expression+Macro.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Expression+Macro.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Expression+Macro.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Expression+Macro~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Expression+Macro.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/SourceAttribution/Expression.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Expression.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Expression.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Expression~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Expression.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/SourceAttribution/SourceContext.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SourceContext.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SourceContext.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SourceContext~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SourceContext.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/SourceAttribution/SourceLocation+Macro.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SourceLocation+Macro.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SourceLocation+Macro.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SourceLocation+Macro~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SourceLocation+Macro.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/SourceAttribution/SourceLocation.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SourceLocation.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SourceLocation.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SourceLocation~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SourceLocation.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Support/Additions/ArrayAdditions.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ArrayAdditions.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ArrayAdditions.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ArrayAdditions~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ArrayAdditions.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Support/Additions/CollectionDifferenceAdditions.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/CollectionDifferenceAdditions.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/CollectionDifferenceAdditions.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/CollectionDifferenceAdditions~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/CollectionDifferenceAdditions.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Support/Additions/CommandLineAdditions.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/CommandLineAdditions.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/CommandLineAdditions.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/CommandLineAdditions~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/CommandLineAdditions.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Support/Additions/NumericAdditions.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/NumericAdditions.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/NumericAdditions.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/NumericAdditions~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/NumericAdditions.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Support/Additions/ResultAdditions.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ResultAdditions.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ResultAdditions.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ResultAdditions~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ResultAdditions.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Support/CError.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/CError.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/CError.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/CError~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/CError.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Support/CartesianProduct.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/CartesianProduct.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/CartesianProduct.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/CartesianProduct~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/CartesianProduct.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Support/Environment.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Environment.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Environment.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Environment~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Environment.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Support/FileHandle.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/FileHandle.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/FileHandle.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/FileHandle~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/FileHandle.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Support/GetSymbol.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/GetSymbol.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/GetSymbol.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/GetSymbol~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/GetSymbol.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Support/Graph.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Graph.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Graph.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Graph~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Graph.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Support/JSON.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/JSON.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/JSON.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/JSON~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/JSON.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Support/Locked.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Locked.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Locked.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Locked~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Locked.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Support/SystemError.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SystemError.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SystemError.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SystemError~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SystemError.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Support/Versions.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Versions.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Versions.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Versions~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Versions.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Test+Discovery.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test+Discovery.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test+Discovery.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test+Discovery~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test+Discovery.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Test+Macro.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test+Macro.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test+Macro.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test+Macro~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test+Macro.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Test.ID.Selection.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test.ID.Selection.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test.ID.Selection.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test.ID.Selection~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test.ID.Selection.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Test.ID.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test.ID.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test.ID.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test.ID~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test.ID.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Test.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Test.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Traits/Bug.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Bug.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Bug.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Bug~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Bug.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Traits/Comment+Macro.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Comment+Macro.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Comment+Macro.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Comment+Macro~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Comment+Macro.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Traits/Comment.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Comment.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Comment.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Comment~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Comment.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Traits/ConditionTrait+Macro.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ConditionTrait+Macro.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ConditionTrait+Macro.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ConditionTrait+Macro~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ConditionTrait+Macro.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Traits/ConditionTrait.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ConditionTrait.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ConditionTrait.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ConditionTrait~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ConditionTrait.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Traits/HiddenTrait.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/HiddenTrait.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/HiddenTrait.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/HiddenTrait~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/HiddenTrait.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Traits/ParallelizationTrait.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ParallelizationTrait.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ParallelizationTrait.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ParallelizationTrait~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/ParallelizationTrait.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Traits/SPIAwareTrait.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SPIAwareTrait.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SPIAwareTrait.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SPIAwareTrait~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/SPIAwareTrait.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Traits/Tags/Tag+Macro.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Tag+Macro.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Tag+Macro.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Tag+Macro~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Tag+Macro.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Traits/Tags/Tag+Predefined.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Tag+Predefined.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Tag+Predefined.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Tag+Predefined~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Tag+Predefined.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Traits/Tags/Tag.Color+Loading.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Tag.Color+Loading.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Tag.Color+Loading.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Tag.Color+Loading~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Tag.Color+Loading.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Traits/Tags/Tag.Color.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Tag.Color.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Tag.Color.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Tag.Color~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Tag.Color.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Traits/Tags/Tag.List.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Tag.List.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Tag.List.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Tag.List~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Tag.List.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Traits/Tags/Tag.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Tag.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Tag.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Tag~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Tag.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Traits/TimeLimitTrait.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/TimeLimitTrait.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/TimeLimitTrait.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/TimeLimitTrait~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/TimeLimitTrait.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/Testing/Traits/Trait.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Trait.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Trait.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Trait~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/Testing.build/Trait.swiftdeps"
+  }
+}

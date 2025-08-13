@@ -1,0 +1,155 @@
+{
+  "": {
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/master.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/TestingMacros/ConditionMacro.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/ConditionMacro.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/ConditionMacro.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/ConditionMacro~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/ConditionMacro.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/TestingMacros/SourceLocationMacro.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/SourceLocationMacro.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/SourceLocationMacro.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/SourceLocationMacro~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/SourceLocationMacro.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/TestingMacros/SuiteDeclarationMacro.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/SuiteDeclarationMacro.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/SuiteDeclarationMacro.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/SuiteDeclarationMacro~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/SuiteDeclarationMacro.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/TestingMacros/Support/Additions/DeclGroupSyntaxAdditions.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/DeclGroupSyntaxAdditions.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/DeclGroupSyntaxAdditions.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/DeclGroupSyntaxAdditions~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/DeclGroupSyntaxAdditions.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/TestingMacros/Support/Additions/EditorPlaceholderExprSyntaxAdditions.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/EditorPlaceholderExprSyntaxAdditions.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/EditorPlaceholderExprSyntaxAdditions.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/EditorPlaceholderExprSyntaxAdditions~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/EditorPlaceholderExprSyntaxAdditions.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/TestingMacros/Support/Additions/FunctionDeclSyntaxAdditions.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/FunctionDeclSyntaxAdditions.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/FunctionDeclSyntaxAdditions.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/FunctionDeclSyntaxAdditions~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/FunctionDeclSyntaxAdditions.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/TestingMacros/Support/Additions/MacroExpansionContextAdditions.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/MacroExpansionContextAdditions.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/MacroExpansionContextAdditions.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/MacroExpansionContextAdditions~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/MacroExpansionContextAdditions.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/TestingMacros/Support/Additions/TokenSyntaxAdditions.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/TokenSyntaxAdditions.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/TokenSyntaxAdditions.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/TokenSyntaxAdditions~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/TokenSyntaxAdditions.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/TestingMacros/Support/Additions/TriviaPieceAdditions.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/TriviaPieceAdditions.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/TriviaPieceAdditions.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/TriviaPieceAdditions~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/TriviaPieceAdditions.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/TestingMacros/Support/Additions/TypeSyntaxProtocolAdditions.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/TypeSyntaxProtocolAdditions.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/TypeSyntaxProtocolAdditions.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/TypeSyntaxProtocolAdditions~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/TypeSyntaxProtocolAdditions.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/TestingMacros/Support/Additions/VersionTupleSyntaxAdditions.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/VersionTupleSyntaxAdditions.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/VersionTupleSyntaxAdditions.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/VersionTupleSyntaxAdditions~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/VersionTupleSyntaxAdditions.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/TestingMacros/Support/Additions/WithAttributesSyntaxAdditions.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/WithAttributesSyntaxAdditions.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/WithAttributesSyntaxAdditions.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/WithAttributesSyntaxAdditions~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/WithAttributesSyntaxAdditions.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/TestingMacros/Support/Argument.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/Argument.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/Argument.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/Argument~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/Argument.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/TestingMacros/Support/AttributeDiscovery.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/AttributeDiscovery.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/AttributeDiscovery.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/AttributeDiscovery~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/AttributeDiscovery.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/TestingMacros/Support/AvailabilityGuards.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/AvailabilityGuards.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/AvailabilityGuards.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/AvailabilityGuards~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/AvailabilityGuards.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/TestingMacros/Support/CRC32.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/CRC32.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/CRC32.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/CRC32~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/CRC32.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/TestingMacros/Support/CommentParsing.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/CommentParsing.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/CommentParsing.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/CommentParsing~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/CommentParsing.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/TestingMacros/Support/ConditionArgumentParsing.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/ConditionArgumentParsing.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/ConditionArgumentParsing.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/ConditionArgumentParsing~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/ConditionArgumentParsing.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/TestingMacros/Support/DiagnosticMessage+Diagnosing.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/DiagnosticMessage+Diagnosing.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/DiagnosticMessage+Diagnosing.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/DiagnosticMessage+Diagnosing~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/DiagnosticMessage+Diagnosing.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/TestingMacros/Support/DiagnosticMessage.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/DiagnosticMessage.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/DiagnosticMessage.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/DiagnosticMessage~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/DiagnosticMessage.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/TestingMacros/Support/SourceCodeCapturing.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/SourceCodeCapturing.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/SourceCodeCapturing.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/SourceCodeCapturing~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/SourceCodeCapturing.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/TestingMacros/Support/SourceLocationGeneration.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/SourceLocationGeneration.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/SourceLocationGeneration.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/SourceLocationGeneration~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/SourceLocationGeneration.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/TestingMacros/TagMacro.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/TagMacro.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/TagMacro.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/TagMacro~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/TagMacro.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/TestingMacros/TestDeclarationMacro.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/TestDeclarationMacro.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/TestDeclarationMacro.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/TestDeclarationMacro~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/TestDeclarationMacro.swiftdeps"
+  },
+  "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/checkouts/swift-testing/Sources/TestingMacros/TestingMacrosMain.swift": {
+    "dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/TestingMacrosMain.d",
+    "object": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/TestingMacrosMain.swift.o",
+    "swiftmodule": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/TestingMacrosMain~partial.swiftmodule",
+    "swift-dependencies": "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/TestingMacros-tool.build/TestingMacrosMain.swiftdeps"
+  }
+}

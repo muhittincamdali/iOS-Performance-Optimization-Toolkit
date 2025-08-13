@@ -1,0 +1,4 @@
+module PerformanceAnalytics {
+    header "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/PerformanceAnalytics.build/PerformanceAnalytics-Swift.h"
+    requires objc
+}

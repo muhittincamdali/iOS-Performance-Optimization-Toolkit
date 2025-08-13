@@ -1,0 +1,4 @@
+module SwiftSyntax {
+    header "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/SwiftSyntax.build/SwiftSyntax-Swift.h"
+    requires objc
+}

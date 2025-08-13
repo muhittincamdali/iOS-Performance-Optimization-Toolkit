@@ -1,0 +1,4 @@
+module SwiftLibraryPluginProvider {
+    header "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/SwiftLibraryPluginProvider.build/SwiftLibraryPluginProvider-Swift.h"
+    requires objc
+}
