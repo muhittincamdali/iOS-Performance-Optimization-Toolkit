@@ -1,5 +1,5 @@
 # ⚡ iOS Performance Optimization Toolkit
-[![CI](https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/actions/workflows/ci.yml)
+[![CI](https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/actions/workflows/ci.yml)
 
 
 
@@ -21,7 +21,6 @@
 ![Framework](https://img.shields.io/badge/Framework-Enterprise-FF6B35?style=for-the-badge)
 ![Library](https://img.shields.io/badge/Library-Professional-E91E63?style=for-the-badge)
 ![Swift Package Manager](https://img.shields.io/badge/SPM-Dependencies-FF6B35?style=for-the-badge)
-![CocoaPods](https://img.shields.io/badge/CocoaPods-Supported-E91E63?style=for-the-badge)
 
 **🏆 Professional iOS Performance Optimization Toolkit**
 
