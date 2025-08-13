@@ -1,0 +1,4 @@
+module SwiftCompilerPlugin {
+    header "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/SwiftCompilerPlugin-tool.build/SwiftCompilerPlugin-Swift.h"
+    requires objc
+}

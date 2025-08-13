@@ -1,0 +1,4 @@
+module SwiftSyntaxMacrosTestSupport {
+    header "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/SwiftSyntaxMacrosTestSupport.build/SwiftSyntaxMacrosTestSupport-Swift.h"
+    requires objc
+}

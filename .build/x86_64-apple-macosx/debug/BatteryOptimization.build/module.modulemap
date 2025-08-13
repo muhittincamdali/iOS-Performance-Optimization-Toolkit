@@ -1,0 +1,4 @@
+module BatteryOptimization {
+    header "/Users/muhittincamdali/Desktop/Cursor Projects/GitHub/iOS-Performance-Optimization-Toolkit/.build/x86_64-apple-macosx/debug/BatteryOptimization.build/BatteryOptimization-Swift.h"
+    requires objc
+}
