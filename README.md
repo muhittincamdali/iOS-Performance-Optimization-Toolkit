@@ -567,3 +567,15 @@ This project is licensed under the MIT License — see [LICENSE](LICENSE) for de
 <p align="center">
   <sub>Built with ❤️ for the iOS community</sub>
 </p>
+
+---
+
+## 📈 Star History
+
+<a href="https://star-history.com/#muhittincamdali/iOS-Performance-Optimization-Toolkit&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=muhittincamdali/iOS-Performance-Optimization-Toolkit&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=muhittincamdali/iOS-Performance-Optimization-Toolkit&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=muhittincamdali/iOS-Performance-Optimization-Toolkit&type=Date" />
+ </picture>
+</a>
