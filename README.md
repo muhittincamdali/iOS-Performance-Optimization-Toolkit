@@ -39,6 +39,19 @@
 
 ---
 
+## 📋 Table of Contents
+
+- [Performance Metrics](#-performance-metrics-at-a-glance)
+- [Features](#-features)
+- [Installation](#-installation)
+- [Quick Start](#-quick-start)
+- [Documentation](#-documentation)
+- [Contributing](#-contributing)
+- [License](#license)
+- [Star History](#-star-history)
+
+---
+
 ## 📊 Performance Metrics at a Glance
 
 | Metric | Before | After | Improvement |
