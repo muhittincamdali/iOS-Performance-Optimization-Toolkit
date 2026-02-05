@@ -1,4 +1,4 @@
-// swift-tools-version: 5.7
+// swift-tools-version: 5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -9,133 +9,53 @@ let package = Package(
         .iOS(.v15),
         .macOS(.v12),
         .watchOS(.v8),
-        .tvOS(.v15)
+        .tvOS(.v15),
+        .visionOS(.v1)
     ],
     products: [
-        // Main performance optimization library
+        // Main performance optimization library - includes everything
         .library(
             name: "PerformanceOptimizationKit",
             targets: ["PerformanceOptimizationKit"]
         ),
         
-        // Core performance components
+        // Core performance components - lightweight, no UI dependencies
         .library(
             name: "PerformanceCore",
             targets: ["PerformanceCore"]
-        ),
-        
-        // Memory optimization components
-        .library(
-            name: "MemoryOptimization",
-            targets: ["MemoryOptimization"]
-        ),
-        
-        // Battery optimization components
-        .library(
-            name: "BatteryOptimization",
-            targets: ["BatteryOptimization"]
-        ),
-        
-        // CPU optimization components
-        .library(
-            name: "CPUOptimization",
-            targets: ["CPUOptimization"]
-        ),
-        
-        // UI optimization components
-        .library(
-            name: "UIOptimization",
-            targets: ["UIOptimization"]
-        ),
-        
-        // Performance analytics components
-        .library(
-            name: "PerformanceAnalytics",
-            targets: ["PerformanceAnalytics"]
         )
     ],
     dependencies: [
-        // Core dependencies
-        .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
-        .package(url: "https://github.com/apple/swift-metrics.git", from: "2.0.0"),
+        // Apple's official logging framework
+        .package(url: "https://github.com/apple/swift-log.git", from: "1.5.0"),
         
-        // Testing dependencies
-        .package(url: "https://github.com/apple/swift-testing.git", from: "0.1.0")
+        // Apple's official metrics framework
+        .package(url: "https://github.com/apple/swift-metrics.git", from: "2.4.0")
     ],
     targets: [
-        // Main performance optimization target
-        .target(
-            name: "PerformanceOptimizationKit",
-            dependencies: [
-                "PerformanceCore",
-                "MemoryOptimization",
-                "BatteryOptimization",
-                "CPUOptimization",
-                "UIOptimization",
-                "PerformanceAnalytics"
-            ],
-            path: "Sources/PerformanceOptimizationKit"
-        ),
-        
-        // Core performance components
+        // Core performance components - the foundation
         .target(
             name: "PerformanceCore",
             dependencies: [
                 .product(name: "Logging", package: "swift-log"),
                 .product(name: "Metrics", package: "swift-metrics")
             ],
-            path: "Sources/Core"
+            path: "Sources/Core",
+            swiftSettings: [
+                .enableExperimentalFeature("StrictConcurrency")
+            ]
         ),
         
-        // Memory optimization components
+        // Main umbrella target
         .target(
-            name: "MemoryOptimization",
+            name: "PerformanceOptimizationKit",
             dependencies: [
-                "PerformanceCore",
-                .product(name: "Logging", package: "swift-log")
+                "PerformanceCore"
             ],
-            path: "Sources/Performance"
-        ),
-        
-        // Battery optimization components
-        .target(
-            name: "BatteryOptimization",
-            dependencies: [
-                "PerformanceCore",
-                .product(name: "Logging", package: "swift-log")
-            ],
-            path: "Sources/Battery"
-        ),
-        
-        // CPU optimization components
-        .target(
-            name: "CPUOptimization",
-            dependencies: [
-                "PerformanceCore",
-                .product(name: "Logging", package: "swift-log")
-            ],
-            path: "Sources/CPU"
-        ),
-        
-        // UI optimization components
-        .target(
-            name: "UIOptimization",
-            dependencies: [
-                "PerformanceCore",
-                .product(name: "Logging", package: "swift-log")
-            ],
-            path: "Sources/UI"
-        ),
-        
-        // Performance analytics components
-        .target(
-            name: "PerformanceAnalytics",
-            dependencies: [
-                "PerformanceCore",
-                .product(name: "Logging", package: "swift-log"),
-                .product(name: "Metrics", package: "swift-metrics")
-            ],
-            path: "Sources/Analytics"
+            path: "Sources/PerformanceOptimizationKit",
+            swiftSettings: [
+                .enableExperimentalFeature("StrictConcurrency")
+            ]
         ),
         
         // Unit tests
@@ -143,35 +63,19 @@ let package = Package(
             name: "PerformanceOptimizationKitTests",
             dependencies: [
                 "PerformanceOptimizationKit",
-                "PerformanceCore",
-                "MemoryOptimization",
-                "BatteryOptimization",
-                "CPUOptimization",
-                "UIOptimization",
-                "PerformanceAnalytics",
-                .product(name: "Testing", package: "swift-testing")
+                "PerformanceCore"
             ],
             path: "Tests/UnitTests"
         ),
         
         // Performance tests
         .testTarget(
-            name: "PerformanceOptimizationKitPerformanceTests",
+            name: "PerformanceTests",
             dependencies: [
-                "PerformanceOptimizationKit",
-                .product(name: "Testing", package: "swift-testing")
+                "PerformanceOptimizationKit"
             ],
             path: "Tests/PerformanceTests"
-        ),
-        
-        // UI tests
-        .testTarget(
-            name: "PerformanceOptimizationKitUITests",
-            dependencies: [
-                "PerformanceOptimizationKit",
-                .product(name: "Testing", package: "swift-testing")
-            ],
-            path: "Tests/UITests"
         )
-    ]
-) 
+    ],
+    swiftLanguageVersions: [.v5]
+)

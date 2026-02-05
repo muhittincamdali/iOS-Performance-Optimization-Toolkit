@@ -1,559 +1,458 @@
-```
-    ____            ____                                                
-   / __ \___  _____/ __/___  _________ ___  ____ _____  ________        
-  / /_/ / _ \/ ___/ /_/ __ \/ ___/ __ `__ \/ __ `/ __ \/ ___/ _ \       
- / ____/  __/ /  / __/ /_/ / /  / / / / / / /_/ / / / / /__/  __/       
-/_/    \___/_/  /_/  \____/_/  /_/ /_/ /_/\__,_/_/ /_/\___/\___/        
-                                                                        
-  _______            ____   _ __                                        
- /_  __(_)___  ____/ / /__(_) /_                                        
-  / / / / __ \/ __  / //_/ / __/                                        
- / / / / /_/ / /_/ / ,< / / /_                                          
-/_/ /_/\____/\__,_/_/|_/_/\__/                                          
-                                                                        
-    ██████╗ ███████╗██████╗ ███████╗ ██████╗ ██████╗ ███╗   ███╗        
-    ██╔══██╗██╔════╝██╔══██╗██╔════╝██╔═══██╗██╔══██╗████╗ ████║        
-    ██████╔╝█████╗  ██████╔╝█████╗  ██║   ██║██████╔╝██╔████╔██║        
-    ██╔═══╝ ██╔══╝  ██╔══██╗██╔══╝  ██║   ██║██╔══██╗██║╚██╔╝██║        
-    ██║     ███████╗██║  ██║██║     ╚██████╔╝██║  ██║██║ ╚═╝ ██║        
-    ╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝      ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝        
-```
+<p align="center">
+  <img src="https://img.shields.io/badge/iOS-15.0%2B-blue?style=for-the-badge&logo=apple" alt="iOS 15+"/>
+  <img src="https://img.shields.io/badge/Swift-5.9-orange?style=for-the-badge&logo=swift" alt="Swift 5.9"/>
+  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="MIT License"/>
+  <img src="https://img.shields.io/badge/SPM-Compatible-brightgreen?style=for-the-badge&logo=swift" alt="SPM Compatible"/>
+</p>
+
+<h1 align="center">🚀 iOS Performance Optimization Toolkit</h1>
 
 <p align="center">
-  <strong>Production-grade performance optimization toolkit for iOS applications</strong>
+  <strong>The World's Most Comprehensive iOS Performance Profiling Framework</strong>
 </p>
 
 <p align="center">
-  <a href="https://swift.org"><img src="https://img.shields.io/badge/Swift-5.9+-F05138?style=for-the-badge&logo=swift&logoColor=white" alt="Swift 5.9+"></a>
-  <a href="https://developer.apple.com/ios/"><img src="https://img.shields.io/badge/iOS-15.0+-000000?style=for-the-badge&logo=apple&logoColor=white" alt="iOS 15.0+"></a>
-  <a href="https://swift.org/package-manager/"><img src="https://img.shields.io/badge/SPM-Compatible-orange?style=for-the-badge&logo=swift&logoColor=white" alt="SPM Compatible"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="MIT License"></a>
+  Production-ready tools for memory, CPU, network, UI, and Core Data profiling.<br/>
+  Real-time monitoring • Actionable insights • Zero overhead in production.
 </p>
-
-<p align="center">
-  <a href="https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/actions"><img src="https://img.shields.io/github/actions/workflow/status/muhittincamdali/iOS-Performance-Optimization-Toolkit/ci.yml?style=flat-square&label=CI" alt="CI Status"></a>
-  <a href="https://codecov.io/gh/muhittincamdali/iOS-Performance-Optimization-Toolkit"><img src="https://img.shields.io/codecov/c/github/muhittincamdali/iOS-Performance-Optimization-Toolkit?style=flat-square" alt="Code Coverage"></a>
-  <img src="https://img.shields.io/badge/test%20coverage-94%25-brightgreen?style=flat-square" alt="Test Coverage">
-  <img src="https://img.shields.io/badge/documentation-100%25-brightgreen?style=flat-square" alt="Documentation">
-</p>
-
----
-
-## 📋 Table of Contents
-
-- [Performance Metrics](#-performance-metrics-at-a-glance)
-- [Features](#-features)
-- [Installation](#-installation)
-- [Quick Start](#-quick-start)
-- [Documentation](#-documentation)
-- [Contributing](#-contributing)
-- [License](#license)
-- [Star History](#-star-history)
-
----
-
-## 📊 Performance Metrics at a Glance
-
-| Metric | Before | After | Improvement |
-|--------|--------|-------|-------------|
-| **Memory Usage** | 180 MB | 95 MB | ⬇️ 47% |
-| **CPU Utilization** | 65% | 28% | ⬇️ 57% |
-| **App Launch Time** | 2.8s | 0.9s | ⬇️ 68% |
-| **Battery Drain/hr** | 8.5% | 3.2% | ⬇️ 62% |
-| **Frame Rate** | 48 fps | 60 fps | ⬆️ 25% |
-| **Network Latency** | 350ms | 120ms | ⬇️ 66% |
 
 ---
 
 ## ✨ Features
 
-- **🧠 Memory Optimization** — Leak detection, cache management, image compression
-- **⚡ CPU Profiling** — Thread pool management, algorithm optimization, load balancing
-- **🔋 Battery Management** — Location optimization, background task scheduling, power modes
-- **📱 UI Performance** — Frame rate monitoring, render optimization, lazy loading
-- **📈 Real-time Analytics** — Live dashboards, threshold alerts, historical trends
-- **🔧 Instruments Integration** — Seamless Xcode profiling, custom instruments
+| Module | Description | Key Capabilities |
+|--------|-------------|------------------|
+| 💾 **Memory Profiler** | Real-time memory analysis | Usage tracking, leak detection, pressure monitoring |
+| ⚡ **CPU Profiler** | Process & system CPU monitoring | Thread analysis, usage breakdown, bottleneck detection |
+| 🎯 **Frame Rate Monitor** | Smooth scrolling analysis | FPS tracking, hitch detection, jank scoring |
+| 🌐 **Network Profiler** | Request performance tracking | Latency analysis, bandwidth monitoring, slow request detection |
+| 🔋 **Battery Tracker** | Power consumption analysis | Drain detection, thermal monitoring |
+| 💿 **Disk I/O Monitor** | Storage performance | Usage tracking, read/write analysis |
+| 🚀 **Startup Analyzer** | App launch optimization | Cold/warm start analysis, phase breakdown |
+| 🔍 **Memory Leak Detector** | Automatic leak detection | Object tracking, retain cycle detection |
+| 🧵 **Thread Analyzer** | Concurrency analysis | Deadlock detection, main thread blocking |
+| 📊 **Core Data Profiler** | Database performance | Fetch/save profiling, query optimization |
+| 📈 **Real-time Dashboard** | Live performance monitoring | Health scores, alerts, recommendations |
 
 ---
 
-## 🔄 Profiling Architecture
+## 🎯 Quick Start
 
-```mermaid
-flowchart TB
-    subgraph Application["📱 iOS Application"]
-        UI["UI Layer"]
-        BL["Business Logic"]
-        Data["Data Layer"]
-    end
-    
-    subgraph Toolkit["⚡ Performance Toolkit"]
-        direction TB
-        PM["Performance Manager"]
-        
-        subgraph Optimizers["Optimization Modules"]
-            MO["Memory Optimizer"]
-            CO["CPU Optimizer"]
-            BO["Battery Optimizer"]
-            UO["UI Optimizer"]
-        end
-        
-        subgraph Monitors["Real-time Monitors"]
-            MM["Memory Monitor"]
-            CM["CPU Monitor"]
-            BM["Battery Monitor"]
-            FM["Frame Monitor"]
-        end
-        
-        Analytics["Analytics Engine"]
-    end
-    
-    subgraph Output["📊 Output"]
-        Reports["Performance Reports"]
-        Alerts["Threshold Alerts"]
-        Instruments["Xcode Instruments"]
-    end
-    
-    UI --> PM
-    BL --> PM
-    Data --> PM
-    
-    PM --> MO
-    PM --> CO
-    PM --> BO
-    PM --> UO
-    
-    MO --> MM
-    CO --> CM
-    BO --> BM
-    UO --> FM
-    
-    MM --> Analytics
-    CM --> Analytics
-    BM --> Analytics
-    FM --> Analytics
-    
-    Analytics --> Reports
-    Analytics --> Alerts
-    Analytics --> Instruments
-```
+### Installation
 
----
-
-## 📦 Installation
-
-### Swift Package Manager
+Add to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(
-        url: "https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit.git",
-        from: "1.0.0"
-    )
+    .package(url: "https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit.git", from: "2.0.0")
 ]
 ```
 
-```swift
-// In your target
-.target(
-    name: "YourApp",
-    dependencies: ["PerformanceOptimizationKit"]
-)
-```
+Or in Xcode: File → Add Package Dependencies → Enter the repository URL.
 
----
-
-## 🚀 Quick Start
+### Basic Usage
 
 ```swift
 import PerformanceOptimizationKit
 
-// Initialize with default configuration
-PerformanceManager.shared.configure()
+// Initialize the toolkit
+PerformanceOptimizationKit.initialize()
 
-// Start monitoring
-PerformanceManager.shared.startMonitoring()
+// Start comprehensive monitoring
+await PerformanceDashboard.shared.startMonitoring()
 
 // Get real-time metrics
-let metrics = PerformanceManager.shared.currentMetrics
-print("Memory: \(metrics.memoryUsageMB) MB")
-print("CPU: \(metrics.cpuUsagePercent)%")
+let metrics = PerformanceDashboard.shared.currentMetrics
+print("Memory: \(metrics.memoryUsage)%")
+print("CPU: \(metrics.cpuUsage)%")
 print("FPS: \(metrics.frameRate)")
+
+// Get detailed performance report
+let report = await PerformanceDashboard.shared.getPerformanceReport()
+print("Health Score: \(report.healthScore)/100")
 ```
 
 ---
 
-## 🧠 Memory Optimization
+## 📊 Module Deep Dive
 
-### Configuration
+### 💾 Memory Profiling
 
-```swift
-let memoryConfig = MemoryOptimizer.MemoryConfiguration(
-    maxMemoryUsage: 200 * 1024 * 1024,    // 200MB limit
-    cacheSizeLimit: 100 * 1024 * 1024,    // 100MB cache
-    imageCacheSize: 50 * 1024 * 1024,     // 50MB images
-    autoCleanupEnabled: true,
-    memoryLeakDetectionEnabled: true,
-    compressionEnabled: true,
-    monitoringInterval: 5.0
-)
-
-MemoryOptimizer.shared.configure(with: memoryConfig)
-```
-
-### Leak Detection
+Real-time memory analysis using Mach kernel APIs:
 
 ```swift
-// Enable leak detection
-MemoryOptimizer.shared.startLeakDetection { leakInfo in
-    print("⚠️ Potential leak detected:")
-    print("  Class: \(leakInfo.className)")
-    print("  Size: \(leakInfo.retainedSize) bytes")
-    print("  Retain cycle: \(leakInfo.retainCyclePath)")
-}
+// Get current memory usage
+let memoryInfo = SystemMetrics.shared.getMemoryUsage()
+print("Resident: \(memoryInfo.formattedResidentSize)")
+print("Usage: \(memoryInfo.usagePercentage)%")
 
-// Track specific objects
-MemoryOptimizer.shared.track(viewController, identifier: "MainVC")
-```
+// Get memory footprint (actual impact)
+let footprint = SystemMetrics.shared.getMemoryFootprint()
 
-### Image Optimization
-
-```swift
-// Downsample large images for memory efficiency
-let optimizedImage = MemoryOptimizer.shared.optimizeImage(
-    originalImage,
-    targetSize: CGSize(width: 300, height: 300),
-    compressionQuality: 0.8
-)
-
-// Batch image processing
-MemoryOptimizer.shared.processImageBatch(images) { processed in
-    // Memory-efficient batch processing
+// Check memory pressure
+let pressure = SystemMetrics.shared.getMemoryPressure()
+switch pressure {
+case .normal: print("Memory OK")
+case .warning: print("Memory pressure warning")
+case .critical: print("Critical memory pressure!")
 }
 ```
 
-### Cache Management
+### 🔍 Memory Leak Detection
+
+Automatic leak detection with retain cycle analysis:
 
 ```swift
-// Configure smart caching
-MemoryOptimizer.shared.setCachePolicy(.adaptive(
-    minSize: 10 * 1024 * 1024,    // 10MB minimum
-    maxSize: 100 * 1024 * 1024,   // 100MB maximum
-    evictionPolicy: .leastRecentlyUsed
-))
+// Configure leak detector
+var config = MemoryLeakDetector.Configuration()
+config.leakThresholdSeconds = 30.0
+config.enableRetainCycleDetection = true
+MemoryLeakDetector.shared.configure(config)
 
-// Memory pressure handling
-NotificationCenter.default.addObserver(
-    forName: UIApplication.didReceiveMemoryWarningNotification,
-    object: nil,
-    queue: .main
-) { _ in
-    MemoryOptimizer.shared.clearNonEssentialCaches()
+// Track objects
+MemoryLeakDetector.shared.track(myViewController)
+MemoryLeakDetector.shared.track(myService, identifier: "NetworkService")
+
+// Check for leaks
+let leaks = MemoryLeakDetector.shared.checkForLeaks()
+for leak in leaks {
+    print("⚠️ Potential leak: \(leak.className)")
+    print("   Age: \(leak.formattedAge)")
+    print("   Severity: \(leak.severity.emoji) \(leak.severity.rawValue)")
+}
+
+// Get statistics
+let stats = MemoryLeakDetector.shared.getStatistics()
+print("Tracked: \(stats.totalTrackedObjects)")
+print("Potential leaks: \(stats.potentialLeaks)")
+```
+
+### ⚡ CPU Profiling
+
+Comprehensive CPU and thread analysis:
+
+```swift
+// Get CPU usage
+let cpuInfo = SystemMetrics.shared.getCPUUsage()
+print("Process CPU: \(cpuInfo.processUsage)%")
+print("System CPU: \(cpuInfo.systemWideUsage)%")
+print("Threads: \(cpuInfo.threadCount)")
+print("Active: \(cpuInfo.activeThreads)")
+
+// Per-thread breakdown
+for thread in cpuInfo.threads {
+    print("Thread \(thread.threadId): \(thread.formattedCPUUsage)")
+    print("  State: \(thread.state.emoji) \(thread.state.description)")
 }
 ```
 
----
+### 🎯 Frame Rate Monitoring
 
-## ⚡ CPU Optimization
-
-### Configuration
+Smooth UI performance analysis:
 
 ```swift
-let cpuConfig = CPUOptimizer.CPUConfiguration(
-    maxCPUUsage: 80.0,                       // Alert threshold
-    threadPoolSize: 4,                        // Worker threads
-    backgroundThreadPriority: .normal,
-    algorithmOptimizationEnabled: true,
-    cpuProfilingEnabled: true,
-    monitoringInterval: 2.0
-)
+// Configure monitoring
+var config = FrameRateMonitor.Configuration()
+config.targetFrameRate = 60
+config.hitchThresholdMs = 16.67
+FrameRateMonitor.shared.configure(config)
 
-CPUOptimizer.shared.configure(with: cpuConfig)
+// Set up callbacks
+FrameRateMonitor.shared.onFrameRateUpdate = { info in
+    print("FPS: \(Int(info.currentFPS)) \(info.grade.emoji)")
+}
+
+FrameRateMonitor.shared.onHitchDetected = { hitch in
+    print("⚠️ Hitch: \(hitch.duration)ms (\(hitch.severity.rawValue))")
+}
+
+// Start monitoring
+await FrameRateMonitor.shared.startMonitoring()
+
+// Get analytics
+let analytics = FrameRateMonitor.shared.getAnalytics()
+print("Average FPS: \(analytics.averageFPS)")
+print("95th percentile: \(analytics.percentile95)")
+print("Smoothness score: \(analytics.smoothnessScore)")
 ```
 
-### Thread Management
+### 🌐 Network Profiling
+
+Request performance tracking:
 
 ```swift
-// Execute on managed thread pool
-CPUOptimizer.shared.executeOnThreadPool(priority: .high) {
-    // CPU-intensive work
-    processLargeDataSet()
+// Enable network profiling
+NetworkProfiler.shared.enable()
+
+// Or create a profiled session
+let session = NetworkProfiler.shared.createProfiledSession()
+
+// Set up callbacks
+NetworkProfiler.shared.onSlowRequestDetected = { request in
+    print("🐌 Slow request: \(request.url)")
+    print("   Duration: \(request.formattedDuration)")
 }
 
-// Batch processing with load balancing
-CPUOptimizer.shared.processBatch(items, concurrency: 4) { item in
-    // Process each item
-    return transform(item)
-} completion: { results in
-    // All items processed
-}
-```
+// Get statistics
+let stats = NetworkProfiler.shared.getStatistics()
+print("Total requests: \(stats.totalRequests)")
+print("Success rate: \(stats.successRate)%")
+print("Avg response: \(stats.averageResponseTime)s")
 
-### Operation Measurement
-
-```swift
-// Measure specific operations
-let measurement = CPUOptimizer.shared.measure("DataProcessing") {
-    processData()
-}
-print("Duration: \(measurement.duration)ms")
-print("CPU Peak: \(measurement.peakCPU)%")
-
-// Continuous profiling
-CPUOptimizer.shared.startProfiling(label: "NetworkLayer") { profile in
-    print("Average CPU: \(profile.averageUsage)%")
-    print("Hot methods: \(profile.hotMethods)")
-}
-```
-
-### Algorithm Optimization
-
-```swift
-// Automatic algorithm selection based on data size
-let sortedData = CPUOptimizer.shared.optimizedSort(
-    largeArray,
-    strategy: .automatic  // Chooses best algorithm
-)
-
-// Parallel processing for large datasets
-let results = CPUOptimizer.shared.parallelMap(items) { item in
-    heavyComputation(item)
+// Get performance analysis
+let analysis = NetworkProfiler.shared.getPerformanceAnalysis()
+print("Network health: \(analysis.grade)")
+for issue in analysis.issues {
+    print("⚠️ \(issue.description)")
 }
 ```
 
----
+### 🚀 Startup Time Analysis
 
-## 🔋 Battery Optimization
-
-### Configuration
+App launch optimization:
 
 ```swift
-let batteryConfig = BatteryOptimizer.BatteryConfiguration(
-    lowPowerModeEnabled: true,
-    backgroundAppRefreshEnabled: true,
-    locationServicesOptimizationEnabled: true,
-    networkOptimizationEnabled: true,
-    displayOptimizationEnabled: true,
-    monitoringInterval: 5.0,
-    criticalBatteryLevel: 20.0
-)
+// In main.swift (as early as possible)
+StartupTimeAnalyzer.shared.markMainFunction()
 
-BatteryOptimizer.shared.configure(with: batteryConfig)
+// In AppDelegate
+func application(_ application: UIApplication,
+                 didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    StartupTimeAnalyzer.shared.markDidFinishLaunching()
+    // ...
+}
+
+// After first frame renders
+StartupTimeAnalyzer.shared.markFirstFrame()
+
+// When app is fully interactive
+StartupTimeAnalyzer.shared.markInteractive()
+
+// Get report
+let report = StartupTimeAnalyzer.shared.generateReport()
+print(report.summary)
+// Output:
+// Startup Report
+// ==============
+// Total Time: 850 ms
+// Type: Cold Start
+// Grade: Good 🔵
+//
+// Breakdown:
+// - Pre-main: 120ms
+// - Main → didFinishLaunching: 280ms
+// - didFinishLaunching → First Frame: 320ms
+// - First Frame → Interactive: 130ms
+
+// Get recommendations
+for rec in report.recommendations {
+    print("💡 \(rec.title)")
+    print("   \(rec.description)")
+    print("   Impact: \(rec.impact.rawValue)")
+}
 ```
 
-### Power State Monitoring
+### 🧵 Thread Analysis
+
+Concurrency and deadlock detection:
 
 ```swift
-// Monitor battery status
-BatteryOptimizer.shared.startMonitoring { status in
-    switch status.level {
-    case .critical:
-        // Reduce functionality
-        enterLowPowerMode()
-    case .low:
-        // Optimize background tasks
-        reducedBackgroundRefresh()
-    case .medium, .high, .full:
-        // Normal operation
-        break
+// Configure analyzer
+var config = ThreadAnalyzer.Configuration()
+config.mainThreadBlockThresholdMs = 16.67
+config.enableDeadlockDetection = true
+ThreadAnalyzer.shared.configure(config)
+
+// Set up callbacks
+ThreadAnalyzer.shared.onMainThreadBlocked = { event in
+    print("🔴 Main thread blocked: \(event.formattedDuration)")
+    print("Stack trace:")
+    event.stackTrace.prefix(5).forEach { print("  \($0)") }
+}
+
+ThreadAnalyzer.shared.onDeadlockDetected = { deadlock in
+    print("💀 Potential deadlock detected!")
+    print("Involved threads: \(deadlock.involvedThreads)")
+}
+
+// Start monitoring
+ThreadAnalyzer.shared.startMonitoring()
+
+// Get health report
+let health = ThreadAnalyzer.shared.analyzeThreadHealth()
+print("Thread health: \(health.grade)")
+print("Thread count: \(health.threadCount)")
+for issue in health.issues {
+    print("⚠️ \(issue.description)")
+}
+```
+
+### 📊 Core Data Profiling
+
+Database performance optimization:
+
+```swift
+// Enable profiling
+CoreDataProfiler.shared.enable()
+
+// Profile a fetch request
+let request = NSFetchRequest<User>(entityName: "User")
+request.predicate = NSPredicate(format: "isActive == true")
+let users = try CoreDataProfiler.shared.profileFetch(request, in: context)
+
+// Analyze fetch request for optimization
+let analysis = CoreDataProfiler.shared.analyzeFetchRequest(request)
+print("Fetch optimization score: \(analysis.grade)")
+for issue in analysis.issues {
+    print("⚠️ \(issue.description)")
+}
+for rec in analysis.recommendations {
+    print("💡 \(rec.title)")
+    if let code = rec.code {
+        print("   Code: \(code)")
     }
 }
 
-// React to charging state
-BatteryOptimizer.shared.onChargingStateChanged { isCharging in
-    if isCharging {
-        // Perform deferred heavy tasks
-        syncLargeFiles()
-    }
-}
+// Profile save operations
+try CoreDataProfiler.shared.profileSave(in: context, label: "User update")
+
+// Get statistics
+let stats = CoreDataProfiler.shared.getStatistics()
+print("Total fetches: \(stats.totalFetches)")
+print("Avg fetch time: \(stats.averageFetchTime)ms")
+print("Slow fetches: \(stats.slowFetchCount)")
 ```
 
-### Location Optimization
+### 📈 Real-time Dashboard
+
+Comprehensive monitoring with health scores:
 
 ```swift
-// Smart location tracking
-BatteryOptimizer.shared.optimizeLocation(
-    accuracy: .balanced,           // balanced vs precise
-    updateFrequency: .adaptive,    // adjusts based on movement
-    significantChangesOnly: true   // reduces GPS usage by 70%
-)
+import SwiftUI
 
-// Geofencing instead of continuous tracking
-BatteryOptimizer.shared.useGeofencing(
-    regions: [homeRegion, workRegion],
-    onEnter: { region in handleEntry(region) },
-    onExit: { region in handleExit(region) }
-)
-```
-
-### Background Task Scheduling
-
-```swift
-// Schedule battery-aware background tasks
-BatteryOptimizer.shared.scheduleBackgroundTask(
-    identifier: "com.app.sync",
-    requiresCharging: false,
-    requiresWiFi: true,
-    earliestBeginDate: Date().addingTimeInterval(3600)
-) {
-    await performSync()
-}
-
-// Defer non-critical work
-BatteryOptimizer.shared.deferUntilCharging {
-    // Heavy tasks like ML training, large uploads
-    trainLocalModel()
-}
-```
-
----
-
-## 🔧 Xcode Instruments Integration
-
-### Custom Instruments Template
-
-```swift
-import os.signpost
-
-// Create signpost for Instruments
-let performanceLog = OSLog(
-    subsystem: "com.yourapp.performance",
-    category: "Operations"
-)
-
-// Mark intervals in Instruments timeline
-func processData() {
-    let signpostID = OSSignpostID(log: performanceLog)
+struct PerformanceView: View {
+    @ObservedObject var dashboard = PerformanceDashboard.shared
     
-    os_signpost(.begin, log: performanceLog, name: "DataProcessing", signpostID: signpostID)
-    
-    // Your processing code
-    heavyOperation()
-    
-    os_signpost(.end, log: performanceLog, name: "DataProcessing", signpostID: signpostID)
-}
-```
-
-### MetricKit Integration
-
-```swift
-import MetricKit
-
-class PerformanceSubscriber: NSObject, MXMetricManagerSubscriber {
-    override init() {
-        super.init()
-        MXMetricManager.shared.add(self)
-    }
-    
-    func didReceive(_ payloads: [MXMetricPayload]) {
-        for payload in payloads {
-            // CPU metrics
-            if let cpuMetrics = payload.cpuMetrics {
-                print("CPU Time: \(cpuMetrics.cumulativeCPUTime)")
+    var body: some View {
+        VStack {
+            // Health Score
+            Text("Health: \(Int(dashboard.healthScore))%")
+                .font(.largeTitle)
+            
+            // Real-time metrics
+            HStack {
+                MetricView(title: "Memory", value: "\(Int(dashboard.currentMetrics.memoryUsage))%")
+                MetricView(title: "CPU", value: "\(Int(dashboard.currentMetrics.cpuUsage))%")
+                MetricView(title: "FPS", value: "\(Int(dashboard.currentMetrics.frameRate))")
             }
             
-            // Memory metrics
-            if let memoryMetrics = payload.memoryMetrics {
-                print("Peak Memory: \(memoryMetrics.peakMemoryUsage)")
+            // Alerts
+            ForEach(dashboard.alerts) { alert in
+                AlertView(alert: alert)
             }
-            
-            // Battery metrics
-            if let displayMetrics = payload.displayMetrics {
-                print("Display APL: \(displayMetrics.averagePixelLuminance)")
+        }
+        .onAppear {
+            Task {
+                await dashboard.startMonitoring()
             }
         }
     }
 }
-```
 
-### Points of Interest
+// Get comprehensive report
+let report = await PerformanceDashboard.shared.getPerformanceReport()
+print("Overall grade: \(report.grade)")
 
-```swift
-// Add points of interest visible in Instruments
-os_signpost(.event, log: performanceLog, name: "UserAction", 
-            "Button tapped: %{public}s", buttonName)
-
-// Create custom intervals
-PerformanceManager.shared.addInstrumentsInterval(
-    name: "NetworkRequest",
-    category: .network
-) {
-    await fetchData()
+// Export as JSON
+if let json = await PerformanceDashboard.shared.exportReport() {
+    // Save or send report
 }
 ```
 
 ---
 
-## 📊 Real-time Dashboard
+## 🏗️ Architecture
 
-```swift
-// Get comprehensive performance snapshot
-let snapshot = PerformanceManager.shared.getSnapshot()
-
-print("""
-╔════════════════════════════════════╗
-║      Performance Dashboard         ║
-╠════════════════════════════════════╣
-║ Memory:  \(snapshot.memory.formatted)
-║ CPU:     \(snapshot.cpu.formatted)
-║ Battery: \(snapshot.battery.formatted)
-║ FPS:     \(snapshot.fps.formatted)
-║ Network: \(snapshot.network.formatted)
-╚════════════════════════════════════╝
-""")
-
-// Set up alerts
-PerformanceManager.shared.setThresholds(
-    memory: 150 * 1024 * 1024,  // 150MB
-    cpu: 70.0,                   // 70%
-    batteryDrain: 5.0            // 5%/hr
-) { violation in
-    print("⚠️ Threshold exceeded: \(violation)")
-}
 ```
-
----
-
-## 📖 Documentation
-
-| Resource | Description |
-|----------|-------------|
-| [API Reference](Documentation/API.md) | Complete API documentation |
-| [Integration Guide](Documentation/Integration.md) | Step-by-step integration |
-| [Best Practices](Documentation/BestPractices.md) | Performance optimization tips |
-| [Troubleshooting](Documentation/Troubleshooting.md) | Common issues and solutions |
-| [Examples](Examples/) | Sample implementations |
-
----
-
-## 🧪 Testing
-
-```bash
-# Run all tests
-swift test
-
-# Run with coverage
-swift test --enable-code-coverage
-
-# Performance tests only
-swift test --filter PerformanceTests
+PerformanceOptimizationKit/
+├── Core/
+│   ├── SystemMetrics.swift          # Mach kernel metrics
+│   ├── FrameRateMonitor.swift       # CADisplayLink FPS monitoring
+│   ├── MemoryLeakDetector.swift     # Object tracking & leak detection
+│   ├── StartupTimeAnalyzer.swift    # App launch analysis
+│   ├── NetworkProfiler.swift        # URL request profiling
+│   ├── ThreadAnalyzer.swift         # Thread & deadlock analysis
+│   ├── CoreDataProfiler.swift       # Core Data performance
+│   └── PerformanceDashboard.swift   # Real-time monitoring hub
+└── PerformanceOptimizationKit/
+    └── PerformanceOptimizationKit.swift  # Public API
 ```
 
 ---
 
 ## 📋 Requirements
 
-| Requirement | Version |
-|-------------|---------|
+| Platform | Minimum Version |
+|----------|-----------------|
 | iOS | 15.0+ |
 | macOS | 12.0+ |
-| Xcode | 15.0+ |
+| watchOS | 8.0+ |
+| tvOS | 15.0+ |
+| visionOS | 1.0+ |
 | Swift | 5.9+ |
+
+---
+
+## 🔧 Best Practices
+
+### Production vs Debug
+
+```swift
+#if DEBUG
+// Full monitoring in debug builds
+PerformanceOptimizationKit.initialize(configuration: .init(
+    enableDetailedLogging: true,
+    enableAutoOptimization: false
+))
+await PerformanceDashboard.shared.startMonitoring()
+#else
+// Minimal monitoring in production
+// Or disable entirely for zero overhead
+#endif
+```
+
+### Memory-Efficient Monitoring
+
+```swift
+// Only enable what you need
+var config = PerformanceDashboard.Configuration()
+config.enableHistory = false  // Don't store history
+config.updateInterval = 5.0   // Less frequent updates
+PerformanceDashboard.shared.configure(config)
+```
+
+### CI/CD Integration
+
+```swift
+// Generate performance report for CI
+let report = await PerformanceDashboard.shared.getPerformanceReport()
+
+// Fail build if health score is too low
+if report.healthScore < 70 {
+    fatalError("Performance regression detected: \(report.healthScore)")
+}
+
+// Export metrics
+if let json = await PerformanceDashboard.shared.exportReport() {
+    try json.write(to: URL(fileURLWithPath: "performance-report.json"))
+}
+```
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details.
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/amazing-feature`)
@@ -565,30 +464,23 @@ Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for gu
 
 ## 📄 License
 
-This project is licensed under the MIT License — see [LICENSE](LICENSE) for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 👨‍💻 Author
+## 🙏 Acknowledgments
 
-**Muhittin Camdali**
-
-- GitHub: [@muhittincamdali](https://github.com/muhittincamdali)
+- Apple's Instruments team for inspiration
+- The Swift community for feedback and contributions
 
 ---
 
 <p align="center">
-  <sub>Built with ❤️ for the iOS community</sub>
+  <strong>Built with ❤️ for the iOS community</strong>
 </p>
 
----
-
-## 📈 Star History
-
-<a href="https://star-history.com/#muhittincamdali/iOS-Performance-Optimization-Toolkit&Date">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=muhittincamdali/iOS-Performance-Optimization-Toolkit&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=muhittincamdali/iOS-Performance-Optimization-Toolkit&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=muhittincamdali/iOS-Performance-Optimization-Toolkit&type=Date" />
- </picture>
-</a>
+<p align="center">
+  <a href="https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/stargazers">⭐ Star this repo</a> •
+  <a href="https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/issues">🐛 Report Bug</a> •
+  <a href="https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/issues">💡 Request Feature</a>
+</p>
