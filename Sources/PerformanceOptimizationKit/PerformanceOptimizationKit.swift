@@ -1,206 +1,188 @@
+//
+//  PerformanceOptimizationKit.swift
+//  iOS Performance Optimization Toolkit
+//
+//  Created by Muhittin Camdali
+//  Copyright © 2024 Muhittin Camdali. All rights reserved.
+//
+//  The world's most comprehensive iOS performance optimization toolkit.
+//  Production-ready tools for memory, CPU, network, and UI profiling.
+//
+
 import Foundation
-import UIKit
+@_exported import PerformanceCore
 
-/**
- * PerformanceOptimizationKit - Main Performance Optimization Library
- * 
- * Comprehensive performance optimization framework for iOS applications
- * with memory, battery, CPU, and UI optimization capabilities.
- */
-public class PerformanceOptimizationKit {
+/// PerformanceOptimizationKit - World's #1 iOS Performance Toolkit
+///
+/// A comprehensive, production-ready performance optimization toolkit for iOS applications.
+/// Provides real-time monitoring, profiling, and actionable insights for:
+///
+/// - **Memory**: Real-time usage tracking, leak detection, pressure monitoring
+/// - **CPU**: Process and system-wide usage, thread analysis
+/// - **Frame Rate**: FPS monitoring, hitch detection, jank analysis
+/// - **Network**: Request profiling, latency tracking, bandwidth monitoring
+/// - **Startup**: Cold/warm start analysis, phase breakdown
+/// - **Threads**: Deadlock detection, main thread blocking
+/// - **Core Data**: Fetch/save profiling, query optimization
+///
+/// ## Quick Start
+///
+/// ```swift
+/// // Start comprehensive monitoring
+/// await PerformanceDashboard.shared.startMonitoring()
+///
+/// // Get real-time metrics
+/// let metrics = PerformanceDashboard.shared.currentMetrics
+/// print("Memory: \(metrics.memoryUsage)%")
+/// print("CPU: \(metrics.cpuUsage)%")
+/// print("FPS: \(metrics.frameRate)")
+///
+/// // Get detailed performance report
+/// let report = await PerformanceDashboard.shared.getPerformanceReport()
+/// print("Health Score: \(report.healthScore)")
+/// ```
+///
+public enum PerformanceOptimizationKit {
     
-    // MARK: - Public API
+    /// Current version of the toolkit
+    public static let version = "2.0.0"
     
+    /// Build configuration
+    public static let buildConfiguration: String = {
+        #if DEBUG
+        return "Debug"
+        #else
+        return "Release"
+        #endif
+    }()
+    
+    /// Whether the toolkit is running in DEBUG mode
+    public static let isDebug: Bool = {
+        #if DEBUG
+        return true
+        #else
+        return false
+        #endif
+    }()
+    
+    /// Initialize all profilers with default configuration
     public static func initialize() {
-        setupPerformanceOptimization()
+        // Configure components with sensible defaults
+        MemoryLeakDetector.shared.configure(.init())
+        NetworkProfiler.shared.configure(.init())
+        ThreadAnalyzer.shared.configure(.init())
+        CoreDataProfiler.shared.configure(.init())
+        StartupTimeAnalyzer.shared.configure(.init())
     }
     
-    public static func getOptimizer() -> PerformanceOptimizer {
-        return PerformanceOptimizer()
+    /// Initialize with custom configuration
+    public static func initialize(configuration: Configuration) {
+        // Memory Leak Detector
+        var leakConfig = MemoryLeakDetector.Configuration()
+        leakConfig.trackingInterval = configuration.monitoringInterval
+        MemoryLeakDetector.shared.configure(leakConfig)
+        
+        // Network Profiler
+        var networkConfig = NetworkProfiler.Configuration()
+        networkConfig.slowRequestThreshold = configuration.slowRequestThreshold
+        NetworkProfiler.shared.configure(networkConfig)
+        
+        // Thread Analyzer
+        var threadConfig = ThreadAnalyzer.Configuration()
+        threadConfig.monitoringInterval = configuration.monitoringInterval
+        threadConfig.mainThreadBlockThresholdMs = configuration.mainThreadBlockThresholdMs
+        ThreadAnalyzer.shared.configure(threadConfig)
+        
+        // Core Data Profiler
+        var coreDataConfig = CoreDataProfiler.Configuration()
+        coreDataConfig.slowFetchThresholdMs = configuration.slowFetchThresholdMs
+        CoreDataProfiler.shared.configure(coreDataConfig)
     }
     
-    public static func getMemoryOptimizer() -> MemoryOptimizer {
-        return MemoryOptimizer()
+    /// Configuration for the toolkit
+    public struct Configuration {
+        /// Monitoring update interval in seconds
+        public var monitoringInterval: TimeInterval = 1.0
+        
+        /// Threshold for slow network requests (seconds)
+        public var slowRequestThreshold: TimeInterval = 3.0
+        
+        /// Threshold for main thread blocking (milliseconds)
+        public var mainThreadBlockThresholdMs: Double = 16.67
+        
+        /// Threshold for slow Core Data fetches (milliseconds)
+        public var slowFetchThresholdMs: Double = 100.0
+        
+        /// Enable automatic optimization when performance degrades
+        public var enableAutoOptimization: Bool = false
+        
+        /// Enable detailed logging
+        public var enableDetailedLogging: Bool = false
+        
+        public init() {}
     }
     
-    public static func getBatteryOptimizer() -> BatteryOptimizer {
-        return BatteryOptimizer()
+    /// Quick diagnostic summary
+    @MainActor
+    public static func quickDiagnostic() -> String {
+        let memory = SystemMetrics.shared.getMemoryUsage()
+        let cpu = SystemMetrics.shared.getCPUUsage()
+        let device = SystemMetrics.shared.getDeviceInfo()
+        
+        return """
+        ═══════════════════════════════════════════
+        📊 Performance Diagnostic Summary
+        ═══════════════════════════════════════════
+        
+        🖥️ Device: \(device.model)
+        📱 iOS: \(device.systemVersion)
+        🔋 Low Power Mode: \(device.isLowPowerModeEnabled ? "ON" : "OFF")
+        🌡️ Thermal State: \(device.thermalState.description)
+        
+        💾 Memory
+        ├─ Used: \(memory.formattedResidentSize)
+        ├─ Usage: \(String(format: "%.1f", memory.usagePercentage))%
+        └─ Pressure: \(SystemMetrics.shared.getMemoryPressure().rawValue)
+        
+        ⚡ CPU
+        ├─ Process: \(String(format: "%.1f", cpu.processUsage))%
+        ├─ System: \(String(format: "%.1f", cpu.systemWideUsage))%
+        └─ Threads: \(cpu.threadCount) (\(cpu.activeThreads) active)
+        
+        💿 Disk
+        └─ Free: \(SystemMetrics.shared.getDiskUsage().formattedFreeSpace)
+        
+        ═══════════════════════════════════════════
+        """
     }
-    
-    public static func getCPUOptimizer() -> CPUOptimizer {
-        return CPUOptimizer()
-    }
-    
-    public static func getUIOptimizer() -> UIOptimizer {
-        return UIOptimizer()
-    }
-    
-    public static func getAnalyticsManager() -> PerformanceAnalyticsManager {
-        return PerformanceAnalyticsManager()
-    }
-    
-    // MARK: - Quick Optimization Methods
-    
-    public static func quickOptimize() {
-        let optimizer = getOptimizer()
-        optimizer.optimizeAppPerformance()
-    }
-    
-    public static func optimizeMemory() {
-        let memoryOptimizer = getMemoryOptimizer()
-        memoryOptimizer.enableAutomaticCleanup()
-        memoryOptimizer.startLeakDetection()
-    }
-    
-    public static func optimizeBattery() {
-        let batteryOptimizer = getBatteryOptimizer()
-        batteryOptimizer.enablePowerManagement()
-        batteryOptimizer.startEnergyMonitoring()
-    }
-    
-    public static func optimizeCPU() {
-        let cpuOptimizer = getCPUOptimizer()
-        cpuOptimizer.startProfiling()
-        cpuOptimizer.optimizeThreads()
-    }
-    
-    public static func optimizeUI() {
-        let uiOptimizer = getUIOptimizer()
-        uiOptimizer.enable60fpsAnimations()
-        uiOptimizer.optimizeImageLoading()
-    }
-    
-    // MARK: - Performance Monitoring
-    
-    public static func startMonitoring() {
-        let optimizer = getOptimizer()
-        optimizer.startPerformanceMonitoring()
-    }
-    
-    public static func stopMonitoring() {
-        let optimizer = getOptimizer()
-        optimizer.stopPerformanceMonitoring()
-    }
-    
-    public static func getPerformanceMetrics() -> PerformanceMetrics {
-        let optimizer = getOptimizer()
-        return optimizer.getPerformanceMetrics()
-    }
-    
-    public static func getPerformanceReport() -> PerformanceReport {
-        let optimizer = getOptimizer()
-        return optimizer.getPerformanceReport()
-    }
-    
-    // MARK: - Configuration
-    
-    public static func setPerformanceLevel(_ level: PerformanceLevel) {
-        let optimizer = getOptimizer()
-        optimizer.setPerformanceLevel(level)
-    }
-    
-    // MARK: - Private Methods
-    
-    private static func setupPerformanceOptimization() {
-        configureDefaultSettings()
-        setupAnalytics()
-        setupMonitoring()
-    }
-    
-    private static func configureDefaultSettings() {
-        // Configure default performance settings
-    }
-    
-    private static func setupAnalytics() {
-        let analyticsManager = getAnalyticsManager()
-        analyticsManager.startAnalytics()
-    }
-    
-    private static func setupMonitoring() {
-        // Setup performance monitoring
-    }
-}
-
-// MARK: - Performance Optimizer
-
-public class PerformanceOptimizer {
-    private let performanceManager = PerformanceManager()
-    
-    public init() {}
-    
-    public func optimizeAppPerformance() {
-        performanceManager.optimizeAppPerformance()
-    }
-    
-    public func setPerformanceLevel(_ level: PerformanceManager.PerformanceLevel) {
-        performanceManager.setPerformanceLevel(level)
-    }
-    
-    public func startPerformanceMonitoring() {
-        performanceManager.startPerformanceMonitoring()
-    }
-    
-    public func stopPerformanceMonitoring() {
-        performanceManager.stopPerformanceMonitoring()
-    }
-    
-    public func getPerformanceMetrics() -> PerformanceMetrics {
-        return performanceManager.getPerformanceMetrics()
-    }
-    
-    public func getPerformanceReport() -> PerformanceReport {
-        return performanceManager.getPerformanceReport()
-    }
-}
-
-// MARK: - Supporting Types
-
-public enum PerformanceLevel {
-    case powerSaving
-    case balanced
-    case performance
-    case ultraPerformance
 }
 
 // MARK: - Convenience Extensions
 
 public extension PerformanceOptimizationKit {
     
-    static func isPerformanceOptimal() -> Bool {
-        let metrics = getPerformanceMetrics()
-        return metrics.isOptimal
+    /// Get current memory usage percentage
+    static var memoryUsage: Double {
+        SystemMetrics.shared.getMemoryUsage().usagePercentage
     }
     
-    static func getPerformanceScore() -> Double {
-        let metrics = getPerformanceMetrics()
-        let memoryScore = 100 - metrics.memoryUsage
-        let batteryScore = 100 - metrics.batteryImpact
-        let cpuScore = 100 - metrics.cpuUsage
-        let fpsScore = (metrics.fps / 60.0) * 100
-        
-        return (memoryScore + batteryScore + cpuScore + fpsScore) / 4.0
+    /// Get current CPU usage percentage
+    static var cpuUsage: Double {
+        SystemMetrics.shared.getCPUUsage().processUsage
     }
     
-    static func getOptimizationRecommendations() -> [String] {
-        let metrics = getPerformanceMetrics()
-        var recommendations: [String] = []
-        
-        if metrics.memoryUsage > 80 {
-            recommendations.append("Memory usage is high. Consider optimizing memory usage.")
-        }
-        
-        if metrics.batteryImpact > 70 {
-            recommendations.append("Battery impact is high. Consider optimizing battery usage.")
-        }
-        
-        if metrics.cpuUsage > 80 {
-            recommendations.append("CPU usage is high. Consider optimizing CPU usage.")
-        }
-        
-        if metrics.fps < 55 {
-            recommendations.append("Frame rate is low. Consider optimizing UI performance.")
-        }
-        
-        return recommendations
+    /// Get current thread count
+    static var threadCount: Int {
+        SystemMetrics.shared.getCPUUsage().threadCount
+    }
+    
+    /// Check if device is under memory pressure
+    static var isUnderMemoryPressure: Bool {
+        SystemMetrics.shared.getMemoryPressure() != .normal
+    }
+    
+    /// Check if device is thermal throttling
+    static var isThermalThrottling: Bool {
+        SystemMetrics.shared.getDeviceInfo().thermalState != .nominal
     }
 }
