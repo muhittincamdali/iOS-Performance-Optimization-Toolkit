@@ -1,0 +1,1 @@
+import XCTest\n@testable import PerformanceToolkit\n\nfinal class PerformanceToolkitTests: XCTestCase {\n    func testExample() throws {\n        XCTAssertEqual(PerformanceToolkit.version, "2.0.0")\n    }\n}
