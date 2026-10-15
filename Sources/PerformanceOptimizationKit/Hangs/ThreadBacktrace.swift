@@ -30,6 +30,7 @@ public struct StackFrame: Sendable, Equatable, Codable {
 /// looking up symbols, so a thread suspended inside `malloc` cannot deadlock the reader.
 enum ThreadBacktrace {
     static let maximumFrames = 128
+    private static let asyncFrameFlag: UInt = 1 << 60
 
     /// The addresses of `thread`'s frames, innermost first, or `nil` when the thread cannot be
     /// suspended or read, or on architectures whose frames cannot be walked this way.
@@ -79,6 +80,9 @@ enum ThreadBacktrace {
             guard result == KERN_SUCCESS, copied == size, frame.returnAddress != 0 else { break }
             buffer[count] = strip(frame.returnAddress)
             count += 1
+            // Swift marks the frame of an async function by setting bit 60; its caller lives in
+            // a heap-allocated context with another layout, so the walk ends there.
+            guard frame.previous & asyncFrameFlag == 0 else { break }
             // The stack grows down, so each caller's frame is at a higher address.
             guard frame.previous > framePointer else { break }
             framePointer = frame.previous
