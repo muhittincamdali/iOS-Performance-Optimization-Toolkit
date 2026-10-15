@@ -35,6 +35,8 @@ struct URLRedactionTests {
         ("https://example.com/call/tel:+905551234567", "https://example.com/call/:id"),
         ("https://example.com/c++/(guide)", "https://example.com/c++/(guide)"),
         ("https://example.com/docs/release%20notes", "https://example.com/docs/release%20notes"),
+        ("https://example.com/k/order-12345/user_12345", "https://example.com/k/order-12345/user_12345"),
+        ("https://example.com/k/12345-/-12345/abc%2F12345", "https://example.com/k/12345-/-12345/abc%2F12345"),
         ("https://example.com/search", "https://example.com/search"),
         ("https://example.com", "https://example.com"),
     ])

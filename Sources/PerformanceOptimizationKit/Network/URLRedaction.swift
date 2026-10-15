@@ -29,9 +29,11 @@ import Foundation
 ///
 /// A segment that is still percent-encoded after four rounds of decoding is replaced as well.
 /// Other segments are kept, so a secret shorter than 16 characters, or one without digits, is
-/// not recognized, and neither is a number split into groups by a symbol that can appear in a
-/// token, such as `-` or `.`: `123-45-6789` and `555-123-4567` are kept. Don't put such values
-/// in a URL path.
+/// not recognized. Neither is a number joined to letters or to a symbol that can appear in a
+/// token (`-_=+.~/`, also when sent encoded, such as `%2F`): the number and its neighbors form
+/// a single token, which is kept unless it matches one of the rules above. `123-45-6789`,
+/// `555-123-4567`, `order-12345`, `user_12345`, `12345-`, `-12345` and `abc%2F12345` are all
+/// kept. Don't put such values in a URL path.
 public enum URLRedaction {
     /// The placeholder for path segments that look like identifiers.
     public static var identifierPlaceholder: String { ":id" }
