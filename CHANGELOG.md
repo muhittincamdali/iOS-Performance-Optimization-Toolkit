@@ -20,8 +20,9 @@ iOS 17, macOS 14, tvOS 17, watchOS 10 and visionOS 1 and later.
 - Hangs: `HangDetector` watches the main queue (or any serial queue) from a background thread
   and reports `HangEvent`s from a threshold (250 ms by default). With `capturesBacktraces`, it
   records the main thread's call stack while the hang is still going on, as `StackFrame`s
-  with binary and demangled symbol names. `HangSeverity` follows the limits in Apple's
-  "Understanding hangs in your app".
+  with binary and demangled symbol names. Time in which the whole process was stopped, such
+  as an app in the background, is not reported as a hang. `HangSeverity` follows the limits
+  in Apple's "Understanding hangs in your app".
 - Frames: `FrameTimeline` turns display link callbacks into `FrameStatistics` (frame rate,
   hitch time, hitch time ratio in ms/s, dropped frames), treating jitter and pauses correctly;
   `FrameRateMonitor` runs the display link (also on macOS 14 through `NSScreen`);
@@ -43,8 +44,8 @@ iOS 17, macOS 14, tvOS 17, watchOS 10 and visionOS 1 and later.
 - Budgets: `PerformanceBudget` checks `PerformanceMeasurements` and returns
   `BudgetViolation`s.
 - Overlay: `PerformanceMonitor` (`@Observable`) and `PerformanceHUD`.
-- The PerformanceLab example app, a DocC catalog with four articles, and 97 Swift Testing
-  tests that run on macOS and on an iPhone simulator.
+- The PerformanceLab example app, a DocC catalog with four articles, and 98 Swift Testing
+  tests that run on macOS, 97 of them also on an iPhone simulator.
 
 ### Removed
 
