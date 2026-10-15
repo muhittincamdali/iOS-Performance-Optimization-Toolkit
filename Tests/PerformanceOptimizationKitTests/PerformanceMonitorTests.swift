@@ -27,48 +27,50 @@ struct PerformanceFormatTests {
     }
 }
 
-@Suite("PerformanceMonitor", .serialized)
-@MainActor
-struct PerformanceMonitorTests {
-    @Test("publishes memory and CPU readings while running")
-    func samples() async throws {
-        let monitor = PerformanceMonitor(sampleInterval: .milliseconds(100), measuresFrames: false)
-        monitor.start()
-        #expect(monitor.isRunning)
-        for _ in 0..<50 where monitor.snapshot.memory == nil {
-            try await Task.sleep(for: .milliseconds(20))
+extension TimingSensitiveTests {
+    @Suite("PerformanceMonitor")
+    @MainActor
+    struct PerformanceMonitorTests {
+        @Test("publishes memory and CPU readings while running")
+        func samples() async throws {
+            let monitor = PerformanceMonitor(sampleInterval: .milliseconds(100), measuresFrames: false)
+            monitor.start()
+            #expect(monitor.isRunning)
+            for _ in 0..<50 where monitor.snapshot.memory == nil {
+                try await Task.sleep(for: .milliseconds(20))
+            }
+            monitor.stop()
+            #expect(!monitor.isRunning)
+            let memory = try #require(monitor.snapshot.memory)
+            #expect(memory.footprintBytes > 0)
+            #expect(monitor.snapshot.cpu != nil)
+            #expect(monitor.measurements.memory == memory)
         }
-        monitor.stop()
-        #expect(!monitor.isRunning)
-        let memory = try #require(monitor.snapshot.memory)
-        #expect(memory.footprintBytes > 0)
-        #expect(monitor.snapshot.cpu != nil)
-        #expect(monitor.measurements.memory == memory)
-    }
 
-    @Test("records a blocked main thread as a hang")
-    func detectsMainThreadHang() async throws {
-        let monitor = PerformanceMonitor(sampleInterval: .seconds(1), hangThreshold: .milliseconds(150), measuresFrames: false)
-        monitor.start()
-        try await Task.sleep(for: .milliseconds(150))
-        blockMainThread(seconds: 0.4)
-        for _ in 0..<50 where monitor.recentHangs.isEmpty {
-            try await Task.sleep(for: .milliseconds(20))
+        @Test("records a blocked main thread as a hang")
+        func detectsMainThreadHang() async throws {
+            let monitor = PerformanceMonitor(sampleInterval: .seconds(1), hangThreshold: .milliseconds(150), measuresFrames: false)
+            monitor.start()
+            try await Task.sleep(for: .milliseconds(150))
+            blockMainThread(seconds: 0.4)
+            for _ in 0..<50 where monitor.recentHangs.isEmpty {
+                try await Task.sleep(for: .milliseconds(20))
+            }
+            monitor.stop()
+            let hang = try #require(monitor.recentHangs.first)
+            #expect(hang.duration >= .milliseconds(250))
+            #expect(monitor.snapshot.lastHang == hang)
+            #expect(hang.backtrace?.isEmpty == false)
         }
-        monitor.stop()
-        let hang = try #require(monitor.recentHangs.first)
-        #expect(hang.duration >= .milliseconds(250))
-        #expect(monitor.snapshot.lastHang == hang)
-        #expect(hang.backtrace?.isEmpty == false)
-    }
 
-    // Synchronous on purpose: this is the kind of work that freezes an app's interface.
-    private func blockMainThread(seconds: Double) {
-        Thread.sleep(forTimeInterval: seconds)
-    }
+        // Synchronous on purpose: this is the kind of work that freezes an app's interface.
+        private func blockMainThread(seconds: Double) {
+            Thread.sleep(forTimeInterval: seconds)
+        }
 
-    @Test("clamps the sample interval")
-    func clampsInterval() {
-        #expect(PerformanceMonitor(sampleInterval: .zero, measuresFrames: false).sampleInterval == .milliseconds(100))
+        @Test("clamps the sample interval")
+        func clampsInterval() {
+            #expect(PerformanceMonitor(sampleInterval: .zero, measuresFrames: false).sampleInterval == .milliseconds(100))
+        }
     }
 }
