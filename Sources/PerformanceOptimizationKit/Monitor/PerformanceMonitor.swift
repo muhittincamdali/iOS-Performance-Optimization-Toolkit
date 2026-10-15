@@ -68,9 +68,11 @@ public final class PerformanceMonitor {
     ///   - hangThreshold: The shortest main-thread hang to report.
     ///   - measuresFrames: Whether to run a display link for frame statistics. It keeps the
     ///     display at its full refresh rate while the monitor runs.
-    public init(sampleInterval: Duration = .seconds(1), hangThreshold: Duration = .milliseconds(250), measuresFrames: Bool = true) {
+    ///   - capturesBacktraces: Whether each hang comes with the main thread's call stack (see
+    ///     ``HangEvent/backtrace``).
+    public init(sampleInterval: Duration = .seconds(1), hangThreshold: Duration = .milliseconds(250), measuresFrames: Bool = true, capturesBacktraces: Bool = true) {
         self.sampleInterval = max(sampleInterval, .milliseconds(100))
-        hangDetector = HangDetector(threshold: hangThreshold)
+        hangDetector = HangDetector(threshold: hangThreshold, capturesBacktraces: capturesBacktraces)
         #if !os(watchOS)
         frameMonitor = measuresFrames ? FrameRateMonitor(reportInterval: self.sampleInterval) : nil
         #endif

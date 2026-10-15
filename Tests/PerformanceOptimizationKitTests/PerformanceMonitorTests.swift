@@ -59,6 +59,7 @@ struct PerformanceMonitorTests {
         let hang = try #require(monitor.recentHangs.first)
         #expect(hang.duration >= .milliseconds(250))
         #expect(monitor.snapshot.lastHang == hang)
+        #expect(hang.backtrace?.isEmpty == false)
     }
 
     // Synchronous on purpose: this is the kind of work that freezes an app's interface.
