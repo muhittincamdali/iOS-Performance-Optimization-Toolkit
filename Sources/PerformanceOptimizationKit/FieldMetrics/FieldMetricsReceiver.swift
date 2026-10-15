@@ -44,9 +44,12 @@ public final class FieldMetricsReceiver: NSObject, MXMetricManagerSubscriber, Se
         guard !alreadyStarted else { return }
         #if compiler(>=6.4) && !os(visionOS)
         if #available(iOS 27.0, macOS 27.0, *) {
+            // The task holds the receiver weakly and ends once it is gone; `deinit` cancels it
+            // so it does not wait for the next report, which can be a day away.
             let task = Task { [weak self] in
                 for await report in MetricManager().metricReports {
-                    self?.receive(FieldMetrics(report))
+                    guard let self else { return }
+                    self.receive(FieldMetrics(report))
                 }
             }
             state.withLock { $0.task = task }
@@ -54,6 +57,10 @@ public final class FieldMetricsReceiver: NSObject, MXMetricManagerSubscriber, Se
         }
         #endif
         MXMetricManager.shared.add(self)
+    }
+
+    deinit {
+        state.withLock { $0.task }?.cancel()
     }
 
     /// Stops receiving reports.
