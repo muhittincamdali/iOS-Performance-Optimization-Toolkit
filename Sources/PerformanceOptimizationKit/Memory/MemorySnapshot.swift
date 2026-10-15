@@ -7,9 +7,10 @@ import os
 /// The memory use of the current process at one moment.
 ///
 /// ``footprintBytes`` is the figure the system compares with the app's memory limit and the one
-/// Xcode's memory gauge and the Memory Report show. It counts dirty and compressed memory the
-/// process owns, which is why it is usually larger than ``residentBytes`` on a device and
-/// smaller on a Mac.
+/// Xcode's memory gauge and the Memory Report show. It counts the dirty and compressed memory
+/// the process owns, so it can differ from ``residentBytes`` either way: compressed memory
+/// counts toward the footprint but is not resident, and clean pages, such as mapped framework
+/// code, are resident but do not count.
 public struct MemorySnapshot: Sendable, Equatable, Codable {
     /// The physical footprint of the process, in bytes.
     public let footprintBytes: UInt64
