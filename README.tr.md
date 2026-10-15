@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@2667b59aea80f88a1187b59228fd4791a935718b status=reviewed -->
+<!-- i18n-source: README.md@21fa6ae667b204fc005d94d0bc728f2b5ba1e67b status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-light.svg" alt="Performance Toolkit: Find hangs, hitches, memory growth, slow launches and leaks in Swift apps, and check them in tests."></picture></p>
@@ -34,7 +34,7 @@ Bir uygulamayı yavaş hissettiren şeyleri ölçen, hiçbir bağımlılığı o
 - **Gerçekten önemli bellek değeri** — `MemorySnapshot`, sistemin uyguladığı fiziksel ayak izini, bu değerin tepe noktasını ve cihazlarda sınıra kalan belleği okur.
 - **Açılış ve sızıntılar** — `LaunchTimer`, süreç oluşturulduğu andan (`main`'den önce) itibaren ölçer ve önceden ısıtılmış (prewarmed) açılışları tanır; `LeakTracker`, ekranı kapandıktan sonra hâlâ canlı olan nesneleri raporlar.
 - **Saha verisi ve bütçeler** — `FieldMetricsReceiver`, MetricKit'in günlük raporlarını iOS 17'den 27'ye kadar okur; `PerformanceBudget`, herhangi bir ölçümü bir test içinde sınırlarla karşılaştırır.
-- **Gün boyu çalışacak şekilde tasarlandı** — her tamponun bir sınırı vardır, çekirdekten veya bir payload'dan gelen değerler kullanılmadan önce doğrulanır ve URL'ler saklanmadan önce maskelenir. 98 Swift Testing testi macOS'ta çalışır, bunların 97'si ayrıca bir iPhone simülatöründe de çalışır; testler gerçek takılmalara, bellek ayırmalarına ve HTTP isteklerine karşı yürütülür.
+- **Gün boyu çalışacak şekilde tasarlandı** — her tamponun bir sınırı vardır, çekirdekten veya bir payload'dan gelen değerler kullanılmadan önce doğrulanır ve URL'ler saklanmadan önce maskelenir. 99 Swift Testing testi macOS'ta çalışır, bunların 98'i ayrıca bir iPhone simülatöründe de çalışır; testler gerçek takılmalara, bellek ayırmalarına ve HTTP isteklerine karşı yürütülür.
 
 ### İçerik
 

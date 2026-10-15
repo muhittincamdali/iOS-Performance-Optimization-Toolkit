@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@2667b59aea80f88a1187b59228fd4791a935718b status=reviewed -->
+<!-- i18n-source: README.md@21fa6ae667b204fc005d94d0bc728f2b5ba1e67b status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-light.svg" alt="Performance Toolkit: Find hangs, hitches, memory growth, slow launches and leaks in Swift apps, and check them in tests."></picture></p>
@@ -34,7 +34,7 @@ Un paquete de Swift que mide lo que hace que una app se sienta lenta, en iOS 17+
 - **La cifra de memoria que importa** — `MemorySnapshot` lee la huella física que aplica el sistema, su pico y, en dispositivos, la memoria que queda antes del límite.
 - **Arranque y fugas** — `LaunchTimer` mide desde la creación del proceso (antes de `main`) y reconoce los arranques con precalentamiento (prewarmed); `LeakTracker` informa de los objetos que siguen vivos después de cerrar su pantalla.
 - **Datos de campo y presupuestos** — `FieldMetricsReceiver` lee los informes diarios de MetricKit en iOS 17 a 27; `PerformanceBudget` comprueba cualquier medición frente a unos límites en una prueba.
-- **Pensado para funcionar todo el día** — cada búfer tiene un límite, los valores que llegan del kernel o de un payload se comprueban antes de usarlos y las URL se ocultan antes de guardarse. 98 pruebas de Swift Testing se ejecutan en macOS, 97 de ellas también en un simulador de iPhone, contra bloqueos, asignaciones de memoria y peticiones HTTP reales.
+- **Pensado para funcionar todo el día** — cada búfer tiene un límite, los valores que llegan del kernel o de un payload se comprueban antes de usarlos y las URL se ocultan antes de guardarse. 99 pruebas de Swift Testing se ejecutan en macOS, 98 de ellas también en un simulador de iPhone, contra bloqueos, asignaciones de memoria y peticiones HTTP reales.
 
 ### Qué incluye
 

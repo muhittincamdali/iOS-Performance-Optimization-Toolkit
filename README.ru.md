@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@2667b59aea80f88a1187b59228fd4791a935718b status=reviewed -->
+<!-- i18n-source: README.md@21fa6ae667b204fc005d94d0bc728f2b5ba1e67b status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-light.svg" alt="Performance Toolkit: Find hangs, hitches, memory growth, slow launches and leaks in Swift apps, and check them in tests."></picture></p>
@@ -34,7 +34,7 @@
 - **Показатель памяти, который действительно важен** — `MemorySnapshot` считывает физический объём занятой памяти, на который опирается система, его пик и, на устройствах, объём памяти, оставшийся до лимита.
 - **Запуск и утечки** — `LaunchTimer` измеряет время от создания процесса (до `main`) и распознаёт прогретые (prewarmed) запуски; `LeakTracker` сообщает об объектах, которые остались живы после закрытия их экрана.
 - **Данные из реальной эксплуатации и бюджеты** — `FieldMetricsReceiver` читает ежедневные отчёты MetricKit на iOS с 17 по 27; `PerformanceBudget` сверяет любое измерение с лимитами в тесте.
-- **Рассчитан на работу в течение всего дня** — у каждого буфера есть предел, значения из ядра или payload проверяются перед использованием, а URL маскируются до сохранения. 98 тестов Swift Testing выполняются на macOS, 97 из них — ещё и на симуляторе iPhone, на реальных зависаниях, выделениях памяти и HTTP-запросах.
+- **Рассчитан на работу в течение всего дня** — у каждого буфера есть предел, значения из ядра или payload проверяются перед использованием, а URL маскируются до сохранения. 99 тестов Swift Testing выполняются на macOS, 98 из них — ещё и на симуляторе iPhone, на реальных зависаниях, выделениях памяти и HTTP-запросах.
 
 ### Что входит
 

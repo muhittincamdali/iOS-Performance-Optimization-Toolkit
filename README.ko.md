@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@2667b59aea80f88a1187b59228fd4791a935718b status=reviewed -->
+<!-- i18n-source: README.md@21fa6ae667b204fc005d94d0bc728f2b5ba1e67b status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-light.svg" alt="Performance Toolkit: Find hangs, hitches, memory growth, slow launches and leaks in Swift apps, and check them in tests."></picture></p>
@@ -34,7 +34,7 @@
 - **정말 중요한 메모리 수치** — `MemorySnapshot`은 시스템이 제한을 적용하는 기준인 물리 풋프린트와 그 최댓값을 읽고, 실제 기기에서는 한도까지 남은 메모리도 읽습니다.
 - **실행과 누수** — `LaunchTimer`는 프로세스가 생성된 시점(`main` 이전)부터 측정하며 프리워밍(prewarmed)된 실행을 구별합니다. `LeakTracker`는 화면이 닫힌 뒤에도 여전히 살아 있는 객체를 보고합니다.
 - **실사용 데이터와 예산** — `FieldMetricsReceiver`는 iOS 17부터 27까지 MetricKit의 일일 리포트를 읽고, `PerformanceBudget`은 테스트에서 모든 측정값을 한도와 대조합니다.
-- **하루 종일 돌아가도록 설계** — 모든 버퍼에는 한도가 있고, 커널이나 페이로드에서 온 값은 사용하기 전에 검증하며, URL은 저장하기 전에 가립니다. Swift Testing 테스트 98개가 macOS에서 실행되고 그중 97개는 iPhone 시뮬레이터에서도 실행되며, 실제 hang, 메모리 할당, HTTP 요청을 대상으로 합니다.
+- **하루 종일 돌아가도록 설계** — 모든 버퍼에는 한도가 있고, 커널이나 페이로드에서 온 값은 사용하기 전에 검증하며, URL은 저장하기 전에 가립니다. Swift Testing 테스트 99개가 macOS에서 실행되고 그중 98개는 iPhone 시뮬레이터에서도 실행되며, 실제 hang, 메모리 할당, HTTP 요청을 대상으로 합니다.
 
 ### 포함된 구성 요소
 
