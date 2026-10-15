@@ -73,8 +73,9 @@ public final class LeakTracker: Sendable {
     /// Starts waiting for `object` to be released and reports it if it is still alive after
     /// ``gracePeriod``.
     ///
-    /// - Returns: A task whose value is the report, or `nil` when the object was released (or
-    ///   was not tracked because too many objects were pending). Awaiting it is optional.
+    /// - Returns: A task whose value is the report, or `nil` when the object was released, the
+    ///   task was cancelled, or the object was not tracked because ``maximumPending`` objects
+    ///   were already waited for. Awaiting it is optional.
     @discardableResult
     public func expectRelease(of object: AnyObject, name: String) -> Task<LeakReport?, Never> {
         let reserved = state.withLock { state -> Bool in
