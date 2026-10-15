@@ -6,11 +6,15 @@ public struct HangEvent: Sendable, Equatable, Codable {
     public let start: Date
     /// How long the queue took to run work submitted at ``start``.
     public let duration: Duration
+    /// The main thread's call stack, innermost frame first, taken once the hang reached the
+    /// detector's threshold. `nil` unless the detector captures backtraces.
+    public let backtrace: [StackFrame]?
 
     /// Creates an event from known values, for tests and previews.
-    public init(start: Date, duration: Duration) {
+    public init(start: Date, duration: Duration, backtrace: [StackFrame]? = nil) {
         self.start = start
         self.duration = duration
+        self.backtrace = backtrace
     }
 
     /// How noticeable the hang was.

@@ -86,6 +86,40 @@ struct HangDetectorTests {
         #expect(collector.all.count == 1)
     }
 
+    @Test("captures the main thread's call stack during a hang")
+    @MainActor
+    func capturesBacktrace() async throws {
+        let detector = HangDetector(threshold: .milliseconds(150), checkInterval: .milliseconds(20), capturesBacktraces: true)
+        let (collector, task) = collect(detector)
+        detector.start()
+        try await Task.sleep(for: .milliseconds(100))
+        spinOnMainThreadForBacktraceTest(seconds: 0.4)
+        for _ in 0..<50 where collector.all.isEmpty {
+            try await Task.sleep(for: .milliseconds(20))
+        }
+        detector.stop()
+        task.cancel()
+        let hang = try #require(collector.all.first)
+        let frames = try #require(hang.backtrace)
+        #expect(frames.count > 3)
+        #expect(frames.contains { $0.symbol?.contains("spinOnMainThreadForBacktraceTest") == true })
+        #expect(frames.contains { $0.image != nil })
+    }
+
+    @Test("captures backtraces only for the main queue")
+    func backtracesNeedMainQueue() {
+        #expect(!HangDetector(queue: DispatchQueue(label: "other"), capturesBacktraces: true).capturesBacktraces)
+        #expect(HangDetector(capturesBacktraces: true).capturesBacktraces)
+        #expect(!HangDetector().capturesBacktraces)
+    }
+
+    @Test("a thread cannot read its own stack this way")
+    func ownThread() {
+        let port = mach_thread_self()
+        defer { mach_port_deallocate(mach_task_self_, port) }
+        #expect(ThreadBacktrace.addresses(of: port) == nil)
+    }
+
     @Test("clamps threshold and check interval")
     func clampsSettings() {
         let detector = HangDetector(threshold: .milliseconds(1), checkInterval: .seconds(5))
@@ -101,4 +135,14 @@ struct HangDetectorTests {
     func severity(duration: Duration, expected: HangSeverity) {
         #expect(HangSeverity(duration: duration) == expected)
     }
+}
+
+// A function with a name the backtrace test can look for. Busy-waiting keeps the frame on
+// the stack the whole time.
+@inline(never)
+func spinOnMainThreadForBacktraceTest(seconds: Double) {
+    let deadline = ContinuousClock.now + .seconds(seconds)
+    var value = 0.0
+    while ContinuousClock.now < deadline { value += sin(value + 1) }
+    precondition(value.isFinite)
 }
