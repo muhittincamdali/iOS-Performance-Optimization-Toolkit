@@ -98,10 +98,15 @@ extension TimingSensitiveTests {
             let detector = HangDetector(threshold: .milliseconds(150), checkInterval: .milliseconds(20), capturesBacktraces: true)
             let (collector, task) = collect(detector)
             detector.start()
-            try await Task.sleep(for: .milliseconds(100))
-            spinOnMainThreadForBacktraceTest(seconds: 0.4)
-            for _ in 0..<50 where collector.all.isEmpty {
-                try await Task.sleep(for: .milliseconds(20))
+            // The detector drops a measurement when its own thread was held up for longer than
+            // four checks, as can happen on a busy machine or a simulator that has just booted,
+            // so the hang gets two more tries.
+            for _ in 0..<3 where collector.all.isEmpty {
+                try await Task.sleep(for: .milliseconds(100))
+                spinOnMainThreadForBacktraceTest(seconds: 0.4)
+                for _ in 0..<50 where collector.all.isEmpty {
+                    try await Task.sleep(for: .milliseconds(20))
+                }
             }
             detector.stop()
             task.cancel()
