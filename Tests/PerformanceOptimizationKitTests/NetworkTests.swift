@@ -12,6 +12,10 @@ struct URLRedactionTests {
         ("https://example.com/users/jane.doe@example.org/profile", "https://example.com/users/:id/profile"),
         ("https://example.com/s/eyJhbGciOiJIUzI1NiJ9abc123xyz", "https://example.com/s/:id"),
         ("https://api.example.com/files/abc123%2Fdef456ghijk7890xyz/raw", "https://api.example.com/files/:id/raw"),
+        ("https://example.com/users/12345.json", "https://example.com/users/:id.json"),
+        ("https://example.com/reports/2024.pdf", "https://example.com/reports/:id.pdf"),
+        ("https://example.com/s/Ab3dEf5Gh7Jk9Lm1", "https://example.com/s/:id"),
+        ("https://example.com/v1.2/getUserProfile2024/ipad-pro-12-9-2024/logo.png", "https://example.com/v1.2/getUserProfile2024/ipad-pro-12-9-2024/logo.png"),
         ("https://example.com/search", "https://example.com/search"),
         ("https://example.com", "https://example.com"),
     ])

@@ -6,10 +6,22 @@ import Foundation
 /// The result keeps the scheme, host, port and path, which is what a timing report needs to
 /// group requests. It drops the user name and password, the query, the fragment and path
 /// parameters after `;` (such as `;jsessionid=`), and replaces path segments that look like
-/// identifiers (numbers, UUIDs, e-mail addresses, long hexadecimal or Base64 strings) with
-/// `:id`, so
+/// identifiers with `:id`, so
 /// `https://user:secret@api.example.com/users/12345/avatar?token=abc` becomes
 /// `https://api.example.com/users/:id/avatar`.
+///
+/// A segment, after its percent-encoding is removed, looks like an identifier when it is:
+///
+/// - a number, a UUID or contains `@` (such as an e-mail address);
+/// - 16 or more hexadecimal digits;
+/// - a token of letters, digits and the Base64 symbols `-_=+.~/` that mixes letters and digits
+///   and is 20 or more characters long, or 16 to 19 characters long with only letters and
+///   digits and at least two separate groups of digits (such as `Ab3dEf5Gh7Jk9Lm1`);
+/// - one of the above followed by a file extension of up to five letters, which is kept:
+///   `12345.json` becomes `:id.json`.
+///
+/// Other segments are kept, so a secret shorter than 16 characters, or one without digits, is
+/// not recognized; don't put such values in a URL path.
 public enum URLRedaction {
     /// The placeholder for path segments that look like identifiers.
     public static var identifierPlaceholder: String { ":id" }
@@ -35,11 +47,23 @@ public enum URLRedaction {
 
     static func redactedPath(_ encodedPath: String) -> String {
         guard !encodedPath.isEmpty else { return "" }
-        let segments = encodedPath.split(separator: "/", omittingEmptySubsequences: false).map { segment -> String in
-            let name = withoutParameters(String(segment))
-            return looksLikeIdentifier(name) ? identifierPlaceholder : name
+        let segments = encodedPath.split(separator: "/", omittingEmptySubsequences: false).map { segment in
+            redactedSegment(withoutParameters(String(segment)))
         }
         return segments.joined(separator: "/")
+    }
+
+    static func redactedSegment(_ encodedSegment: String) -> String {
+        if looksLikeIdentifier(encodedSegment) { return identifierPlaceholder }
+        // "12345.json": the extension says what the resource is and is kept. It is emitted from
+        // the decoded form only when it is a few ASCII letters, so it cannot carry a line break.
+        let segment = encodedSegment.removingPercentEncoding ?? encodedSegment
+        guard let dot = segment.lastIndex(of: "."), dot != segment.startIndex else { return encodedSegment }
+        let fileExtension = segment[segment.index(after: dot)...]
+        guard (1...5).contains(fileExtension.count),
+              fileExtension.allSatisfy({ $0.isASCII && $0.isLetter }),
+              looksLikeIdentifier(String(segment[..<dot])) else { return encodedSegment }
+        return "\(identifierPlaceholder).\(fileExtension)"
     }
 
     // Path parameters (RFC 3986 allows ";" in a segment) often hold session identifiers. The
@@ -63,7 +87,22 @@ public enum URLRedaction {
         let isTokenLike = segment.unicodeScalars.allSatisfy { tokenCharacters.contains($0) }
         let hasDigit = segment.contains(where: \.isNumber)
         let hasLetter = segment.contains(where: \.isLetter)
-        return segment.count >= 20 && isTokenLike && hasDigit && hasLetter
+        guard isTokenLike, hasDigit, hasLetter else { return false }
+        if segment.count >= 20 { return true }
+        // Shorter tokens are told apart from words such as "release2026" or "ipad-pro-12-9-2024"
+        // by the digits scattered through them and the absence of separators.
+        return segment.count >= 16 && segment.allSatisfy(\.isAlphanumericASCII) && digitGroupCount(segment) >= 2
+    }
+
+    private static func digitGroupCount(_ segment: String) -> Int {
+        var count = 0
+        var previousWasDigit = false
+        for character in segment {
+            let isDigit = character.isNumber
+            if isDigit && !previousWasDigit { count += 1 }
+            previousWasDigit = isDigit
+        }
+        return count
     }
 
     private static func isPlainScheme(_ scheme: String) -> Bool {
@@ -79,4 +118,8 @@ public enum URLRedaction {
         guard value.count > maximumLength else { return value }
         return String(value.prefix(maximumLength - 1)) + "…"
     }
+}
+
+private extension Character {
+    var isAlphanumericASCII: Bool { isASCII && (isLetter || isNumber) }
 }
