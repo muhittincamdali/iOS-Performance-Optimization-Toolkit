@@ -14,10 +14,11 @@ import Foundation
 /// (`%3B`, `%253F`) also ends a segment, and the checks below run on a segment after its
 /// percent-encoding has been removed, up to four times over.
 ///
-/// A segment looks like an identifier when it, or a part of it between characters that cannot
-/// appear in a token (such as spaces, `:` or `,`), is:
+/// A segment looks like an identifier when it, or a part of it before, after or between
+/// characters that cannot appear in a token (such as spaces, `:`, `,` or parentheses), is:
 ///
-/// - a number, a UUID or contains `@` (such as an e-mail address);
+/// - a number, also with a leading `+` (such as the phone number `+905551234567`), a UUID, or
+///   contains `@` (such as an e-mail address);
 /// - 16 or more hexadecimal digits;
 /// - a token of letters, digits and the Base64 symbols `-_=+.~/` that mixes letters and digits
 ///   and is 20 or more characters long, or 16 to 19 characters long with only letters and
@@ -110,16 +111,15 @@ public enum URLRedaction {
         guard let segment = fullyDecoded(encodedSegment) else { return true }
         guard !segment.isEmpty else { return false }
         if isIdentifier(segment) { return true }
-        // "order:12345" or "My Trip 2024": an identifier between other characters.
+        // "order:12345", "My Trip 2024" or "(12345)": an identifier next to other characters.
         let parts = segment.unicodeScalars.split { !tokenCharacters.contains($0) }
-        guard parts.count > 1 else { return false }
         return parts.contains { isIdentifier(String(String.UnicodeScalarView($0))) }
     }
 
     private static let tokenCharacters = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "-_=+.~/"))
 
     private static func isIdentifier(_ segment: String) -> Bool {
-        if segment.allSatisfy(\.isNumber) || segment.contains("@") { return true }
+        if isNumber(segment) || segment.contains("@") { return true }
         if UUID(uuidString: segment) != nil { return true }
         if segment.count >= 16, segment.allSatisfy(\.isHexDigit) { return true }
         // Tokens: long runs of letters, digits and Base64 symbols that mix digits and letters.
@@ -133,6 +133,12 @@ public enum URLRedaction {
         // Shorter tokens are told apart from words such as "release2026" or "ipad-pro-12-9-2024"
         // by the digits scattered through them and the absence of separators.
         return segment.count >= 16 && segment.allSatisfy(\.isAlphanumericASCII) && digitGroupCount(segment) >= 2
+    }
+
+    // A leading "+" is part of the number: "+905551234567" is a phone number in E.164 form.
+    private static func isNumber(_ segment: String) -> Bool {
+        let digits = segment.hasPrefix("+") ? segment.dropFirst() : Substring(segment)
+        return !digits.isEmpty && digits.allSatisfy(\.isNumber)
     }
 
     private static func digitGroupCount(_ segment: String) -> Int {
