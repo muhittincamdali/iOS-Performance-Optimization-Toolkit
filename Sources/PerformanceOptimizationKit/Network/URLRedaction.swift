@@ -23,8 +23,9 @@ import Foundation
 /// - a token of letters, digits and the Base64 symbols `-_=+.~/` that mixes letters and digits
 ///   and is 20 or more characters long, or 16 to 19 characters long with only letters and
 ///   digits and at least two separate groups of digits (such as `Ab3dEf5Gh7Jk9Lm1`);
-/// - one of the above followed by a file extension of up to five letters, which is kept:
-///   `12345.json` becomes `:id.json`.
+/// - one of the above followed by a file extension of up to five letters. The extension is kept
+///   when it ends the segment: `12345.json` becomes `:id.json`, while `(12345.json)` and
+///   `12345.json!` become `:id`.
 ///
 /// A segment that is still percent-encoded after four rounds of decoding is replaced as well.
 /// Other segments are kept, so a secret shorter than 16 characters, or one without digits, is
@@ -68,16 +69,14 @@ public enum URLRedaction {
     }
 
     static func redactedSegment(_ encodedSegment: String) -> String {
-        if looksLikeIdentifier(encodedSegment) { return identifierPlaceholder }
+        guard let segment = fullyDecoded(encodedSegment) else { return identifierPlaceholder }
+        if isIdentifier(segment) { return identifierPlaceholder }
         // "12345.json": the extension says what the resource is and is kept. It is emitted from
         // the decoded form only when it is a few ASCII letters, so it cannot carry a line break.
-        let segment = fullyDecoded(encodedSegment) ?? encodedSegment
-        guard let dot = segment.lastIndex(of: "."), dot != segment.startIndex else { return encodedSegment }
-        let fileExtension = segment[segment.index(after: dot)...]
-        guard (1...5).contains(fileExtension.count),
-              fileExtension.allSatisfy({ $0.isASCII && $0.isLetter }),
-              looksLikeIdentifier(String(segment[..<dot])) else { return encodedSegment }
-        return "\(identifierPlaceholder).\(fileExtension)"
+        if let file = splitAtFileExtension(segment), isIdentifier(file.name) || containsIdentifier(file.name) {
+            return "\(identifierPlaceholder).\(file.fileExtension)"
+        }
+        return containsIdentifier(segment) ? identifierPlaceholder : encodedSegment
     }
 
     // Path parameters (RFC 3986 allows ";" in a segment) often hold session identifiers, and a
@@ -109,13 +108,25 @@ public enum URLRedaction {
         return isStillEncoded ? nil : segment
     }
 
-    static func looksLikeIdentifier(_ encodedSegment: String) -> Bool {
-        guard let segment = fullyDecoded(encodedSegment) else { return true }
-        guard !segment.isEmpty else { return false }
-        if isIdentifier(segment) { return true }
-        // "order:12345", "My Trip 2024" or "(12345)": an identifier next to other characters.
+    // "order:12345", "My Trip 2024", "(12345)" or "(12345.json)": an identifier, also one with a
+    // file extension, next to other characters. Only a whole segment keeps its extension.
+    private static func containsIdentifier(_ segment: String) -> Bool {
         let parts = segment.unicodeScalars.split { !tokenCharacters.contains($0) }
-        return parts.contains { isIdentifier(String(String.UnicodeScalarView($0))) }
+        return parts.contains { scalars in
+            let part = String(String.UnicodeScalarView(scalars))
+            if isIdentifier(part) { return true }
+            guard let file = splitAtFileExtension(part) else { return false }
+            return isIdentifier(file.name)
+        }
+    }
+
+    // The name and the extension of "name.ext", when the extension is one to five ASCII letters.
+    private static func splitAtFileExtension(_ segment: String) -> (name: String, fileExtension: Substring)? {
+        guard let dot = segment.lastIndex(of: "."), dot != segment.startIndex else { return nil }
+        let fileExtension = segment[segment.index(after: dot)...]
+        guard (1...5).contains(fileExtension.count),
+              fileExtension.allSatisfy({ $0.isASCII && $0.isLetter }) else { return nil }
+        return (String(segment[..<dot]), fileExtension)
     }
 
     private static let tokenCharacters = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "-_=+.~/"))
