@@ -43,11 +43,41 @@ enum ThreadBacktrace {
         let buffer = UnsafeMutablePointer<UInt>.allocate(capacity: maximumFrames)
         defer { buffer.deallocate() }
         guard thread_suspend(thread) == KERN_SUCCESS else { return nil }
-        let count = walk(thread, into: buffer)
+        let (count, linkRegister) = walk(thread, into: buffer)
         _ = thread_resume(thread)
         guard count > 0 else { return nil }
-        return Array(UnsafeBufferPointer(start: buffer, count: count))
+        var addresses = Array(UnsafeBufferPointer(start: buffer, count: count))
+        if let caller = callerOfLeafFunction(linkRegister: linkRegister, addresses: addresses) {
+            addresses.insert(caller, at: 1)
+            if addresses.count > maximumFrames { addresses.removeLast() }
+        }
+        return addresses
         #endif
+    }
+
+    /// The return address in the link register when the innermost function has not saved it in
+    /// a frame of its own, or `nil`.
+    ///
+    /// A leaf function such as `sin` may run without a frame record. The frame pointer then
+    /// still points at its caller's record, which holds the return address into the caller's
+    /// caller, so the walk skips the caller; only the link register points into it. In a
+    /// function that has a frame, the link register either equals the saved return address or
+    /// points back into that function after a call it made, and adds nothing. Telling the two
+    /// apart needs `dladdr`, which takes a lock, so it runs after the thread is resumed.
+    static func callerOfLeafFunction(linkRegister: UInt, addresses: [UInt]) -> UInt? {
+        guard linkRegister != 0, let pc = addresses.first else { return nil }
+        if addresses.count > 1, addresses[1] == linkRegister { return nil }
+        guard let pcFunction = functionStart(containing: pc),
+              let linkFunction = functionStart(containing: linkRegister &- 1),
+              pcFunction != linkFunction else { return nil }
+        return linkRegister
+    }
+
+    private static func functionStart(containing address: UInt) -> UInt? {
+        var info = Dl_info()
+        guard let pointer = UnsafeRawPointer(bitPattern: address), dladdr(pointer, &info) != 0,
+              let start = info.dli_saddr else { return nil }
+        return UInt(bitPattern: start)
     }
 
     /// Resolves addresses to binaries and symbols with `dladdr`.
@@ -69,8 +99,9 @@ enum ThreadBacktrace {
     // Runs while the thread is suspended: no allocation, no locks, only kernel calls and reads
     // of this process's memory through vm_read_overwrite, which fails instead of crashing on a
     // bad address.
-    private static func walk(_ thread: thread_t, into buffer: UnsafeMutablePointer<UInt>) -> Int {
-        guard let registers = registers(of: thread) else { return 0 }
+    // Returns the number of addresses written and the link register (0 where there is none).
+    private static func walk(_ thread: thread_t, into buffer: UnsafeMutablePointer<UInt>) -> (count: Int, linkRegister: UInt) {
+        guard let registers = registers(of: thread) else { return (0, 0) }
         var count = 0
         buffer[count] = strip(registers.pc)
         count += 1
@@ -92,10 +123,12 @@ enum ThreadBacktrace {
             guard frame.previous > framePointer else { break }
             framePointer = frame.previous
         }
-        return count
+        return (count, strip(registers.lr))
     }
 
-    private static func registers(of thread: thread_t) -> (pc: UInt, fp: UInt)? {
+    // x86-64 has no link register; a leaf function's return address is on the stack instead,
+    // and its caller is missing from the walk there.
+    private static func registers(of thread: thread_t) -> (pc: UInt, fp: UInt, lr: UInt)? {
         #if os(watchOS)
         return nil
         #elseif arch(arm64) && !_ptrauth(_arm64e)
@@ -107,7 +140,7 @@ enum ThreadBacktrace {
             }
         }
         guard result == KERN_SUCCESS else { return nil }
-        return (UInt(state.__pc), UInt(state.__fp))
+        return (UInt(state.__pc), UInt(state.__fp), UInt(state.__lr))
         #elseif arch(x86_64)
         var state = x86_thread_state64_t()
         var count = mach_msg_type_number_t(MemoryLayout<x86_thread_state64_t>.size / MemoryLayout<natural_t>.size)
@@ -117,7 +150,7 @@ enum ThreadBacktrace {
             }
         }
         guard result == KERN_SUCCESS else { return nil }
-        return (UInt(state.__rip), UInt(state.__rbp))
+        return (UInt(state.__rip), UInt(state.__rbp), 0)
         #else
         return nil
         #endif

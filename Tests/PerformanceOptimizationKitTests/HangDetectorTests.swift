@@ -152,6 +152,30 @@ extension TimingSensitiveTests {
             #expect(ThreadBacktrace.addresses(of: port) == nil)
         }
 
+        #if !os(watchOS)
+        @Test("keeps the caller of a function that has no frame of its own")
+        func leafFunctionCaller() throws {
+            // `sin` runs without a frame record, so while the thread is inside it the frame
+            // pointer still points at the caller's caller and only the link register holds the
+            // return address into the caller.
+            let spinner = LeafSpinner()
+            let thread = Thread { spinner.run() }
+            thread.start()
+            defer { spinner.stop() }
+            let port = try #require(spinner.waitForPort())
+            var missing = 0
+            for _ in 0..<300 {
+                let addresses = try #require(ThreadBacktrace.addresses(of: port))
+                let frames = ThreadBacktrace.symbolicate(addresses)
+                if !frames.contains(where: { $0.symbol?.contains("spinWithLeafCallsForBacktraceTest") == true }) {
+                    missing += 1
+                }
+                usleep(300)
+            }
+            #expect(missing == 0)
+        }
+        #endif
+
         @Test("clamps threshold and check interval")
         func clampsSettings() {
             let detector = HangDetector(threshold: .milliseconds(1), checkInterval: .seconds(5))
@@ -180,5 +204,39 @@ func spinOnMainThreadForBacktraceTest(seconds: Double) {
     let deadline = ContinuousClock.now + .seconds(seconds)
     var value = 0.0
     while ContinuousClock.now < deadline { value += sin(value + 1) }
+    precondition(value.isFinite)
+}
+
+// Runs `spinWithLeafCallsForBacktraceTest` on its own thread until stopped.
+private final class LeafSpinner: @unchecked Sendable {
+    private let lock = NSLock()
+    private let started = DispatchSemaphore(value: 0)
+    private var isStopped = false
+    private var port: mach_port_t = 0
+
+    func run() {
+        lock.withLock { port = pthread_mach_thread_np(pthread_self()) }
+        started.signal()
+        spinWithLeafCallsForBacktraceTest { self.lock.withLock { self.isStopped } }
+    }
+
+    func waitForPort() -> mach_port_t? {
+        guard started.wait(timeout: .now() + 5) == .success else { return nil }
+        return lock.withLock { port }
+    }
+
+    func stop() {
+        lock.withLock { isStopped = true }
+    }
+}
+
+// Spends most of its time inside `sin`, a function without a frame record, and checks
+// whether to stop only now and then.
+@inline(never)
+func spinWithLeafCallsForBacktraceTest(isStopped: () -> Bool) {
+    var value = 0.0
+    while !isStopped() {
+        for _ in 0..<20_000 { value = sin(value + 1) }
+    }
     precondition(value.isFinite)
 }
