@@ -40,7 +40,8 @@ public final class HangDetector: Sendable {
     ///     Shorter intervals notice hangs sooner and wake the background thread more often.
     ///   - queue: The serial queue to watch.
     ///   - capturesBacktraces: Whether to record the main thread's call stack during a hang.
-    ///     Only the main queue runs on a known thread, so this has no effect on other queues.
+    ///     Only the main queue runs on a known thread, so this has no effect on other queues,
+    ///     and watchOS does not allow reading a thread's stack.
     public init(threshold: Duration = .milliseconds(250), checkInterval: Duration = .milliseconds(50), queue: DispatchQueue = .main, capturesBacktraces: Bool = false) {
         self.threshold = min(max(threshold, .milliseconds(50)), .seconds(3600))
         self.checkInterval = min(max(checkInterval, .milliseconds(10)), self.threshold, .seconds(1))

@@ -35,14 +35,19 @@ enum ThreadBacktrace {
     /// The addresses of `thread`'s frames, innermost first, or `nil` when the thread cannot be
     /// suspended or read, or on architectures whose frames cannot be walked this way.
     static func addresses(of thread: thread_t) -> [UInt]? {
+        #if os(watchOS)
+        // watchOS does not let a process suspend or inspect its own threads.
+        return nil
+        #else
         guard thread != currentThreadPort() else { return nil }
         let buffer = UnsafeMutablePointer<UInt>.allocate(capacity: maximumFrames)
         defer { buffer.deallocate() }
         guard thread_suspend(thread) == KERN_SUCCESS else { return nil }
         let count = walk(thread, into: buffer)
-        thread_resume(thread)
+        _ = thread_resume(thread)
         guard count > 0 else { return nil }
         return Array(UnsafeBufferPointer(start: buffer, count: count))
+        #endif
     }
 
     /// Resolves addresses to binaries and symbols with `dladdr`.
@@ -91,7 +96,9 @@ enum ThreadBacktrace {
     }
 
     private static func registers(of thread: thread_t) -> (pc: UInt, fp: UInt)? {
-        #if arch(arm64) && !_ptrauth(_arm64e)
+        #if os(watchOS)
+        return nil
+        #elseif arch(arm64) && !_ptrauth(_arm64e)
         var state = arm_thread_state64_t()
         var count = mach_msg_type_number_t(MemoryLayout<arm_thread_state64_t>.size / MemoryLayout<natural_t>.size)
         let result = withUnsafeMutablePointer(to: &state) { pointer in

@@ -257,7 +257,8 @@ The [DocC documentation](https://muhittincamdali.github.io/iOS-Performance-Optim
 
 Swift 6.2 or later (Xcode 26 or later). The package builds in the Swift 6 language mode. The
 frame monitor needs a display link, so it is not available on watchOS; MetricKit is not
-available on tvOS and watchOS. Call stacks of hangs are read on arm64 and x86_64.
+available on tvOS and watchOS. Call stacks of hangs are read on arm64 and x86_64, on every
+platform except watchOS, which does not let an app suspend its own threads.
 
 ## Contributing
 
