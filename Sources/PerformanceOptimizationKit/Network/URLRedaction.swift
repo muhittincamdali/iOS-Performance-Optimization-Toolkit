@@ -57,8 +57,9 @@ public enum URLRedaction {
         return truncated(result)
     }
 
-    // Segments past `maximumLength` would be cut from the result, so they are not inspected;
-    // a very long URL costs no more than one of about that length.
+    // Segments past `maximumLength` would be cut from the result, so they are not inspected.
+    // `split` still builds the list of all segments first, so the time grows with the length of
+    // the path, and a single long segment is inspected in full.
     static func redactedPath(_ encodedPath: String) -> String {
         guard !encodedPath.isEmpty else { return "" }
         var result = ""
