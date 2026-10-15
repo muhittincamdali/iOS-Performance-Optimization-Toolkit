@@ -57,7 +57,9 @@ public enum URLRedaction {
         if UUID(uuidString: segment) != nil { return true }
         if segment.count >= 16, segment.allSatisfy(\.isHexDigit) { return true }
         // Tokens: long runs of letters, digits and Base64 symbols that mix digits and letters.
-        let tokenCharacters = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "-_=+.~"))
+        // The check runs on the decoded segment, where a "/" of standard Base64 sent as %2F
+        // appears as itself.
+        let tokenCharacters = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "-_=+.~/"))
         let isTokenLike = segment.unicodeScalars.allSatisfy { tokenCharacters.contains($0) }
         let hasDigit = segment.contains(where: \.isNumber)
         let hasLetter = segment.contains(where: \.isLetter)

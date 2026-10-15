@@ -11,6 +11,7 @@ struct URLRedactionTests {
         ("https://example.com/files/9f86d081884c7d659a2feaa0c55ad015", "https://example.com/files/:id"),
         ("https://example.com/users/jane.doe@example.org/profile", "https://example.com/users/:id/profile"),
         ("https://example.com/s/eyJhbGciOiJIUzI1NiJ9abc123xyz", "https://example.com/s/:id"),
+        ("https://api.example.com/files/abc123%2Fdef456ghijk7890xyz/raw", "https://api.example.com/files/:id/raw"),
         ("https://example.com/search", "https://example.com/search"),
         ("https://example.com", "https://example.com"),
     ])
