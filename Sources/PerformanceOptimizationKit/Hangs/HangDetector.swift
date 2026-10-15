@@ -35,15 +35,15 @@ public final class HangDetector: Sendable {
     /// Creates a detector that is not running yet.
     ///
     /// - Parameters:
-    ///   - threshold: The shortest period to report. Values under 50 ms become 50 ms.
-    ///   - checkInterval: How often to check, from 10 ms to `threshold`. Shorter intervals
-    ///     notice hangs sooner and wake the background thread more often.
+    ///   - threshold: The shortest period to report, from 50 ms to one hour.
+    ///   - checkInterval: How often to check, from 10 ms to one second and at most `threshold`.
+    ///     Shorter intervals notice hangs sooner and wake the background thread more often.
     ///   - queue: The serial queue to watch.
     ///   - capturesBacktraces: Whether to record the main thread's call stack during a hang.
     ///     Only the main queue runs on a known thread, so this has no effect on other queues.
     public init(threshold: Duration = .milliseconds(250), checkInterval: Duration = .milliseconds(50), queue: DispatchQueue = .main, capturesBacktraces: Bool = false) {
-        self.threshold = max(threshold, .milliseconds(50))
-        self.checkInterval = min(max(checkInterval, .milliseconds(10)), self.threshold)
+        self.threshold = min(max(threshold, .milliseconds(50)), .seconds(3600))
+        self.checkInterval = min(max(checkInterval, .milliseconds(10)), self.threshold, .seconds(1))
         self.queue = queue
         self.capturesBacktraces = capturesBacktraces && queue === DispatchQueue.main
     }
@@ -120,8 +120,30 @@ private struct Watcher: Sendable {
         let pause = checkInterval.seconds
         while state.withLock({ $0.runID == runID }) {
             submitPingIfIdle()
+            let before = Self.uptimeNanoseconds()
             Thread.sleep(forTimeInterval: pause)
+            recordHeartbeat(sleptSince: before)
             captureBacktraceIfOverdue()
+        }
+    }
+
+    // How long the watching thread may go without running before its measurement is
+    // discarded. A blocked main thread does not delay this thread; a process that was
+    // suspended (an app in the background, a debugger pause) delays both, and the time it spent
+    // stopped is not a hang.
+    // Four missed checks, and at least 100 ms, so ordinary scheduling delays do not count.
+    private var staleLimit: UInt64 {
+        UInt64(max(0.1, checkInterval.seconds * 4) * 1_000_000_000)
+    }
+
+    private func recordHeartbeat(sleptSince before: UInt64) {
+        let now = Self.uptimeNanoseconds()
+        let overslept = now >= before && now - before > staleLimit
+        state.withLock { state in
+            state.heartbeat = now
+            guard overslept else { return }
+            state.waiting = nil
+            state.backtrace = nil
         }
     }
 
@@ -141,10 +163,15 @@ private struct Watcher: Sendable {
         let answered = Self.uptimeNanoseconds()
         // Only the ping this block belongs to may be cleared: after stop() and start() a block
         // from the previous run can still be in the queue.
+        let staleLimit = staleLimit
         let backtrace = state.withLock { state -> [StackFrame]?? in
             guard state.runID == runID, state.waiting?.id == ping.id else { return .none }
             state.waiting = nil
             defer { state.backtrace = nil }
+            // The watching thread has not run for a while: the process was suspended, so the
+            // wait includes time in which nothing ran at all.
+            let lastHeartbeat = max(state.heartbeat ?? ping.submitted, ping.submitted)
+            guard answered < lastHeartbeat || answered - lastHeartbeat <= staleLimit else { return .none }
             return .some(state.backtrace?.pingID == ping.id ? state.backtrace?.frames : nil)
         }
         guard case .some(let frames) = backtrace else { return }
@@ -184,4 +211,5 @@ private struct WatchState: Sendable {
     var waiting: Ping?
     var mainThread: thread_t?
     var backtrace: (pingID: UUID, frames: [StackFrame])?
+    var heartbeat: UInt64?
 }

@@ -112,6 +112,32 @@ extension TimingSensitiveTests {
             #expect(frames.contains { $0.image != nil })
         }
 
+        #if os(macOS)
+        @Test("time in which the whole process was stopped is not a hang")
+        func stoppedProcess() async throws {
+            let queue = DispatchQueue(label: "stop-process-test")
+            let detector = HangDetector(threshold: .milliseconds(150), checkInterval: .milliseconds(20), queue: queue)
+            let (collector, task) = collect(detector)
+            detector.start()
+            try await Task.sleep(for: .milliseconds(100))
+            // A helper process resumes this one 0.6 s after it stops itself, as the system does
+            // with an app that returns from the background. The queue is busy at that moment, so
+            // a check is waiting for it while nothing runs.
+            let resumer = Process()
+            resumer.executableURL = URL(fileURLWithPath: "/bin/sh")
+            resumer.arguments = ["-c", "sleep 0.6; kill -CONT \(getpid())"]
+            try resumer.run()
+            queue.async { Thread.sleep(forTimeInterval: 0.08) }
+            usleep(30_000)
+            kill(getpid(), SIGSTOP)
+            try await Task.sleep(for: .milliseconds(400))
+            detector.stop()
+            task.cancel()
+            resumer.waitUntilExit()
+            #expect(collector.all.isEmpty)
+        }
+        #endif
+
         @Test("captures backtraces only for the main queue")
         func backtracesNeedMainQueue() {
             #expect(!HangDetector(queue: DispatchQueue(label: "other"), capturesBacktraces: true).capturesBacktraces)
@@ -132,6 +158,9 @@ extension TimingSensitiveTests {
             #expect(detector.threshold == .milliseconds(50))
             #expect(detector.checkInterval == .milliseconds(50))
             #expect(HangDetector(checkInterval: .zero).checkInterval == .milliseconds(10))
+            let huge = HangDetector(threshold: .seconds(Int64.max), checkInterval: .seconds(Int64.max))
+            #expect(huge.threshold == .seconds(3600))
+            #expect(huge.checkInterval == .seconds(1))
         }
 
         @Test("classifies durations with Apple's limits", arguments: [
