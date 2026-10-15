@@ -16,6 +16,13 @@ struct URLRedactionTests {
         ("https://example.com/reports/2024.pdf", "https://example.com/reports/:id.pdf"),
         ("https://example.com/s/Ab3dEf5Gh7Jk9Lm1", "https://example.com/s/:id"),
         ("https://example.com/v1.2/getUserProfile2024/ipad-pro-12-9-2024/logo.png", "https://example.com/v1.2/getUserProfile2024/ipad-pro-12-9-2024/logo.png"),
+        ("https://example.com/files/abc123%252Fdef456ghijk7890xyz/raw", "https://example.com/files/:id/raw"),
+        ("https://example.com/files/%25252541bc123def456ghijk7890xyz", "https://example.com/files/:id"),
+        ("https://example.com/photos/My%20Trip%202024/cover", "https://example.com/photos/:id/cover"),
+        ("https://example.com/files/%2525252541bc", "https://example.com/files/:id"),
+        ("https://example.com/s/order:12345", "https://example.com/s/:id"),
+        ("https://example.com/photos/Beach%20Day%202024.jpg", "https://example.com/photos/:id.jpg"),
+        ("https://example.com/docs/release%20notes", "https://example.com/docs/release%20notes"),
         ("https://example.com/search", "https://example.com/search"),
         ("https://example.com", "https://example.com"),
     ])
@@ -28,6 +35,10 @@ struct URLRedactionTests {
         ("https://example.com/cart;jsessionid=ABC123/checkout", "https://example.com/cart/checkout"),
         ("https://example.com/cart%3Bjsessionid=ABC123/checkout", "https://example.com/cart/checkout"),
         ("https://example.com/cart%3bsid=x", "https://example.com/cart"),
+        ("https://example.com/callback%3Ftoken=abc/next", "https://example.com/callback/next"),
+        ("https://example.com/page%23access_token=abc", "https://example.com/page"),
+        ("https://example.com/cart%253Bsid=abc", "https://example.com/cart"),
+        ("https://example.com/search%253fq=jane", "https://example.com/search"),
     ])
     func pathParameters(input: String, expected: String) throws {
         let url = try #require(URL(string: input))
@@ -59,13 +70,21 @@ struct URLRedactionTests {
         #expect(URLRedaction.redact(url) == "http://[::1]:8080/health")
     }
 
-    @Test("cuts very long results")
+    @Test("cuts very long results and redacts a token that reaches past the limit")
     func truncates() throws {
         let path = Array(repeating: "segment", count: 200).joined(separator: "/")
         let url = try #require(URL(string: "https://example.com/\(path)"))
         let redacted = URLRedaction.redact(url)
         #expect(redacted.count == URLRedaction.maximumLength)
         #expect(redacted.hasSuffix("…"))
+
+        let filler = String(repeating: "x", count: 480)
+        let rest = Array(repeating: "segment", count: 100_000).joined(separator: "/")
+        let longURL = try #require(URL(string: "https://example.com/\(filler)/abc123def456ghi789jkl012mno345/\(rest)"))
+        let longRedacted = URLRedaction.redact(longURL)
+        #expect(longRedacted.count == URLRedaction.maximumLength)
+        #expect(longRedacted.hasPrefix("https://example.com/\(filler)/:id/seg"))
+        #expect(!longRedacted.contains("abc123"))
     }
 }
 

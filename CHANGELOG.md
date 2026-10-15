@@ -57,7 +57,8 @@ iOS 17, macOS 14, tvOS 17, watchOS 10 and visionOS 1 and later.
 
 - Every buffer has a limit, values read from the kernel or decoded from JSON are checked
   before they reach integer conversions or arithmetic, and URLs are redacted (credentials,
-  query, fragment, path parameters, identifiers) before a timing is stored.
+  query, fragment, path parameters, identifiers, also when they are percent-encoded one or
+  more times) before a timing is stored.
 
 ## [1.0.0] - 2026-02-02
 

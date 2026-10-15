@@ -10,7 +10,12 @@ import Foundation
 /// `https://user:secret@api.example.com/users/12345/avatar?token=abc` becomes
 /// `https://api.example.com/users/:id/avatar`.
 ///
-/// A segment, after its percent-encoding is removed, looks like an identifier when it is:
+/// Percent-encoding does not hide these parts: a `;`, `?` or `#` encoded once or several times
+/// (`%3B`, `%253F`) also ends a segment, and the checks below run on a segment after its
+/// percent-encoding has been removed, up to four times over.
+///
+/// A segment looks like an identifier when it, or a part of it between characters that cannot
+/// appear in a token (such as spaces, `:` or `,`), is:
 ///
 /// - a number, a UUID or contains `@` (such as an e-mail address);
 /// - 16 or more hexadecimal digits;
@@ -20,6 +25,7 @@ import Foundation
 /// - one of the above followed by a file extension of up to five letters, which is kept:
 ///   `12345.json` becomes `:id.json`.
 ///
+/// A segment that is still percent-encoded after four rounds of decoding is replaced as well.
 /// Other segments are kept, so a secret shorter than 16 characters, or one without digits, is
 /// not recognized; don't put such values in a URL path.
 public enum URLRedaction {
@@ -45,19 +51,24 @@ public enum URLRedaction {
         return truncated(result)
     }
 
+    // Segments past `maximumLength` would be cut from the result, so they are not inspected;
+    // a very long URL costs no more than one of about that length.
     static func redactedPath(_ encodedPath: String) -> String {
         guard !encodedPath.isEmpty else { return "" }
-        let segments = encodedPath.split(separator: "/", omittingEmptySubsequences: false).map { segment in
-            redactedSegment(withoutParameters(String(segment)))
+        var result = ""
+        for (index, segment) in encodedPath.split(separator: "/", omittingEmptySubsequences: false).enumerated() {
+            if index > 0 { result += "/" }
+            result += redactedSegment(withoutParameters(String(segment)))
+            if result.count > maximumLength { break }
         }
-        return segments.joined(separator: "/")
+        return result
     }
 
     static func redactedSegment(_ encodedSegment: String) -> String {
         if looksLikeIdentifier(encodedSegment) { return identifierPlaceholder }
         // "12345.json": the extension says what the resource is and is kept. It is emitted from
         // the decoded form only when it is a few ASCII letters, so it cannot carry a line break.
-        let segment = encodedSegment.removingPercentEncoding ?? encodedSegment
+        let segment = fullyDecoded(encodedSegment) ?? encodedSegment
         guard let dot = segment.lastIndex(of: "."), dot != segment.startIndex else { return encodedSegment }
         let fileExtension = segment[segment.index(after: dot)...]
         guard (1...5).contains(fileExtension.count),
@@ -66,24 +77,54 @@ public enum URLRedaction {
         return "\(identifierPlaceholder).\(fileExtension)"
     }
 
-    // Path parameters (RFC 3986 allows ";" in a segment) often hold session identifiers. The
-    // segment stays percent-encoded, so an encoded ";" (%3B) ends the name as well; decoding
-    // the output instead would let %0A put a line break into a log.
+    // Path parameters (RFC 3986 allows ";" in a segment) often hold session identifiers, and a
+    // "?" or "#" sent percent-encoded in a path starts what a server may read as a query or a
+    // fragment. The segment stays percent-encoded, so the encoded forms (%3B, %3F, %23, and
+    // %253B and so on when encoded again) end it as well; decoding the output instead would let
+    // %0A put a line break into a log.
     static func withoutParameters(_ encodedSegment: String) -> String {
-        guard let range = encodedSegment.range(of: #";|%3[Bb]"#, options: .regularExpression) else { return encodedSegment }
+        let separator = #";|%(?:25)*(?:3[BbFf]|23)"#
+        guard let range = encodedSegment.range(of: separator, options: .regularExpression) else { return encodedSegment }
         return String(encodedSegment[..<range.lowerBound])
     }
 
+    // How many times percent-encoding is removed. A value encoded more often than this is not
+    // inspected and is treated as an identifier.
+    private static let maximumDecodingRounds = 4
+
+    // The segment with its percent-encoding removed until nothing changes, or `nil` when it is
+    // still encoded after `maximumDecodingRounds`.
+    static func fullyDecoded(_ encodedSegment: String) -> String? {
+        var segment = encodedSegment
+        for _ in 0..<maximumDecodingRounds {
+            guard segment.contains("%"), let decoded = segment.removingPercentEncoding, decoded != segment else {
+                return segment
+            }
+            segment = decoded
+        }
+        let isStillEncoded = segment.contains("%") && segment.removingPercentEncoding.map { $0 != segment } == true
+        return isStillEncoded ? nil : segment
+    }
+
     static func looksLikeIdentifier(_ encodedSegment: String) -> Bool {
-        let segment = encodedSegment.removingPercentEncoding ?? encodedSegment
+        guard let segment = fullyDecoded(encodedSegment) else { return true }
         guard !segment.isEmpty else { return false }
+        if isIdentifier(segment) { return true }
+        // "order:12345" or "My Trip 2024": an identifier between other characters.
+        let parts = segment.unicodeScalars.split { !tokenCharacters.contains($0) }
+        guard parts.count > 1 else { return false }
+        return parts.contains { isIdentifier(String(String.UnicodeScalarView($0))) }
+    }
+
+    private static let tokenCharacters = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "-_=+.~/"))
+
+    private static func isIdentifier(_ segment: String) -> Bool {
         if segment.allSatisfy(\.isNumber) || segment.contains("@") { return true }
         if UUID(uuidString: segment) != nil { return true }
         if segment.count >= 16, segment.allSatisfy(\.isHexDigit) { return true }
         // Tokens: long runs of letters, digits and Base64 symbols that mix digits and letters.
         // The check runs on the decoded segment, where a "/" of standard Base64 sent as %2F
         // appears as itself.
-        let tokenCharacters = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "-_=+.~/"))
         let isTokenLike = segment.unicodeScalars.allSatisfy { tokenCharacters.contains($0) }
         let hasDigit = segment.contains(where: \.isNumber)
         let hasLetter = segment.contains(where: \.isLetter)
