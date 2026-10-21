@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [2.0.0] - 2026-10-21
+## [2.0.0] - 2026-10-22
 
 A rebuilt package. The 1.0.0 sources did not build: `PerformanceDashboard.swift` and
 `StartupTimeAnalyzer.swift` both declared `RecommendationCategory`, the test targets referred
