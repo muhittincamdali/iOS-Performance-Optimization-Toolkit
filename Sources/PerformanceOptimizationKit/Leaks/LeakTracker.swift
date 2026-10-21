@@ -43,6 +43,9 @@ public final class LeakTracker: Sendable {
     /// The most objects waited for at once. Further calls are counted in ``skippedCount`` and
     /// not tracked.
     public let maximumPending: Int
+    /// The longest name tracked, in UTF-8 bytes, the same limit as
+    /// ``PerformanceTracer/maximumNameLength``.
+    public static var maximumNameLength: Int { 256 }
 
     private let state = OSAllocatedUnfairLock(initialState: TrackerState())
     private let broadcaster = Broadcaster<LeakReport>()
@@ -64,7 +67,8 @@ public final class LeakTracker: Sendable {
         broadcaster.stream()
     }
 
-    /// The number of objects not tracked because ``maximumPending`` were already waited for.
+    /// The number of objects not tracked because ``maximumPending`` were already waited for or
+    /// their name was longer than ``maximumNameLength``.
     public var skippedCount: Int { state.withLock { $0.skipped } }
 
     /// The number of objects being waited for.
@@ -73,13 +77,18 @@ public final class LeakTracker: Sendable {
     /// Starts waiting for `object` to be released and reports it if it is still alive after
     /// ``gracePeriod``.
     ///
+    /// The name is reported as it is given, so use a fixed name such as the screen's, never text
+    /// that came from a user.
+    ///
     /// - Returns: A task whose value is the report, or `nil` when the object was released, the
     ///   task was cancelled, or the object was not tracked because ``maximumPending`` objects
-    ///   were already waited for. Awaiting it is optional.
+    ///   were already waited for or `name` is longer than ``maximumNameLength`` bytes. Awaiting
+    ///   it is optional.
     @discardableResult
     public func expectRelease(of object: AnyObject, name: String) -> Task<LeakReport?, Never> {
+        let isNameKept = name.utf8.count <= Self.maximumNameLength
         let reserved = state.withLock { state -> Bool in
-            guard state.pending < maximumPending else {
+            guard isNameKept, state.pending < maximumPending else {
                 state.skipped = state.skipped.saturatingAdd(1)
                 return false
             }

@@ -46,7 +46,7 @@ struct LeakTrackerTests {
         withExtendedLifetime(model) {}
     }
 
-    @Test("skips objects beyond the pending limit")
+    @Test("skips objects beyond the pending limit or with a name that is too long")
     func pendingLimit() async {
         let tracker = LeakTracker(gracePeriod: .milliseconds(100), maximumPending: 2)
         let models = (0..<4).map { _ in ViewModel() }
@@ -55,6 +55,18 @@ struct LeakTrackerTests {
         #expect(await tasks[3].value == nil)
         for task in tasks { _ = await task.value }
         #expect(tracker.pendingCount == 0)
+        withExtendedLifetime(models) {}
+
+        let named = LeakTracker(gracePeriod: .milliseconds(100))
+        let longest = String(repeating: "a", count: LeakTracker.maximumNameLength)
+        let kept = named.expectRelease(of: models[0], name: longest)
+        let tooLong = named.expectRelease(of: models[1], name: longest + "a")
+        // 129 two-byte characters are 258 bytes.
+        let tooLongInBytes = named.expectRelease(of: models[2], name: String(repeating: "é", count: 129))
+        #expect(named.skippedCount == 2)
+        #expect(await tooLong.value == nil)
+        #expect(await tooLongInBytes.value == nil)
+        #expect(await kept.value?.name == longest)
         withExtendedLifetime(models) {}
     }
 
