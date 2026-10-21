@@ -50,7 +50,7 @@ private func obfuscations(of name: String) -> [String] {
 }
 
 // Names short enough to be part of ordinary words ("ping", "keyboard") are recognized without a
-// separator only when their value has a digit ("pin4831"); a value of letters only reads as a word.
+// separator only next to a digit ("pin4831", "newpin4831"); a value of letters only reads as a word.
 private let shortSecretNames: Set<String> = ["pwd", "key", "sid", "otp", "pin", "cvv", "card", "iban", "ssn"]
 
 // A secret name and its value written as one segment, such as "token-hunter22".
@@ -61,7 +61,9 @@ private func gluedSpellings(of name: String, secret: String) -> [String] {
         spellings += prefixes.map { $0 + separator + secret }
         spellings.append(secret + separator + name)
     }
-    return spellings + [name + secret, name.capitalized + secret, secret + name]
+    spellings += [name + secret, name.capitalized + secret, secret + name]
+    // The name in the middle of a word, after a prefix such as "my" or "new".
+    return spellings + ["new" + name + secret, "my" + name.capitalized + secret, "new" + secret + name + "new"]
 }
 
 @Suite("URLRedaction properties")
@@ -94,8 +96,12 @@ struct URLRedactionPropertyTests {
                 }
             }
             var secret = String((0..<Int.random(in: 8...16, using: &generator)).map { _ in alphanumerics.randomElement(using: &generator)! })
-            if shortSecretNames.contains(name), !secret.contains(where: \.isNumber) {
-                secret = String(secret.dropLast()) + String(Int.random(in: 0...9, using: &generator))
+            // A short name is recognized inside a word only next to a digit, so the code starts
+            // and ends with one.
+            if shortSecretNames.contains(name) {
+                let first = String(Int.random(in: 0...9, using: &generator))
+                let last = String(Int.random(in: 0...9, using: &generator))
+                secret = first + secret.dropFirst().dropLast() + last
             }
             for glued in gluedSpellings(of: name, secret: secret) {
                 var urls = [

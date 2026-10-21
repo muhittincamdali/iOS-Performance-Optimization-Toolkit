@@ -43,6 +43,8 @@ struct URLRedactionTests {
         "http://127.0.0.1:8080/health",
         "https://example.com/ping/keyboard/signup",
         "https://example.com/v/pinabcd",
+        "https://example.com/v/mypinabc",
+        "https://example.com/v/mapping3",
     ])
     func keepsPlainPaths(input: String) throws {
         #expect(try redacted(input) == input)
@@ -72,6 +74,13 @@ struct URLRedactionTests {
         ("https://example.com/v/ssn12345", "https://example.com/v/:id"),
         ("https://example.com/v/key9abc", "https://example.com/v/:id"),
         ("https://example.com/v/keyboard2", "https://example.com/v/:id"),
+        ("https://example.com/reset/mypin1234/next", "https://example.com/reset/:id/:id"),
+        ("https://example.com/v/newPin4831", "https://example.com/v/:id"),
+        ("https://example.com/v/userpin4831", "https://example.com/v/:id"),
+        ("https://example.com/v/abcotp1234", "https://example.com/v/:id"),
+        ("https://example.com/v/mykey12345", "https://example.com/v/:id"),
+        ("https://example.com/v/newpins4831", "https://example.com/v/:id"),
+        ("https://example.com/v/abc1234otpxyz", "https://example.com/v/:id"),
         ("https://example.com/k/Key%20hunter", "https://example.com/k/:id"),
         ("https://example.com/pin//4831", "https://example.com/pin//:id"),
         ("https://example.com/token/password/hunter", "https://example.com/token/:id/:id"),
@@ -122,6 +131,7 @@ struct URLRedactionTests {
         ("myapp://tokenhunter22/x", "myapp:"),
         ("myapp://pin1234/x", "myapp:"),
         ("https://sid42.example.com/x", "https:"),
+        ("https://newpin4831.example.com/x", "https:"),
         ("https://oauth2.example.com/x", "https:"),
         ("https://pass.wordhunter2.example.com/x", "https:"),
         ("https://[fe80::1%25hunter2secret]/u", "https:"),
@@ -190,6 +200,7 @@ struct URLRedactionQueryTests {
         ("https://api.example.com/v1/items?sort=token-hunter", "https://api.example.com/v1/items?sort=<redacted>"),
         ("https://api.example.com/v1/items?page=pin1234", "https://api.example.com/v1/items?page=<redacted>"),
         ("https://api.example.com/v1/items?page=otp1234", "https://api.example.com/v1/items?page=<redacted>"),
+        ("https://api.example.com/v1/items?page=mypin1234", "https://api.example.com/v1/items?page=<redacted>"),
         ("https://api.example.com/v1/items?page=ping", "https://api.example.com/v1/items?page=ping"),
         ("https://api.example.com/v1/items?sort=9f86d081884c7d659a2f", "https://api.example.com/v1/items?sort=<redacted>"),
         ("https://api.example.com/v1/items?sort=a%0Ab", "https://api.example.com/v1/items"),

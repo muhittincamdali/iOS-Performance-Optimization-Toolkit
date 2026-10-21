@@ -91,17 +91,39 @@ enum NameClassification {
     }
 
     // "pin4831", "4831pin" or "pins4831": a short secret name at one end of the word and a digit
-    // in the rest, which is how a code is written next to its name. "ping", "keyboard" and
-    // "signup" have no digit and stay ordinary; "keyboard2" is hidden, which is intended.
+    // in the rest, or a short secret name with a digit right next to it anywhere in the word
+    // ("mypin1234", "newpins4831", "abc1234otp"), which is how a code is written next to its
+    // name. "ping", "keyboard" and "signup" have no digit and stay ordinary; "keyboard2" is
+    // hidden, which is intended.
     private static func isShortNameGluedToCode(_ word: ArraySlice<UInt8>) -> Bool {
         guard word.contains(where: isDigit) else { return false }
         return shortSecretNames.contains { name in
-            if word.starts(with: name), word.dropFirst(name.count).contains(where: isDigit) { return true }
-            for suffix in [name, name + [UInt8(ascii: "s")]] where word.reversed().starts(with: suffix.reversed()) {
-                if word.dropLast(suffix.count).contains(where: isDigit) { return true }
-            }
-            return false
+            hasShortName(name, atAnEndOf: word) || hasShortName(name, nextToDigitIn: word)
         }
+    }
+
+    private static func hasShortName(_ name: [UInt8], atAnEndOf word: ArraySlice<UInt8>) -> Bool {
+        if word.starts(with: name), word.dropFirst(name.count).contains(where: isDigit) { return true }
+        for suffix in [name, name + [UInt8(ascii: "s")]] where word.reversed().starts(with: suffix.reversed()) {
+            if word.dropLast(suffix.count).contains(where: isDigit) { return true }
+        }
+        return false
+    }
+
+    // A digit right before the name, right after it, or right after its plural "s".
+    private static func hasShortName(_ name: [UInt8], nextToDigitIn word: ArraySlice<UInt8>) -> Bool {
+        var start = word.startIndex
+        while start + name.count <= word.endIndex {
+            let end = start + name.count
+            if word[start..<end].elementsEqual(name) {
+                if start > word.startIndex, isDigit(word[start - 1]) { return true }
+                if end < word.endIndex, isDigit(word[end]) { return true }
+                let isPlural = end < word.endIndex && word[end] == UInt8(ascii: "s")
+                if isPlural, end + 1 < word.endIndex, isDigit(word[end + 1]) { return true }
+            }
+            start += 1
+        }
+        return false
     }
 
     private static func isDigit(_ byte: UInt8) -> Bool {
