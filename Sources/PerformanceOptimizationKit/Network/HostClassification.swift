@@ -29,10 +29,16 @@ enum HostClassification {
         guard labels.allSatisfy(isDNSLabel) else { return nil }
         // A label such as "a1b2c3d4e5f6a7b8" or "1234567" names a tenant or a user.
         guard !labels.contains(where: { IdentifierDetection.isIdentifier(String($0)) }) else { return nil }
-        // "pass.word" folds to "password": the host as a whole is classified as well as each label.
-        let namesSecret = NameClassification.classify(host) == .listedSecret
-            || labels.contains { NameClassification.classify($0) == .listedSecret }
-        return Host(text: host, namesSecret: namesSecret)
+        // "pin-4831" or "tokenhunter22": a label that holds a secret name and more can hold the
+        // secret, so the host is not recorded.
+        let labelKinds = labels.map { NameClassification.classify($0) }
+        guard !labelKinds.contains(.containsSecret) else { return nil }
+        // "pass.word" folds to "password": the host as a whole is classified as well as each
+        // label. A secret name that runs across labels ("pass.wordhunter2") hides the host too.
+        let labelNamesSecret = labelKinds.contains(.listedSecret)
+        let hostKind = NameClassification.classify(host)
+        guard hostKind != .containsSecret || labelNamesSecret else { return nil }
+        return Host(text: host, namesSecret: labelNamesSecret || hostKind == .listedSecret)
     }
 
     // Letters, digits and hyphens, not starting or ending with a hyphen.

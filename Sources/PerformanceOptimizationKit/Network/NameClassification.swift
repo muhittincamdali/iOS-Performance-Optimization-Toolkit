@@ -6,11 +6,21 @@ enum NameClassification {
         /// A plain ASCII name that is not a secret, in its folded form (lowercase, without
         /// `_`, `-`, `.` and spaces), which is the form allowlists are compared in.
         case ordinary(String)
-        /// A plain ASCII name on the list of secret names, such as `token` or `api_key`.
+        /// A plain ASCII name on the list of secret names, such as `token` or `api_key`, or
+        /// such a name with an `s` added, such as `tokens`.
         case listedSecret
+        /// A plain ASCII name that contains a secret name without being one, such as
+        /// `resetToken`, `token-hunter22` or `pin_4831`. It can carry the secret itself, so it
+        /// is hidden like a value.
+        case containsSecret
         /// A name that is not plain ASCII, contains other symbols or control characters, or has
         /// no letter or digit at all.
         case unclear
+
+        /// A Boolean value that indicates whether the name is or contains a secret name.
+        var namesSecret: Bool {
+            self == .listedSecret || self == .containsSecret
+        }
     }
 
     // Longer names are not compared; they count as unclear.
@@ -24,6 +34,9 @@ enum NameClassification {
     /// alike letters from other scripts, full-width letters and combining marks.
     static func classify(_ name: some StringProtocol) -> Kind {
         var folded: [UInt8] = []
+        // The words between separators: "pin_4831" has a secret name as a word of its own.
+        var hasSecretWord = false
+        var wordStart = 0
         for byte in name.utf8 {
             switch byte {
             case UInt8(ascii: "A")...UInt8(ascii: "Z"):
@@ -31,6 +44,8 @@ enum NameClassification {
             case UInt8(ascii: "a")...UInt8(ascii: "z"), UInt8(ascii: "0")...UInt8(ascii: "9"):
                 folded.append(byte)
             case UInt8(ascii: "_"), UInt8(ascii: "-"), UInt8(ascii: "."), UInt8(ascii: " "):
+                hasSecretWord = hasSecretWord || isListedName(folded[wordStart...])
+                wordStart = folded.count
                 continue
             default:
                 return .unclear
@@ -38,8 +53,11 @@ enum NameClassification {
             if folded.count > maximumNameLength { return .unclear }
         }
         guard !folded.isEmpty else { return .unclear }
+        if isListedName(folded[...]) { return .listedSecret }
+        hasSecretWord = hasSecretWord || isListedName(folded[wordStart...])
         let foldedName = String(decoding: folded, as: UTF8.self)
-        return isSecretName(foldedName) ? .listedSecret : .ordinary(foldedName)
+        if hasSecretWord || secretNameParts.contains(where: foldedName.contains) { return .containsSecret }
+        return .ordinary(foldedName)
     }
 
     /// The folded names of secrets: the shared list of the redaction rules plus `bearer`, `jwt`,
@@ -52,15 +70,19 @@ enum NameClassification {
     ]
 
     /// Parts that make any name that contains them a secret, such as `resettoken` or
-    /// `sessionid`. `auth` also matches `author` and `oauth`; hiding too much is intended.
+    /// `sessionid`, even without a separator. `auth` also matches `author` and `oauth`; hiding
+    /// too much is intended. Short names such as `pin` or `key` are not parts, because they
+    /// occur in ordinary words (`ping`, `keyboard`); they count only as a word of their own.
     static let secretNameParts = [
         "password", "passwd", "passphrase", "passcode", "secret", "token", "apikey", "auth",
         "session", "signature", "cookie", "credential", "bearer", "privatekey",
     ]
 
-    static func isSecretName(_ folded: String) -> Bool {
-        if secretNames.contains(folded) { return true }
-        if folded.hasSuffix("s"), secretNames.contains(String(folded.dropLast())) { return true }
-        return secretNameParts.contains { folded.contains($0) }
+    // A listed name, or a listed name with an "s" added.
+    private static func isListedName(_ folded: ArraySlice<UInt8>) -> Bool {
+        guard !folded.isEmpty else { return false }
+        let name = String(decoding: folded, as: UTF8.self)
+        if secretNames.contains(name) { return true }
+        return name.hasSuffix("s") && secretNames.contains(String(name.dropLast()))
     }
 }

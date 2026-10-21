@@ -49,6 +49,22 @@ private func obfuscations(of name: String) -> [String] {
     ]
 }
 
+// Names short enough to be part of ordinary words ("ping", "keyboard") are only recognized with
+// a separator before their value; "pin4831" is a documented limit.
+private let shortSecretNames: Set<String> = ["pwd", "key", "sid", "otp", "pin", "cvv", "card", "iban", "ssn"]
+
+// A secret name and its value written as one segment, such as "token-hunter22".
+private func gluedSpellings(of name: String, secret: String) -> [String] {
+    var spellings: [String] = []
+    for separator in ["_", "-", ".", "%20"] {
+        let prefixes = [name, name.uppercased(), name + "s"]
+        spellings += prefixes.map { $0 + separator + secret }
+        spellings.append(secret + separator + name)
+    }
+    guard !shortSecretNames.contains(name) else { return spellings }
+    return spellings + [name + secret, name.capitalized + secret, secret + name]
+}
+
 @Suite("URLRedaction properties")
 struct URLRedactionPropertyTests {
     @Test("no generated secret survives next to any spelling of a secret name")
@@ -78,8 +94,27 @@ struct URLRedactionPropertyTests {
                     checked += 1
                 }
             }
+            let secret = String((0..<Int.random(in: 8...16, using: &generator)).map { _ in alphanumerics.randomElement(using: &generator)! })
+            for glued in gluedSpellings(of: name, secret: secret) {
+                var urls = [
+                    "https://example.com/v1/\(glued)",
+                    "https://example.com/v1/\(glued)/tail",
+                    "https://example.com/v1/items?page=\(glued)",
+                ]
+                // In a host, "." separates labels, and a label that is a secret name keeps the
+                // host as it is ("token.example.com").
+                if !glued.contains(".") {
+                    urls += ["myapp://\(glued)/tail", "https://\(glued).example.com/tail"]
+                }
+                for string in urls {
+                    guard let url = URL(string: string) else { continue }
+                    let result = redaction.redact(url)
+                    #expect(!result.lowercased().contains(secret), "\(string) became \(result)")
+                    checked += 1
+                }
+            }
         }
-        #expect(checked > 2_000)
+        #expect(checked > 3_000)
     }
 }
 

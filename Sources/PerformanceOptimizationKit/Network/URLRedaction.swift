@@ -17,15 +17,20 @@ import Foundation
 ///   `12345.json` becomes `:id.json`.
 /// - **Secret names:** after a segment that names a secret, such as `token`, `password`, `pin` or
 ///   `api_key`, the next segment becomes `:id`: `/reset/token/abc` becomes `/reset/token/:id`.
+///   A segment that contains such a name together with more, which can be the secret itself,
+///   becomes `:id`, and so does the segment after it: `/reset/token-abc` and `/v/sessionabc`
+///   become `/reset/:id` and `/v/:id`.
 /// - **Names it cannot read:** a segment that is not plain ASCII letters, digits, `_`, `-`, `.`
 ///   and spaces after percent-decoding, such as `Şifre`, `c++` or a word with a look-alike letter
 ///   from another script, becomes `:id`, and so does the segment after it.
 /// - **Host only:** when the path has a `.` or `..` segment, a `;`, a backslash or a double
 ///   percent-encoding, or encodes a `.`, `/`, `?`, `#` or control character; when the host names
 ///   a secret (`myapp://pin/4831`); when the path or the query is longer than the documented caps.
-/// - **Scheme only:** when the host is not a plain DNS name or IP address, or looks like an
-///   identifier itself. URLs without a host, such as `data:` and `mailto:` URLs, keep only their
-///   scheme. A URL that does not parse becomes ``unparsedPlaceholder``.
+/// - **Scheme only:** when the host is not a plain DNS name or IP address, looks like an
+///   identifier itself, or has a label that contains a secret name together with more, such as
+///   `myapp://pin-4831` or `oauth2.example.com`. URLs without a host, such as `data:` and
+///   `mailto:` URLs, keep only their scheme. A URL that does not parse becomes
+///   ``unparsedPlaceholder``.
 ///
 /// Redaction is a safety net, not a guarantee: a secret that looks like an ordinary word in an
 /// ordinary place of the path is not recognized. Keep secrets out of URLs; send them in headers
@@ -165,7 +170,8 @@ extension URLRedaction {
         switch kind {
         case .ordinary: return (String(encoded), false)
         case .listedSecret: return (String(encoded), true)
-        case .unclear: return (identifierPlaceholder, true)
+        // "token-hunter22" or "passwordhunter2": the name and its value in one segment.
+        case .containsSecret, .unclear: return (identifierPlaceholder, true)
         }
     }
 }
@@ -240,7 +246,7 @@ extension URLRedaction {
         // A short number such as a page is kept; in a path it would be an identifier.
         let isShortNumber = value.utf8.count < IdentifierDetection.minimumDigitRun
             && value.utf8.allSatisfy { (UInt8(ascii: "0")...UInt8(ascii: "9")).contains($0) }
-        guard isShortNumber || !IdentifierDetection.isIdentifier(value), NameClassification.classify(value) != .listedSecret else {
+        guard isShortNumber || !IdentifierDetection.isIdentifier(value), !NameClassification.classify(value).namesSecret else {
             return valuePlaceholder
         }
         return value

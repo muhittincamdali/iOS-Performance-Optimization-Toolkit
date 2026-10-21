@@ -41,6 +41,7 @@ struct URLRedactionTests {
         "https://example.com/docs/release%20notes",
         "https://example.com/k/order-12345/item_4",
         "http://127.0.0.1:8080/health",
+        "https://example.com/ping/keyboard/signup",
     ])
     func keepsPlainPaths(input: String) throws {
         #expect(try redacted(input) == input)
@@ -54,7 +55,14 @@ struct URLRedactionTests {
         ("https://example.com/api.key/hunter", "https://example.com/api.key/:id"),
         ("https://example.com/%74oken/hunter", "https://example.com/%74oken/:id"),
         ("https://example.com/sessions/hunter", "https://example.com/sessions/:id"),
-        ("https://example.com/resetToken/hunter", "https://example.com/resetToken/:id"),
+        ("https://example.com/resetToken/hunter", "https://example.com/:id/:id"),
+        ("https://example.com/reset/token-hunter22", "https://example.com/reset/:id"),
+        ("https://example.com/reset/token_k9Xq2z/next", "https://example.com/reset/:id/:id"),
+        ("https://example.com/api/passwordhunter2", "https://example.com/api/:id"),
+        ("https://example.com/v/passwords-hunter", "https://example.com/v/:id"),
+        ("https://example.com/v/sessionabcdef", "https://example.com/v/:id"),
+        ("https://example.com/reset/pin_4831/next", "https://example.com/reset/:id/:id"),
+        ("https://example.com/k/Key%20hunter", "https://example.com/k/:id"),
         ("https://example.com/pin//4831", "https://example.com/pin//:id"),
         ("https://example.com/token/password/hunter", "https://example.com/token/:id/:id"),
     ])
@@ -100,6 +108,10 @@ struct URLRedactionTests {
         ("https://1234567.tenants.example.com/x", "https:"),
         ("https://my_host.example.com/x", "https:"),
         ("https://-bad.example.com/x", "https:"),
+        ("myapp://pin-4831/x", "myapp:"),
+        ("myapp://tokenhunter22/x", "myapp:"),
+        ("https://oauth2.example.com/x", "https:"),
+        ("https://pass.wordhunter2.example.com/x", "https:"),
         ("data:text/plain;base64,c2VjcmV0", "data:"),
         ("mailto:jane@example.org?subject=hi", "mailto:"),
         ("file:///Users/jane/Documents/report.pdf", "file:"),
@@ -160,6 +172,7 @@ struct URLRedactionQueryTests {
         ("https://api.example.com/v1/items?sort=%7B%22token%22%3A%22x%22%7D", "https://api.example.com/v1/items?sort=<redacted>"),
         ("https://api.example.com/v1/items?sort=jane%40example.com", "https://api.example.com/v1/items?sort=<redacted>"),
         ("https://api.example.com/v1/items?sort=password", "https://api.example.com/v1/items?sort=<redacted>"),
+        ("https://api.example.com/v1/items?sort=token-hunter", "https://api.example.com/v1/items?sort=<redacted>"),
         ("https://api.example.com/v1/items?sort=9f86d081884c7d659a2f", "https://api.example.com/v1/items?sort=<redacted>"),
         ("https://api.example.com/v1/items?sort=a%0Ab", "https://api.example.com/v1/items"),
     ])
