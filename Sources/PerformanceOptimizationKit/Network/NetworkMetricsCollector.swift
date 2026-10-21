@@ -20,11 +20,18 @@ public final class NetworkMetricsCollector: NSObject, URLSessionTaskDelegate, Se
     private let buffer: OSAllocatedUnfairLock<RingBuffer<NetworkTiming>>
     private let broadcaster = Broadcaster<NetworkTiming>()
 
+    /// How the URL of each request is redacted.
+    public let redaction: URLRedaction
+
     /// Creates a collector.
     ///
-    /// - Parameter capacity: The number of timings kept, from 1 to ``RingBuffer/maximumCapacity``.
-    public init(capacity: Int = 200) {
+    /// - Parameters:
+    ///   - capacity: The number of timings kept, from 1 to ``RingBuffer/maximumCapacity``.
+    ///   - redaction: How the URL of each request is redacted. The standard redaction keeps no
+    ///     query parameters; pass one with ``URLRedaction/allowedQueryParameters`` to keep some.
+    public init(capacity: Int = 200, redaction: URLRedaction = .standard) {
         buffer = OSAllocatedUnfairLock(initialState: RingBuffer(capacity: capacity))
+        self.redaction = redaction
     }
 
     /// The timings collected, oldest first.
@@ -45,7 +52,7 @@ public final class NetworkMetricsCollector: NSObject, URLSessionTaskDelegate, Se
 
     /// Called by `URLSession` when a task's metrics are ready.
     public func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
-        guard let timing = NetworkTiming(metrics: metrics) else { return }
+        guard let timing = NetworkTiming(metrics: metrics, redaction: redaction) else { return }
         buffer.withLock { $0.append(timing) }
         broadcaster.yield(timing)
     }

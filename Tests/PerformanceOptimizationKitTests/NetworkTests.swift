@@ -14,6 +14,29 @@ struct NetworkTimingTests {
         #expect(NetworkTiming.Phases.span(start, nil) == nil)
     }
 
+    @Test("keeps a method or protocol name only when it is short and plain", arguments: [
+        ("GET", 32, "GET"), ("PROPFIND", 32, "PROPFIND"), ("h2", 16, "h2"), ("http/1.1", 16, "http/1.1"),
+        ("", 32, nil), ("GET\nX-Token: abc", 32, nil), ("GET /a?token=abc", 32, nil), ("GÉT", 32, nil),
+        (String(repeating: "A", count: 33), 32, nil), (String(repeating: "h", count: 17), 16, nil),
+    ] as [(String, Int, String?)])
+    func plainToken(value: String, maximumLength: Int, expected: String?) {
+        #expect(NetworkTiming.plainToken(value, maximumLength: maximumLength) == expected)
+    }
+
+    @Test("collects a timing with the collector's redaction")
+    func collectsWithRedaction() async throws {
+        let server = try await LocalHTTPServer.start(body: "ok")
+        defer { server.stop() }
+        let collector = NetworkMetricsCollector(capacity: 5, redaction: URLRedaction(allowedQueryParameters: ["page"]))
+        let session = URLSession(configuration: .ephemeral, delegate: collector, delegateQueue: nil)
+        defer { session.invalidateAndCancel() }
+        let updates = collector.updates()
+        _ = try await session.data(from: try #require(URL(string: "http://127.0.0.1:\(server.port)/items/token/abc?page=2&q=jane")))
+        var iterator = updates.makeAsyncIterator()
+        let timing = try #require(await iterator.next())
+        #expect(timing.url == "http://127.0.0.1:\(server.port)/items/token/:id?page=2")
+    }
+
     @Test("collects a redacted timing for a real request")
     func collectsTiming() async throws {
         let server = try await LocalHTTPServer.start(body: "hello")

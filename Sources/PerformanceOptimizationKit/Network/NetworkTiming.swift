@@ -40,15 +40,20 @@ public struct NetworkTiming: Sendable, Equatable, Codable {
     /// Creates a timing from the metrics `URLSession` delivers when a task finishes.
     ///
     /// Returns `nil` when the metrics hold no transaction, which happens when a task fails
-    /// before it sends a request.
-    public init?(metrics: URLSessionTaskMetrics) {
+    /// before it sends a request. Only the URL, method, status code and protocol of the request
+    /// are kept; its headers and bodies are never read.
+    ///
+    /// - Parameters:
+    ///   - metrics: The metrics of the finished task.
+    ///   - redaction: How the URL is redacted.
+    public init?(metrics: URLSessionTaskMetrics, redaction: URLRedaction = .standard) {
         guard let transaction = metrics.transactionMetrics.last else { return nil }
         let request = transaction.request
         self.init(
-            url: request.url.map(URLRedaction.redact) ?? "<none>",
-            method: request.httpMethod,
+            url: request.url.map(redaction.redact) ?? "<none>",
+            method: request.httpMethod.flatMap { Self.plainToken($0, maximumLength: 32) },
             statusCode: (transaction.response as? HTTPURLResponse)?.statusCode,
-            networkProtocol: transaction.networkProtocolName,
+            networkProtocol: transaction.networkProtocolName.flatMap { Self.plainToken($0, maximumLength: 16) },
             reusedConnection: transaction.isReusedConnection,
             fromCache: transaction.resourceFetchType == .localCache,
             total: Duration.validSeconds(metrics.taskInterval.duration),
@@ -59,6 +64,17 @@ public struct NetworkTiming: Sendable, Equatable, Codable {
 }
 
 extension NetworkTiming {
+    // A method or protocol name is set by the app or the system and is short and plain; any other
+    // value is not kept, so it cannot carry data into a report.
+    static func plainToken(_ value: String, maximumLength: Int) -> String? {
+        let isPlain = (1...maximumLength).contains(value.utf8.count) && value.utf8.allSatisfy { byte in
+            (UInt8(ascii: "A")...UInt8(ascii: "Z")).contains(byte) || (UInt8(ascii: "a")...UInt8(ascii: "z")).contains(byte)
+                || (UInt8(ascii: "0")...UInt8(ascii: "9")).contains(byte)
+                || byte == UInt8(ascii: "-") || byte == UInt8(ascii: "_") || byte == UInt8(ascii: ".") || byte == UInt8(ascii: "/")
+        }
+        return isPlain ? value : nil
+    }
+
     /// The phases of one request. A phase is `nil` when it did not happen (no DNS lookup on a
     /// reused connection, no TLS on `http`) or when its times are missing or out of order.
     public struct Phases: Sendable, Equatable, Codable {
