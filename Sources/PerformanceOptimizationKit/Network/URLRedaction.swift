@@ -1,180 +1,121 @@
 import Foundation
 
-/// Removes the parts of a URL that commonly carry secrets or personal data before it is logged
-/// or sent with a performance report.
+/// Removes the parts of a URL that can carry secrets or personal data before it is stored with a
+/// performance report.
 ///
-/// The result keeps the scheme, host, port and path, which is what a timing report needs to
-/// group requests. It drops the user name and password, the query, the fragment and path
-/// parameters after `;` (such as `;jsessionid=`), and replaces path segments that look like
-/// identifiers with `:id`, so
-/// `https://user:secret@api.example.com/users/12345/avatar?token=abc` becomes
-/// `https://api.example.com/users/:id/avatar`.
+/// The rule is that anything the redaction does not fully understand is hidden. The result keeps
+/// the scheme, the host, the port and the path, which is what a timing report needs to group
+/// requests, so `https://user:secret@api.example.com/users/12345/avatar?token=abc#top` becomes
+/// `https://api.example.com/users/:id/avatar`. In detail:
 ///
-/// Percent-encoding does not hide these parts: a `;`, `?` or `#` encoded once or several times
-/// (`%3B`, `%253F`) also ends a segment, and the checks below run on a segment after its
-/// percent-encoding has been removed, up to four times over.
+/// - **Always dropped:** the user name and password, the fragment, and the query. Only query
+///   parameters named in ``allowedQueryParameters`` are kept, and none are by default.
+/// - **Identifiers:** a path segment that is a number, a UUID, contains `@`, has a run of six or
+///   more digits (also split by `-`, `_`, `.` or spaces), is a card number, an IBAN, a JSON Web
+///   Token or a bearer token, has 16 or more hexadecimal digits, or is a token of 16 or more
+///   characters that mixes letters and digits (32 or more in any mix) becomes `:id`.
+///   `12345.json` becomes `:id.json`.
+/// - **Secret names:** after a segment that names a secret, such as `token`, `password`, `pin` or
+///   `api_key`, the next segment becomes `:id`: `/reset/token/abc` becomes `/reset/token/:id`.
+/// - **Names it cannot read:** a segment that is not plain ASCII letters, digits, `_`, `-`, `.`
+///   and spaces after percent-decoding, such as `Şifre`, `c++` or a word with a look-alike letter
+///   from another script, becomes `:id`, and so does the segment after it.
+/// - **Host only:** when the path has a `.` or `..` segment, a `;`, a backslash or a double
+///   percent-encoding, or encodes a `.`, `/`, `?`, `#` or control character; when the host names
+///   a secret (`myapp://pin/4831`); when the path or the query is longer than the documented caps.
+/// - **Scheme only:** when the host is not a plain DNS name or IP address, or looks like an
+///   identifier itself. URLs without a host, such as `data:` and `mailto:` URLs, keep only their
+///   scheme. A URL that does not parse becomes ``unparsedPlaceholder``.
 ///
-/// A segment looks like an identifier when it, or a part of it before, after or between
-/// characters that cannot appear in a token (such as spaces, `:`, `,` or parentheses), is:
-///
-/// - a number, also with a leading `+` (such as the phone number `+905551234567`), a UUID, or
-///   contains `@` (such as an e-mail address);
-/// - 16 or more hexadecimal digits;
-/// - a token of letters, digits and the Base64 symbols `-_=+.~/` that mixes letters and digits
-///   and is 20 or more characters long, or 16 to 19 characters long with only letters and
-///   digits and at least two separate groups of digits (such as `Ab3dEf5Gh7Jk9Lm1`);
-/// - one of the above followed by a file extension of up to five letters. The extension is kept
-///   when it ends the segment: `12345.json` becomes `:id.json`, while `(12345.json)` and
-///   `12345.json!` become `:id`.
-///
-/// A segment that is still percent-encoded after four rounds of decoding is replaced as well.
-/// Other segments are kept, so a secret shorter than 16 characters, or one without digits, is
-/// not recognized. Neither is a number joined to letters or to a symbol that can appear in a
-/// token (`-_=+.~/`, also when sent encoded, such as `%2F`): the number and its neighbors form
-/// a single token, which is kept unless it matches one of the rules above. `123-45-6789`,
-/// `555-123-4567`, `order-12345`, `user_12345`, `12345-`, `-12345` and `abc%2F12345` are all
-/// kept. Don't put such values in a URL path.
-public enum URLRedaction {
+/// Redaction is a safety net, not a guarantee: a secret that looks like an ordinary word in an
+/// ordinary place of the path is not recognized. Keep secrets out of URLs; send them in headers
+/// or bodies, which ``NetworkMetricsCollector`` never records.
+public struct URLRedaction: Sendable, Equatable {
     /// The placeholder for path segments that look like identifiers.
     public static var identifierPlaceholder: String { ":id" }
 
-    /// The longest result returned; longer paths are cut and end in `…`.
+    /// The placeholder for the value of an allowed query parameter that could hold a secret.
+    public static var valuePlaceholder: String { "<redacted>" }
+
+    /// The result for a URL that `URLComponents` cannot parse or that has no valid scheme.
+    public static var unparsedPlaceholder: String { "<unparsed URL>" }
+
+    /// The longest result returned; longer results are cut and end in `…`.
     public static var maximumLength: Int { 512 }
 
-    /// The redacted form of `url`.
+    /// The most path segments inspected. A longer path is recorded as scheme and host only.
+    public static var maximumPathSegments: Int { 64 }
+
+    /// The most query parameters inspected. A longer query makes the URL be recorded as scheme
+    /// and host only.
+    public static var maximumQueryParameters: Int { 64 }
+
+    /// The longest percent-encoded path or query inspected, in bytes. A longer one makes the URL
+    /// be recorded as scheme and host only.
+    public static var maximumComponentBytes: Int { 4096 }
+
+    /// The longest value of an allowed query parameter that is kept.
+    public static var maximumQueryValueLength: Int { 64 }
+
+    /// The redaction ``NetworkMetricsCollector`` uses unless it is given another one.
+    public static let standard = URLRedaction()
+
+    /// The query parameters whose values are kept, in their folded form: lowercase, without `_`,
+    /// `-`, `.` and spaces.
+    public let allowedQueryParameters: Set<String>
+
+    /// A Boolean value that indicates whether only the scheme, host and port are recorded.
+    public let recordsHostOnly: Bool
+
+    /// Creates a redaction.
     ///
-    /// URLs without a host, such as `data:` and `mailto:` URLs, carry their content in the rest
-    /// of the URL; only their scheme is kept.
+    /// - Parameters:
+    ///   - allowedQueryParameters: Query parameters whose values are kept when they are short
+    ///     and plain, such as `page` or `sort`. Names are compared case-insensitively and
+    ///     without `_`, `-`, `.` and spaces. Names of secrets (such as `token`) and names that
+    ///     are not plain ASCII are ignored.
+    ///   - recordsHostOnly: Records only the scheme, host and port of every URL.
+    public init(allowedQueryParameters: some Sequence<String> = [String](), recordsHostOnly: Bool = false) {
+        var allowed = Set<String>()
+        for name in allowedQueryParameters {
+            if case .ordinary(let folded) = NameClassification.classify(name) { allowed.insert(folded) }
+        }
+        self.allowedQueryParameters = allowed
+        self.recordsHostOnly = recordsHostOnly
+    }
+
+    /// The redacted form of `url`, using ``standard``.
     public static func redact(_ url: URL) -> String {
+        standard.redact(url)
+    }
+
+    /// The redacted form of `url`.
+    public func redact(_ url: URL) -> String {
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
-              let scheme = components.scheme?.lowercased(), Self.isPlainScheme(scheme) else {
-            return "<redacted>"
+              let scheme = components.scheme.flatMap(Self.normalizedScheme) else {
+            return Self.unparsedPlaceholder
         }
-        guard let host = components.percentEncodedHost, !host.isEmpty else { return "\(scheme):" }
-        var result = "\(scheme)://\(hostForDisplay(host))"
-        if let port = components.port { result += ":\(port)" }
-        result += redactedPath(components.percentEncodedPath)
-        return truncated(result)
-    }
-
-    // Segments past `maximumLength` would be cut from the result, so they are not inspected.
-    // `split` still builds the list of all segments first, so the time grows with the length of
-    // the path, and a single long segment is inspected in full.
-    static func redactedPath(_ encodedPath: String) -> String {
-        guard !encodedPath.isEmpty else { return "" }
-        var result = ""
-        for (index, segment) in encodedPath.split(separator: "/", omittingEmptySubsequences: false).enumerated() {
-            if index > 0 { result += "/" }
-            result += redactedSegment(withoutParameters(String(segment)))
-            if result.count > maximumLength { break }
+        guard let encodedHost = components.percentEncodedHost, !encodedHost.isEmpty,
+              let host = HostClassification.classify(encodedHost) else {
+            return "\(scheme):"
         }
-        return result
+        let origin = "\(scheme)://\(host.text)"
+        guard !host.namesSecret else { return origin }
+        var authority = origin
+        if let port = components.port, (0...65_535).contains(port) { authority += ":\(port)" }
+        guard !recordsHostOnly else { return authority }
+        let query = redactedQuery(components.percentEncodedQuery)
+        guard let path = Self.redactedPath(components.percentEncodedPath), let query else { return origin }
+        return Self.truncated(authority + path + query)
     }
 
-    static func redactedSegment(_ encodedSegment: String) -> String {
-        guard let segment = fullyDecoded(encodedSegment) else { return identifierPlaceholder }
-        if isIdentifier(segment) { return identifierPlaceholder }
-        // "12345.json": the extension says what the resource is and is kept. It is emitted from
-        // the decoded form only when it is a few ASCII letters, so it cannot carry a line break.
-        if let file = splitAtFileExtension(segment), isIdentifier(file.name) || containsIdentifier(file.name) {
-            return "\(identifierPlaceholder).\(file.fileExtension)"
+    private static func normalizedScheme(_ scheme: String) -> String? {
+        let lowercased = scheme.lowercased()
+        let isPlain = (1...32).contains(lowercased.utf8.count) && lowercased.utf8.allSatisfy { byte in
+            (UInt8(ascii: "a")...UInt8(ascii: "z")).contains(byte) || (UInt8(ascii: "0")...UInt8(ascii: "9")).contains(byte)
+                || byte == UInt8(ascii: "+") || byte == UInt8(ascii: "-") || byte == UInt8(ascii: ".")
         }
-        return containsIdentifier(segment) ? identifierPlaceholder : encodedSegment
-    }
-
-    // Path parameters (RFC 3986 allows ";" in a segment) often hold session identifiers, and a
-    // "?" or "#" sent percent-encoded in a path starts what a server may read as a query or a
-    // fragment. The segment stays percent-encoded, so the encoded forms (%3B, %3F, %23, and
-    // %253B and so on when encoded again) end it as well; decoding the output instead would let
-    // %0A put a line break into a log.
-    static func withoutParameters(_ encodedSegment: String) -> String {
-        let separator = #";|%(?:25)*(?:3[BbFf]|23)"#
-        guard let range = encodedSegment.range(of: separator, options: .regularExpression) else { return encodedSegment }
-        return String(encodedSegment[..<range.lowerBound])
-    }
-
-    // How many times percent-encoding is removed. A value encoded more often than this is not
-    // inspected and is treated as an identifier.
-    private static let maximumDecodingRounds = 4
-
-    // The segment with its percent-encoding removed until nothing changes, or `nil` when it is
-    // still encoded after `maximumDecodingRounds`.
-    static func fullyDecoded(_ encodedSegment: String) -> String? {
-        var segment = encodedSegment
-        for _ in 0..<maximumDecodingRounds {
-            guard segment.contains("%"), let decoded = segment.removingPercentEncoding, decoded != segment else {
-                return segment
-            }
-            segment = decoded
-        }
-        let isStillEncoded = segment.contains("%") && segment.removingPercentEncoding.map { $0 != segment } == true
-        return isStillEncoded ? nil : segment
-    }
-
-    // "order:12345", "My Trip 2024", "(12345)" or "(12345.json)": an identifier, also one with a
-    // file extension, next to other characters. Only a whole segment keeps its extension.
-    private static func containsIdentifier(_ segment: String) -> Bool {
-        let parts = segment.unicodeScalars.split { !tokenCharacters.contains($0) }
-        return parts.contains { scalars in
-            let part = String(String.UnicodeScalarView(scalars))
-            if isIdentifier(part) { return true }
-            guard let file = splitAtFileExtension(part) else { return false }
-            return isIdentifier(file.name)
-        }
-    }
-
-    // The name and the extension of "name.ext", when the extension is one to five ASCII letters.
-    private static func splitAtFileExtension(_ segment: String) -> (name: String, fileExtension: Substring)? {
-        guard let dot = segment.lastIndex(of: "."), dot != segment.startIndex else { return nil }
-        let fileExtension = segment[segment.index(after: dot)...]
-        guard (1...5).contains(fileExtension.count),
-              fileExtension.allSatisfy({ $0.isASCII && $0.isLetter }) else { return nil }
-        return (String(segment[..<dot]), fileExtension)
-    }
-
-    private static let tokenCharacters = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "-_=+.~/"))
-
-    private static func isIdentifier(_ segment: String) -> Bool {
-        if isNumber(segment) || segment.contains("@") { return true }
-        if UUID(uuidString: segment) != nil { return true }
-        if segment.count >= 16, segment.allSatisfy(\.isHexDigit) { return true }
-        // Tokens: long runs of letters, digits and Base64 symbols that mix digits and letters.
-        // The check runs on the decoded segment, where a "/" of standard Base64 sent as %2F
-        // appears as itself.
-        let isTokenLike = segment.unicodeScalars.allSatisfy { tokenCharacters.contains($0) }
-        let hasDigit = segment.contains(where: \.isNumber)
-        let hasLetter = segment.contains(where: \.isLetter)
-        guard isTokenLike, hasDigit, hasLetter else { return false }
-        if segment.count >= 20 { return true }
-        // Shorter tokens are told apart from words such as "release2026" or "ipad-pro-12-9-2024"
-        // by the digits scattered through them and the absence of separators.
-        return segment.count >= 16 && segment.allSatisfy(\.isAlphanumericASCII) && digitGroupCount(segment) >= 2
-    }
-
-    // A leading "+" is part of the number: "+905551234567" is a phone number in E.164 form.
-    private static func isNumber(_ segment: String) -> Bool {
-        let digits = segment.hasPrefix("+") ? segment.dropFirst() : Substring(segment)
-        return !digits.isEmpty && digits.allSatisfy(\.isNumber)
-    }
-
-    private static func digitGroupCount(_ segment: String) -> Int {
-        var count = 0
-        var previousWasDigit = false
-        for character in segment {
-            let isDigit = character.isNumber
-            if isDigit && !previousWasDigit { count += 1 }
-            previousWasDigit = isDigit
-        }
-        return count
-    }
-
-    private static func isPlainScheme(_ scheme: String) -> Bool {
-        !scheme.isEmpty && scheme.allSatisfy { $0.isASCII && ($0.isLetter || $0.isNumber || "+-.".contains($0)) }
-    }
-
-    private static func hostForDisplay(_ host: String) -> String {
-        guard host.contains(":"), !host.hasPrefix("[") else { return host.lowercased() }
-        return "[\(host.lowercased())]"
+        return isPlain ? lowercased : nil
     }
 
     private static func truncated(_ value: String) -> String {
@@ -183,6 +124,162 @@ public enum URLRedaction {
     }
 }
 
-private extension Character {
-    var isAlphanumericASCII: Bool { isASCII && (isLetter || isNumber) }
+// MARK: - Path
+
+extension URLRedaction {
+    /// The redacted path, or `nil` when the URL is to be recorded as scheme and host only.
+    static func redactedPath(_ encodedPath: String) -> String? {
+        guard !encodedPath.isEmpty else { return "" }
+        guard encodedPath.utf8.count <= maximumComponentBytes,
+              encodedPath.utf8.count(where: { $0 == UInt8(ascii: "/") }) <= maximumPathSegments,
+              PercentEncoding.isUnambiguous(encodedPath, forbidding: pathDelimiters) else { return nil }
+        var segments: [String] = []
+        var afterLabel = false
+        for segment in encodedPath.split(separator: "/", omittingEmptySubsequences: false) {
+            if segment == "." || segment == ".." { return nil }
+            let redacted = redactedSegment(segment, afterLabel: afterLabel)
+            segments.append(redacted.text)
+            afterLabel = redacted.hidesNext
+        }
+        return segments.joined(separator: "/")
+    }
+
+    // Path parameters after ";" are parsed differently by different servers, and dot segments
+    // are resolved by some (RFC 3986, section 5.2.4) and not by others. Rather than guess, such
+    // a path is not recorded.
+    private static let pathDelimiters: Set<UInt8> = [
+        UInt8(ascii: ";"), UInt8(ascii: "\\"), UInt8(ascii: "."), UInt8(ascii: "/"),
+        UInt8(ascii: "?"), UInt8(ascii: "#"), UInt8(ascii: "%"),
+    ]
+
+    private static func redactedSegment(_ encoded: Substring, afterLabel: Bool) -> (text: String, hidesNext: Bool) {
+        // An empty segment ("//") passes a pending label on to the next segment.
+        guard !encoded.isEmpty else { return ("", afterLabel) }
+        guard let decoded = encoded.removingPercentEncoding else { return (identifierPlaceholder, true) }
+        let kind = NameClassification.classify(decoded)
+        if afterLabel { return (identifierPlaceholder, !kind.isOrdinary) }
+        if IdentifierDetection.isIdentifier(decoded) { return (identifierPlaceholder, false) }
+        if let file = FileName(decoded), IdentifierDetection.isIdentifier(file.name) {
+            return ("\(identifierPlaceholder).\(file.fileExtension)", false)
+        }
+        switch kind {
+        case .ordinary: return (String(encoded), false)
+        case .listedSecret: return (String(encoded), true)
+        case .unclear: return (identifierPlaceholder, true)
+        }
+    }
+}
+
+// "12345.json": the name and an extension of one to five ASCII letters.
+private struct FileName {
+    let name: String
+    let fileExtension: String
+
+    init?(_ segment: String) {
+        let scalars = Array(segment.unicodeScalars)
+        guard let dot = scalars.lastIndex(of: "."), dot > 0 else { return nil }
+        let fileExtension = scalars[(dot + 1)...]
+        guard (1...5).contains(fileExtension.count),
+              fileExtension.allSatisfy({ ("a"..."z").contains($0) || ("A"..."Z").contains($0) }) else { return nil }
+        name = String(String.UnicodeScalarView(scalars[..<dot]))
+        self.fileExtension = String(String.UnicodeScalarView(fileExtension))
+    }
+}
+
+private extension NameClassification.Kind {
+    var isOrdinary: Bool {
+        if case .ordinary = self { return true }
+        return false
+    }
+}
+
+// MARK: - Query
+
+extension URLRedaction {
+    /// The kept part of the query, starting with `?`, an empty string when nothing is kept, or
+    /// `nil` when the URL is to be recorded as scheme and host only.
+    func redactedQuery(_ encodedQuery: String?) -> String? {
+        guard let encodedQuery, !encodedQuery.isEmpty else { return "" }
+        guard encodedQuery.utf8.count <= Self.maximumComponentBytes,
+              encodedQuery.utf8.count(where: { $0 == UInt8(ascii: "&") }) < Self.maximumQueryParameters else { return nil }
+        guard !allowedQueryParameters.isEmpty,
+              PercentEncoding.isUnambiguous(encodedQuery, forbidding: Self.queryDelimiters) else { return "" }
+        var kept: [String] = []
+        var spellings: [String: Substring] = [:]
+        for item in encodedQuery.split(separator: "&") {
+            let parts = item.split(separator: "=", maxSplits: 1, omittingEmptySubsequences: false)
+            let encodedName = parts[0]
+            guard let name = encodedName.removingPercentEncoding,
+                  case .ordinary(let folded) = NameClassification.classify(name),
+                  allowedQueryParameters.contains(folded) else { continue }
+            // "page" and "Page" or "pa%67e": servers differ in which one they read.
+            if let spelling = spellings[folded], spelling != encodedName { return "" }
+            spellings[folded] = encodedName
+            let displayName = name.replacingOccurrences(of: " ", with: "%20")
+            guard parts.count == 2 else {
+                kept.append(displayName)
+                continue
+            }
+            kept.append("\(displayName)=\(Self.displayedQueryValue(parts[1]))")
+        }
+        return kept.isEmpty ? "" : "?" + kept.joined(separator: "&")
+    }
+
+    // A ";" splits parameters on some servers and not on others.
+    private static let queryDelimiters: Set<UInt8> = [UInt8(ascii: ";"), UInt8(ascii: "%")]
+
+    // A value is free text: it is kept only when it has no character that could start a secret
+    // or a nested structure, is short, is not an identifier and does not name a secret.
+    private static func displayedQueryValue(_ encodedValue: Substring) -> String {
+        guard let value = encodedValue.removingPercentEncoding else { return valuePlaceholder }
+        let isPlain = value.unicodeScalars.count <= maximumQueryValueLength && value.unicodeScalars.allSatisfy { scalar in
+            ("a"..."z").contains(scalar) || ("A"..."Z").contains(scalar) || ("0"..."9").contains(scalar)
+                || scalar == "-" || scalar == "_" || scalar == "." || scalar == ","
+        }
+        guard isPlain else { return valuePlaceholder }
+        // A short number such as a page is kept; in a path it would be an identifier.
+        let isShortNumber = value.utf8.count < IdentifierDetection.minimumDigitRun
+            && value.utf8.allSatisfy { (UInt8(ascii: "0")...UInt8(ascii: "9")).contains($0) }
+        guard isShortNumber || !IdentifierDetection.isIdentifier(value), NameClassification.classify(value) != .listedSecret else {
+            return valuePlaceholder
+        }
+        return value
+    }
+}
+
+// MARK: - Percent-encoding
+
+enum PercentEncoding {
+    /// A Boolean value that indicates whether `encoded` has only well-formed percent-encodings,
+    /// none of which encodes a control character or a byte in `forbidden`, and no raw byte in
+    /// `forbidden` other than `.` and `/`, which are only forbidden in encoded form.
+    static func isUnambiguous(_ encoded: String, forbidding forbidden: Set<UInt8>) -> Bool {
+        let bytes = Array(encoded.utf8)
+        var index = 0
+        while index < bytes.count {
+            let byte = bytes[index]
+            if byte < 0x20 || byte == 0x7F { return false }
+            if byte == UInt8(ascii: "%") {
+                guard index + 2 < bytes.count, let high = hexValue(bytes[index + 1]), let low = hexValue(bytes[index + 2]) else {
+                    return false
+                }
+                let decoded = high << 4 | low
+                if decoded < 0x20 || decoded == 0x7F || forbidden.contains(decoded) { return false }
+                index += 3
+                continue
+            }
+            if byte != UInt8(ascii: ".") && byte != UInt8(ascii: "/") && forbidden.contains(byte) { return false }
+            index += 1
+        }
+        return true
+    }
+
+    private static func hexValue(_ byte: UInt8) -> UInt8? {
+        switch byte {
+        case UInt8(ascii: "0")...UInt8(ascii: "9"): byte - UInt8(ascii: "0")
+        case UInt8(ascii: "a")...UInt8(ascii: "f"): byte - UInt8(ascii: "a") + 10
+        case UInt8(ascii: "A")...UInt8(ascii: "F"): byte - UInt8(ascii: "A") + 10
+        default: nil
+        }
+    }
 }
