@@ -66,6 +66,18 @@ struct PerformanceTracerTests {
         #expect(tracer.names.isEmpty)
     }
 
+    @Test("does not record names longer than the limit")
+    func longNames() {
+        let tracer = PerformanceTracer(subsystem: "tests")
+        let longest = String(repeating: "n", count: PerformanceTracer.maximumNameLength)
+        tracer.record(longest, duration: .milliseconds(1))
+        tracer.record(longest + "n", duration: .milliseconds(1))
+        // "é" takes two bytes in UTF-8, so this name is over the limit with fewer characters.
+        tracer.record(String(repeating: "é", count: PerformanceTracer.maximumNameLength / 2 + 1), duration: .milliseconds(1))
+        #expect(tracer.names == [longest])
+        #expect(tracer.droppedCount == 2)
+    }
+
     @Test("clamps its limits")
     func clampsLimits() {
         let tracer = PerformanceTracer(subsystem: "tests", samplesPerName: 0, maximumNames: 1_000_000)

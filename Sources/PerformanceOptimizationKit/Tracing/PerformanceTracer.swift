@@ -20,6 +20,9 @@ public final class PerformanceTracer: Sendable {
     public let signposter: OSSignposter
     /// The number of durations kept per name.
     public let samplesPerName: Int
+    /// The longest name recorded, in UTF-8 bytes.
+    public static var maximumNameLength: Int { 256 }
+
     /// The number of distinct names kept.
     public let maximumNames: Int
 
@@ -72,9 +75,17 @@ public final class PerformanceTracer: Sendable {
     }
 
     /// Records a duration measured some other way, such as from a network metrics callback.
-    /// Negative durations are ignored.
+    ///
+    /// Names are shown in statistics and in the HUD as they are given. Use a fixed name, or the
+    /// redacted ``NetworkTiming/url`` of a request, never a raw URL or text that came from a
+    /// user. Negative durations are ignored, and names longer than ``maximumNameLength`` bytes
+    /// are not recorded; they count toward ``droppedCount``.
     public func record(_ name: String, duration: Duration) {
         guard duration >= .zero else { return }
+        guard name.utf8.count <= Self.maximumNameLength else {
+            store.withLock { $0.droppedCount = $0.droppedCount.saturatingAdd(1) }
+            return
+        }
         let seconds = duration.seconds
         store.withLock { $0.append(seconds, for: name, samplesPerName: samplesPerName, maximumNames: maximumNames) }
     }
@@ -90,7 +101,8 @@ public final class PerformanceTracer: Sendable {
         store.withLock { $0.samples.keys.sorted() }
     }
 
-    /// The number of durations not kept because `maximumNames` was reached.
+    /// The number of durations not kept because `maximumNames` was reached or their name was
+    /// longer than ``maximumNameLength``.
     public var droppedCount: Int {
         store.withLock { $0.droppedCount }
     }
