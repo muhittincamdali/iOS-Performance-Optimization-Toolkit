@@ -52,6 +52,7 @@ remap = [
   '^https://muhittincamdali\.github\.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/findinghangsandhitches$ file:///home/runner/work/iOS-Performance-Optimization-Toolkit/iOS-Performance-Optimization-Toolkit/Sources/PerformanceOptimizationKit/PerformanceOptimizationKit.docc/FindingHangsAndHitches.md',
   '^https://muhittincamdali\.github\.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/readingfieldmetrics$ file:///home/runner/work/iOS-Performance-Optimization-Toolkit/iOS-Performance-Optimization-Toolkit/Sources/PerformanceOptimizationKit/PerformanceOptimizationKit.docc/ReadingFieldMetrics.md',
   '^https://muhittincamdali\.github\.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/settingperformancebudgets$ file:///home/runner/work/iOS-Performance-Optimization-Toolkit/iOS-Performance-Optimization-Toolkit/Sources/PerformanceOptimizationKit/PerformanceOptimizationKit.docc/SettingPerformanceBudgets.md',
+  '^https://muhittincamdali\.github\.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/recordingnetworktimings$ file:///home/runner/work/iOS-Performance-Optimization-Toolkit/iOS-Performance-Optimization-Toolkit/Sources/PerformanceOptimizationKit/PerformanceOptimizationKit.docc/RecordingNetworkTimings.md',
 ]
 
 exclude_path = [

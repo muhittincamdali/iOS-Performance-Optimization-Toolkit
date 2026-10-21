@@ -38,7 +38,7 @@ Each part also works on its own:
 - **Leaks**: ``LeakTracker`` reports objects that outlive the screen they belonged to.
 - **Operations and requests**: ``PerformanceTracer`` emits signposts for Instruments and keeps
   statistics; ``NetworkMetricsCollector`` records the phases of each request with a redacted
-  URL.
+  URL and never reads headers or bodies.
 - **Field data**: ``FieldMetricsReceiver`` turns MetricKit's daily reports into
   ``FieldMetrics``.
 - **Budgets**: ``PerformanceBudget`` checks all of these against limits in tests or at run time.
@@ -86,6 +86,7 @@ Each part also works on its own:
 
 ### Operations and Requests
 
+- <doc:RecordingNetworkTimings>
 - ``PerformanceTracer``
 - ``SampleStatistics``
 - ``NetworkMetricsCollector``
