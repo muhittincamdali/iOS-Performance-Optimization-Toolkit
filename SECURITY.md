@@ -19,9 +19,15 @@ Please report privately anything that makes it:
   event streams;
 - deadlock or crash the app while reading a thread's call stack;
 - keep an object alive that it was only meant to watch (`LeakTracker` holds objects weakly);
-- store or emit a part of a URL that `URLRedaction` documents that it removes (credentials,
-  query, fragment, path parameters, identifier-like path segments), or let a URL put a line
-  break into its output.
+- store or emit a part of a URL that `URLRedaction` documents that it hides (credentials,
+  fragment, query parameters that are not allowed, identifiers, the segment after a secret
+  name or an unreadable name, paths that servers read differently), let a URL put a line break
+  into its output, or record a request header or body;
+- take more than a second, or crash on a 512 KiB stack, while redacting a URL of 1 MB.
+
+`URLRedaction` is a safety net: a secret that looks like an ordinary word in an ordinary place
+of a path is a documented limit, not a vulnerability (see "What it does not find" in the
+[network timings article](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/recordingnetworktimings)).
 
 ## Reporting a vulnerability
 

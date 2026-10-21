@@ -33,9 +33,18 @@ Open an issue with:
 5. Anything that comes from the kernel, a display link, MetricKit or a decoded file may be
    missing, NaN, negative or huge. Check it before it reaches an integer conversion, a
    `Duration` or arithmetic, and add a test with the extreme value. New buffers need a limit.
-6. Code that runs while another thread is suspended (`ThreadBacktrace`) must not allocate or
+6. `URLRedaction` follows one rule: what it does not fully understand is hidden. Do not add
+   look-alike tables or special cases that show more; add a test for every input a change
+   hides, and run the limit tests in the release configuration as well, where they also check
+   the 512 KiB stack:
+
+    ```sh
+    swift test -c release -Xswiftc -enable-testing --filter URLRedaction
+    ```
+
+7. Code that runs while another thread is suspended (`ThreadBacktrace`) must not allocate or
    take locks.
-7. If you change a README code sample, change the copy in
+8. If you change a README code sample, change the copy in
    `Examples/PerformanceLab/PerformanceLab/ReadmeSamples.swift` as well; the example app
    compiles that file. Build the app with:
 
@@ -44,9 +53,9 @@ Open an issue with:
     xcodebuild build -scheme PerformanceLab -destination 'generic/platform=iOS Simulator'
     ```
 
-8. If a change affects what the example app shows, regenerate the screenshots with
+9. If a change affects what the example app shows, regenerate the screenshots with
    `scripts/capture-example-screens.sh`.
-9. If you change `README.md` and cannot update its translations, say so in the pull request.
+10. If you change `README.md` and cannot update its translations, say so in the pull request.
 
 ## Code style
 

@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [2.0.0] - 2026-10-15
+## [2.0.0] - 2026-10-21
 
 A rebuilt package. The 1.0.0 sources did not build: `PerformanceDashboard.swift` and
 `StartupTimeAnalyzer.swift` both declared `RecommendationCategory`, the test targets referred
@@ -37,15 +37,17 @@ iOS 17, macOS 14, tvOS 17, watchOS 10 and visionOS 1 and later.
 - Operations: `PerformanceTracer` runs work in `OSSignposter` intervals and keeps statistics
   (`SampleStatistics`, p50 to p99) per name.
 - Network: `NetworkMetricsCollector` records the phases of each request as `NetworkTiming`,
-  with URLs redacted by `URLRedaction`.
+  with URLs redacted by `URLRedaction`; query parameters can be kept by name with
+  `URLRedaction(allowedQueryParameters:)`, or everything but the host dropped with
+  `recordsHostOnly`.
 - Field data: `FieldMetricsReceiver` turns MetricKit's reports into `FieldMetrics`, using
   `MetricManager` on iOS 27 and macOS 27 and `MXMetricManager` before; `FieldHistogram`
   estimates percentiles from MetricKit's histograms.
 - Budgets: `PerformanceBudget` checks `PerformanceMeasurements` and returns
   `BudgetViolation`s.
 - Overlay: `PerformanceMonitor` (`@Observable`) and `PerformanceHUD`.
-- The PerformanceLab example app, a DocC catalog with four articles, and 99 Swift Testing
-  tests that run on macOS, 98 of them also on an iPhone simulator.
+- The PerformanceLab example app, a DocC catalog with five articles, and 115 Swift Testing
+  tests that run on macOS, 114 of them also on an iPhone simulator.
 
 ### Removed
 
@@ -55,10 +57,18 @@ iOS 17, macOS 14, tvOS 17, watchOS 10 and visionOS 1 and later.
 
 ### Security
 
-- Every buffer has a limit, values read from the kernel or decoded from JSON are checked
-  before they reach integer conversions or arithmetic, and URLs are redacted (credentials,
-  query, fragment, path parameters, identifiers, also when they are percent-encoded one or
-  more times) before a timing is stored.
+- Every buffer has a limit, and values read from the kernel or decoded from JSON are checked
+  before they reach integer conversions or arithmetic. `PerformanceTracer` does not record
+  names longer than 256 bytes.
+- Network timings never hold headers or bodies, and a method or protocol name only when it is
+  a short plain word. `URLRedaction` hides whatever it does not fully understand: credentials,
+  the fragment and the query (except allowed parameters with short plain values) are always
+  dropped; identifiers, the segment after a secret name, and names that are not plain ASCII
+  (look-alike letters, invisible characters, combining marks) and the segment after them become
+  `:id`; paths that servers read differently (dot segments, `;`, double or encoded delimiters)
+  and hosts that name a secret keep scheme and host only; unreadable hosts keep the scheme only.
+  Paths, queries and results have documented caps, and URLs of 1 MB are redacted in well under
+  a second on a 512 KiB stack.
 
 ## [1.0.0] - 2026-02-02
 
