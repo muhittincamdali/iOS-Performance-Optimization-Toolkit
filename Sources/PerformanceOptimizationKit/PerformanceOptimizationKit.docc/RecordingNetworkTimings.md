@@ -68,11 +68,11 @@ such as `ab12cd`, that does not follow a secret name, and for a token of 16 to 3
 without digits, such as `AbCdEfGhIjKlMnOpQrSt`, which cannot be told apart from a long word.
 A short secret name such as `pin`, `key` or `sid` is also part of ordinary words (`ping`,
 `keyboard`), so inside a segment it is only recognized with a separator (`pin_4831`) or next to
-a digit (`pin4831`, `4831pin`): `pinabcd` is kept, and `keyboard2` is hidden. In a host, `.`
-separates labels, so in `myapp://pin.ab12cd` the label `pin` names a secret and the host is kept
-as it is. Keep secrets out of URLs; send them in
-headers or in the body, which the collector never records. If even the paths of your API carry
-personal data, use `URLRedaction(recordsHostOnly: true)`.
+a digit, at either end of the segment or in the middle (`pin4831`, `4831pin`, `mypin4831`):
+`pinabcd` and `mypinabc` are kept, and `keyboard2` is hidden. In a host, `.` separates labels,
+so in `myapp://pin.ab12cd` the label `pin` names a secret and the host is kept as it is. Keep
+secrets out of URLs; send them in headers or in the body, which the collector never records.
+If even the paths of your API carry personal data, use `URLRedaction(recordsHostOnly: true)`.
 
 ## Limits
 
