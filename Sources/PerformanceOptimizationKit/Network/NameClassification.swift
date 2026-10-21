@@ -10,8 +10,8 @@ enum NameClassification {
         /// such a name with an `s` added, such as `tokens`.
         case listedSecret
         /// A plain ASCII name that contains a secret name without being one, such as
-        /// `resetToken`, `token-hunter22` or `pin_4831`. It can carry the secret itself, so it
-        /// is hidden like a value.
+        /// `resetToken`, `token-hunter22`, `pin_4831` or `pin4831`. It can carry the secret
+        /// itself, so it is hidden like a value.
         case containsSecret
         /// A name that is not plain ASCII, contains other symbols or control characters, or has
         /// no letter or digit at all.
@@ -34,7 +34,8 @@ enum NameClassification {
     /// alike letters from other scripts, full-width letters and combining marks.
     static func classify(_ name: some StringProtocol) -> Kind {
         var folded: [UInt8] = []
-        // The words between separators: "pin_4831" has a secret name as a word of its own.
+        // The words between separators: "pin_4831" has a secret name as a word of its own, and
+        // "pin4831" a short secret name glued to a code.
         var hasSecretWord = false
         var wordStart = 0
         for byte in name.utf8 {
@@ -44,7 +45,7 @@ enum NameClassification {
             case UInt8(ascii: "a")...UInt8(ascii: "z"), UInt8(ascii: "0")...UInt8(ascii: "9"):
                 folded.append(byte)
             case UInt8(ascii: "_"), UInt8(ascii: "-"), UInt8(ascii: "."), UInt8(ascii: " "):
-                hasSecretWord = hasSecretWord || isListedName(folded[wordStart...])
+                hasSecretWord = hasSecretWord || isSecretWord(folded[wordStart...])
                 wordStart = folded.count
                 continue
             default:
@@ -54,7 +55,7 @@ enum NameClassification {
         }
         guard !folded.isEmpty else { return .unclear }
         if isListedName(folded[...]) { return .listedSecret }
-        hasSecretWord = hasSecretWord || isListedName(folded[wordStart...])
+        hasSecretWord = hasSecretWord || isSecretWord(folded[wordStart...])
         let foldedName = String(decoding: folded, as: UTF8.self)
         if hasSecretWord || secretNameParts.contains(where: foldedName.contains) { return .containsSecret }
         return .ordinary(foldedName)
@@ -72,11 +73,40 @@ enum NameClassification {
     /// Parts that make any name that contains them a secret, such as `resettoken` or
     /// `sessionid`, even without a separator. `auth` also matches `author` and `oauth`; hiding
     /// too much is intended. Short names such as `pin` or `key` are not parts, because they
-    /// occur in ordinary words (`ping`, `keyboard`); they count only as a word of their own.
+    /// occur in ordinary words (`ping`, `keyboard`); they count only as a word of their own or
+    /// glued to a code (`pin4831`).
     static let secretNameParts = [
         "password", "passwd", "passphrase", "passcode", "secret", "token", "apikey", "auth",
         "session", "signature", "cookie", "credential", "bearer", "privatekey",
     ]
+
+    /// The secret names that contain no part, such as `pin`, `key` or `sid`.
+    static let shortSecretNames: [[UInt8]] = secretNames
+        .filter { name in !secretNameParts.contains(where: name.contains) }
+        .sorted()
+        .map { Array($0.utf8) }
+
+    private static func isSecretWord(_ word: ArraySlice<UInt8>) -> Bool {
+        isListedName(word) || isShortNameGluedToCode(word)
+    }
+
+    // "pin4831", "4831pin" or "pins4831": a short secret name at one end of the word and a digit
+    // in the rest, which is how a code is written next to its name. "ping", "keyboard" and
+    // "signup" have no digit and stay ordinary; "keyboard2" is hidden, which is intended.
+    private static func isShortNameGluedToCode(_ word: ArraySlice<UInt8>) -> Bool {
+        guard word.contains(where: isDigit) else { return false }
+        return shortSecretNames.contains { name in
+            if word.starts(with: name), word.dropFirst(name.count).contains(where: isDigit) { return true }
+            for suffix in [name, name + [UInt8(ascii: "s")]] where word.reversed().starts(with: suffix.reversed()) {
+                if word.dropLast(suffix.count).contains(where: isDigit) { return true }
+            }
+            return false
+        }
+    }
+
+    private static func isDigit(_ byte: UInt8) -> Bool {
+        (UInt8(ascii: "0")...UInt8(ascii: "9")).contains(byte)
+    }
 
     // A listed name, or a listed name with an "s" added.
     private static func isListedName(_ folded: ArraySlice<UInt8>) -> Bool {

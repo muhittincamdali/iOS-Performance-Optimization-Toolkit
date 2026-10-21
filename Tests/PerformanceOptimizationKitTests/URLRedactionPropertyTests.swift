@@ -49,8 +49,8 @@ private func obfuscations(of name: String) -> [String] {
     ]
 }
 
-// Names short enough to be part of ordinary words ("ping", "keyboard") are only recognized with
-// a separator before their value; "pin4831" is a documented limit.
+// Names short enough to be part of ordinary words ("ping", "keyboard") are recognized without a
+// separator only when their value has a digit ("pin4831"); a value of letters only reads as a word.
 private let shortSecretNames: Set<String> = ["pwd", "key", "sid", "otp", "pin", "cvv", "card", "iban", "ssn"]
 
 // A secret name and its value written as one segment, such as "token-hunter22".
@@ -61,7 +61,6 @@ private func gluedSpellings(of name: String, secret: String) -> [String] {
         spellings += prefixes.map { $0 + separator + secret }
         spellings.append(secret + separator + name)
     }
-    guard !shortSecretNames.contains(name) else { return spellings }
     return spellings + [name + secret, name.capitalized + secret, secret + name]
 }
 
@@ -94,7 +93,10 @@ struct URLRedactionPropertyTests {
                     checked += 1
                 }
             }
-            let secret = String((0..<Int.random(in: 8...16, using: &generator)).map { _ in alphanumerics.randomElement(using: &generator)! })
+            var secret = String((0..<Int.random(in: 8...16, using: &generator)).map { _ in alphanumerics.randomElement(using: &generator)! })
+            if shortSecretNames.contains(name), !secret.contains(where: \.isNumber) {
+                secret = String(secret.dropLast()) + String(Int.random(in: 0...9, using: &generator))
+            }
             for glued in gluedSpellings(of: name, secret: secret) {
                 var urls = [
                     "https://example.com/v1/\(glued)",

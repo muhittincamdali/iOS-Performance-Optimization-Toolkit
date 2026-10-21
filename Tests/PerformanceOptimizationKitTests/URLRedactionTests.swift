@@ -42,6 +42,7 @@ struct URLRedactionTests {
         "https://example.com/k/order-12345/item_4",
         "http://127.0.0.1:8080/health",
         "https://example.com/ping/keyboard/signup",
+        "https://example.com/v/pinabcd",
     ])
     func keepsPlainPaths(input: String) throws {
         #expect(try redacted(input) == input)
@@ -62,6 +63,15 @@ struct URLRedactionTests {
         ("https://example.com/v/passwords-hunter", "https://example.com/v/:id"),
         ("https://example.com/v/sessionabcdef", "https://example.com/v/:id"),
         ("https://example.com/reset/pin_4831/next", "https://example.com/reset/:id/:id"),
+        ("https://example.com/reset/pin1234/next", "https://example.com/reset/:id/:id"),
+        ("https://example.com/reset/1234pin", "https://example.com/reset/:id"),
+        ("https://example.com/reset/Pins1234", "https://example.com/reset/:id"),
+        ("https://example.com/v/otp1234", "https://example.com/v/:id"),
+        ("https://example.com/v/cvv123", "https://example.com/v/:id"),
+        ("https://example.com/v/pwd1234", "https://example.com/v/:id"),
+        ("https://example.com/v/ssn12345", "https://example.com/v/:id"),
+        ("https://example.com/v/key9abc", "https://example.com/v/:id"),
+        ("https://example.com/v/keyboard2", "https://example.com/v/:id"),
         ("https://example.com/k/Key%20hunter", "https://example.com/k/:id"),
         ("https://example.com/pin//4831", "https://example.com/pin//:id"),
         ("https://example.com/token/password/hunter", "https://example.com/token/:id/:id"),
@@ -110,6 +120,8 @@ struct URLRedactionTests {
         ("https://-bad.example.com/x", "https:"),
         ("myapp://pin-4831/x", "myapp:"),
         ("myapp://tokenhunter22/x", "myapp:"),
+        ("myapp://pin1234/x", "myapp:"),
+        ("https://sid42.example.com/x", "https:"),
         ("https://oauth2.example.com/x", "https:"),
         ("https://pass.wordhunter2.example.com/x", "https:"),
         ("https://[fe80::1%25hunter2secret]/u", "https:"),
@@ -176,6 +188,9 @@ struct URLRedactionQueryTests {
         ("https://api.example.com/v1/items?sort=jane%40example.com", "https://api.example.com/v1/items?sort=<redacted>"),
         ("https://api.example.com/v1/items?sort=password", "https://api.example.com/v1/items?sort=<redacted>"),
         ("https://api.example.com/v1/items?sort=token-hunter", "https://api.example.com/v1/items?sort=<redacted>"),
+        ("https://api.example.com/v1/items?page=pin1234", "https://api.example.com/v1/items?page=<redacted>"),
+        ("https://api.example.com/v1/items?page=otp1234", "https://api.example.com/v1/items?page=<redacted>"),
+        ("https://api.example.com/v1/items?page=ping", "https://api.example.com/v1/items?page=ping"),
         ("https://api.example.com/v1/items?sort=9f86d081884c7d659a2f", "https://api.example.com/v1/items?sort=<redacted>"),
         ("https://api.example.com/v1/items?sort=a%0Ab", "https://api.example.com/v1/items"),
     ])
