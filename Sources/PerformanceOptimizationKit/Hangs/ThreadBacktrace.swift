@@ -67,9 +67,10 @@ enum ThreadBacktrace {
     static func callerOfLeafFunction(linkRegister: UInt, addresses: [UInt]) -> UInt? {
         guard linkRegister != 0, let pc = addresses.first else { return nil }
         if addresses.count > 1, addresses[1] == linkRegister { return nil }
-        guard let pcFunction = functionStart(containing: pc),
-              let linkFunction = functionStart(containing: linkRegister &- 1),
-              pcFunction != linkFunction else { return nil }
+        guard let linkFunction = functionStart(containing: linkRegister &- 1) else { return nil }
+        // The program counter can be in code without a symbol, such as a stub that jumps to a
+        // library function; the link register is then still the return address into the caller.
+        if let pcFunction = functionStart(containing: pc), pcFunction == linkFunction { return nil }
         return linkRegister
     }
 

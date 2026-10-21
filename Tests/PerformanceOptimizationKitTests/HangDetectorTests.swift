@@ -157,6 +157,23 @@ extension TimingSensitiveTests {
             #expect(ThreadBacktrace.addresses(of: port) == nil)
         }
 
+        @Test("uses the link register when the program counter has no symbol")
+        func linkRegisterWithoutSymbol() throws {
+            let sine = UInt(bitPattern: dlsym(UnsafeMutableRawPointer(bitPattern: -2), "sin"))
+            try #require(sine != 0)
+            let heap = UnsafeMutablePointer<UInt8>.allocate(capacity: 16)
+            defer { heap.deallocate() }
+            let unnamed = UInt(bitPattern: heap)
+            // A program counter in memory without a symbol, as in a stub, with the link
+            // register pointing into a function: that function is the caller.
+            #expect(ThreadBacktrace.callerOfLeafFunction(linkRegister: sine + 8, addresses: [unnamed, 0x10]) == sine + 8)
+            // A link register inside the function the program counter is in adds nothing, and
+            // neither does one that is already the next frame or that has no symbol itself.
+            #expect(ThreadBacktrace.callerOfLeafFunction(linkRegister: sine + 8, addresses: [sine + 4, 0x10]) == nil)
+            #expect(ThreadBacktrace.callerOfLeafFunction(linkRegister: sine + 8, addresses: [unnamed, sine + 8]) == nil)
+            #expect(ThreadBacktrace.callerOfLeafFunction(linkRegister: unnamed + 8, addresses: [unnamed, 0x10]) == nil)
+        }
+
         #if !os(watchOS)
         @Test("keeps the caller of a function that has no frame of its own")
         func leafFunctionCaller() throws {
