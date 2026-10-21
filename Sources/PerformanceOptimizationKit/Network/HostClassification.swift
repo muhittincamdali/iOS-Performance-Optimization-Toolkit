@@ -18,6 +18,8 @@ enum HostClassification {
     /// The host to record, or `nil` when only the scheme may be recorded.
     static func classify(_ encodedHost: String) -> Host? {
         guard encodedHost.utf8.count <= maximumHostLength + 2 else { return nil }
+        // inet_pton accepts an IPv6 zone ("fe80::1%25en0"), whose text can be anything.
+        guard !encodedHost.utf8.contains(UInt8(ascii: "%")) else { return nil }
         let unbracketed = encodedHost.hasPrefix("[") && encodedHost.hasSuffix("]")
             ? String(encodedHost.dropFirst().dropLast())
             : encodedHost
