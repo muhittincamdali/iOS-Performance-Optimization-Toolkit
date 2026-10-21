@@ -40,9 +40,9 @@ understand is hidden:
 - Path segments that look like identifiers (numbers, UUIDs, e-mail addresses, runs of six or
   more digits, card numbers, IBANs, tokens) become `:id`.
 - The segment after a name such as `token`, `password`, `pin` or `api_key` becomes `:id`.
-- A segment that holds such a name together with more, such as `token-hunter22`, `pin_4831` or
-  `passwordhunter2`, becomes `:id`, because the rest can be the secret, and so does the segment
-  after it.
+- A segment that holds such a name together with more, such as `token-hunter22`, `pin_4831`,
+  `pin4831` or `passwordhunter2`, becomes `:id`, because the rest can be the secret, and so does
+  the segment after it.
 - A segment that is not plain ASCII after percent-decoding becomes `:id`, and so does the
   segment after it. This covers look-alike letters from other scripts, invisible format
   characters, combining marks and non-Latin names such as `Şifre`: they are hidden on purpose,
@@ -66,10 +66,11 @@ secret: in `https://api.example.com/v1/invite/sunflower`, `sunflower` stays in t
 if it is an invitation code. The same goes for a short code of letters and a few digits,
 such as `ab12cd`, that does not follow a secret name, and for a token of 16 to 31 letters
 without digits, such as `AbCdEfGhIjKlMnOpQrSt`, which cannot be told apart from a long word.
-A short secret name such as `pin`, `key` or `sid` is only recognized inside a segment when a
-separator follows it (`pin_4831`), because it is also part of ordinary words (`ping`,
-`keyboard`): `pin4831` is kept. In a host, `.` separates labels, so in `myapp://pin.ab12cd` the
-label `pin` names a secret and the host is kept as it is. Keep secrets out of URLs; send them in
+A short secret name such as `pin`, `key` or `sid` is also part of ordinary words (`ping`,
+`keyboard`), so inside a segment it is only recognized with a separator (`pin_4831`) or next to
+a digit (`pin4831`, `4831pin`): `pinabcd` is kept, and `keyboard2` is hidden. In a host, `.`
+separates labels, so in `myapp://pin.ab12cd` the label `pin` names a secret and the host is kept
+as it is. Keep secrets out of URLs; send them in
 headers or in the body, which the collector never records. If even the paths of your API carry
 personal data, use `URLRedaction(recordsHostOnly: true)`.
 
