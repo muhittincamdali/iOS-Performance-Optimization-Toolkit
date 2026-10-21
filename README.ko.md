@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@21fa6ae667b204fc005d94d0bc728f2b5ba1e67b status=reviewed -->
+<!-- i18n-source: README.md@7713e35c837f2f5de2312d94c19d1af745744d0e status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-light.svg" alt="Performance Toolkit: Find hangs, hitches, memory growth, slow launches and leaks in Swift apps, and check them in tests."></picture></p>
@@ -34,7 +34,7 @@
 - **정말 중요한 메모리 수치** — `MemorySnapshot`은 시스템이 제한을 적용하는 기준인 물리 풋프린트와 그 최댓값을 읽고, 실제 기기에서는 한도까지 남은 메모리도 읽습니다.
 - **실행과 누수** — `LaunchTimer`는 프로세스가 생성된 시점(`main` 이전)부터 측정하며 프리워밍(prewarmed)된 실행을 구별합니다. `LeakTracker`는 화면이 닫힌 뒤에도 여전히 살아 있는 객체를 보고합니다.
 - **실사용 데이터와 예산** — `FieldMetricsReceiver`는 iOS 17부터 27까지 MetricKit의 일일 리포트를 읽고, `PerformanceBudget`은 테스트에서 모든 측정값을 한도와 대조합니다.
-- **하루 종일 돌아가도록 설계** — 모든 버퍼에는 한도가 있고, 커널이나 페이로드에서 온 값은 사용하기 전에 검증하며, URL은 저장하기 전에 가립니다. Swift Testing 테스트 99개가 macOS에서 실행되고 그중 98개는 iPhone 시뮬레이터에서도 실행되며, 실제 hang, 메모리 할당, HTTP 요청을 대상으로 합니다.
+- **하루 종일 돌아가도록 설계** — 모든 버퍼에는 한도가 있고, 커널이나 페이로드에서 온 값은 사용하기 전에 검증하며, 네트워크 타이밍에는 헤더나 본문이 들어 있지 않고 가려진 URL만 담깁니다. Swift Testing 테스트 115개가 macOS에서 실행되고 그중 114개는 iPhone 시뮬레이터에서도 실행되며, 실제 hang, 메모리 할당, HTTP 요청을 대상으로 합니다.
 
 ### 포함된 구성 요소
 
@@ -191,6 +191,40 @@ func receiveFieldMetrics() {
 
 MetricKit은 기기 소유자가 개발자와 분석 데이터를 공유하는 기기에서 하루에 한 번 정도 리포트를 전달합니다. `FieldMetrics`는 `Codable`이고 MetricKit에 의존하지 않으므로 서버로 업로드해 디코딩할 수 있습니다. iOS 27과 macOS 27에서는 새로운 `MetricManager`를, 그 이전 시스템에서는 `MXMetricManager`를 사용합니다.
 
+### 네트워크 요청 시간 측정
+
+```swift
+let networkTimings = NetworkMetricsCollector(redaction: URLRedaction(allowedQueryParameters: ["page"]))
+
+func loadOrders(page: Int) async throws -> Data {
+    let url = URL(string: "https://api.example.com/v1/orders?page=\(page)")!
+    let (data, _) = try await URLSession.shared.data(from: url, delegate: networkTimings)
+    return data
+}
+
+func logSlowRequests() {
+    Task {
+        for await timing in networkTimings.updates() {
+            if let waiting = timing.phases.waiting, waiting > .milliseconds(500) {
+                print("\(timing.url) waited \(waiting) for the server")
+            }
+        }
+    }
+}
+```
+
+각 `NetworkTiming`은 요청을 DNS 조회, 연결, TLS, 전송, 첫 바이트까지의 대기, 수신으로 나눕니다. URL은 저장하기 전에 가려집니다. 원본 URL이 `https://api.example.com/v1/users/48213/orders?page=2&token=abc` 인 경우 기록되는 값은 `https://api.example.com/v1/users/:id/orders?page=2`.
+
+## 기록되는 내용
+
+이 패키지는 실제 사용자가 쓰는 내부 빌드와 베타 빌드를 위한 것이므로, 리포트에 사용자의 데이터가 들어가서는 안 됩니다.
+
+- **기록되는 것:** 소요 시간, 프레임과 hitch 수치, 메모리와 CPU 수치, hang 동안 메인 스레드의 콜 스택(바이너리와 심볼 이름), MetricKit의 수치와 앱 빌드, 화면보다 오래 살아남는 객체의 타입 이름, 그리고 각 요청의 가려진 URL, 메서드, 상태 코드, 프로토콜, 단계별 소요 시간, 응답 크기. `PerformanceTracer`와 `LeakTracker`에 넘기는 이름은 넘긴 그대로 기록되므로 고정된 이름을 사용하세요.
+- **절대 기록되지 않는 것:** 요청과 응답의 헤더(`Authorization`, 쿠키), 요청과 응답의 본문, URL의 사용자 이름, 비밀번호, 프래그먼트, 그리고 쿼리(이름으로 허용한 파라미터는 제외).
+- **URL:** 식별자처럼 보이는 경로 세그먼트(숫자, UUID, 이메일 주소, 여섯 자리 이상의 숫자, 카드 번호, IBAN, 토큰)는 `:id`가 되며, `token`이나 `password` 같은 이름 다음에 오는 세그먼트도 마찬가지입니다. 퍼센트 디코딩 뒤에 순수 ASCII가 아닌 세그먼트, 예를 들어 `Şifre`나 다른 문자 체계의 비슷하게 생긴 글자가 섞인 단어는 의도적으로 다음 세그먼트와 함께 가려집니다. 서버마다 다르게 해석할 수 있는 경로(`..`, `;`, 이중 퍼센트 인코딩)는 스킴과 호스트만 기록됩니다.
+
+가리기는 안전망일 뿐 보장이 아닙니다. 경로에 있는 평범한 단어, 예를 들어 초대 코드 `sunflower`가 비밀이라는 것은 알 수 없습니다. 비밀 값은 URL에 넣지 말거나, `URLRedaction(recordsHostOnly: true)`로 호스트만 기록하세요. [네트워크 타이밍 문서](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/recordingnetworktimings)에 모든 규칙과 그 한계가 나와 있습니다.
+
 ## 예제 앱
 
 [`Examples/PerformanceLab`](Examples/)은 각 문제를 일부러 일으키는 iOS 및 macOS 앱으로, 측정값이 어떻게 반응하는지 직접 볼 수 있습니다. 왼쪽부터 순서대로, 콜 스택이 앱 함수를 가리키는 600 ms 메인 스레드 hang, 느린 행이 있는 목록을 최고 속도로 스크롤한 모습, 클로저가 붙잡아 살려 둔 view model, hang을 잡아내는 예산 검사입니다.
@@ -212,6 +246,7 @@ MetricKit은 기기 소유자가 개발자와 분석 데이터를 공유하는 �
 - [Finding Hangs and Hitches](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/findinghangsandhitches)
 - [Reading Field Metrics](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/readingfieldmetrics)
 - [Setting Performance Budgets](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/settingperformancebudgets)
+- [Recording Network Timings](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/recordingnetworktimings)
 
 ## 요구 사항
 

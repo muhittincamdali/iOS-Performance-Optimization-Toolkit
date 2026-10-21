@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@21fa6ae667b204fc005d94d0bc728f2b5ba1e67b status=reviewed -->
+<!-- i18n-source: README.md@7713e35c837f2f5de2312d94c19d1af745744d0e status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-light.svg" alt="Performance Toolkit: Find hangs, hitches, memory growth, slow launches and leaks in Swift apps, and check them in tests."></picture></p>
@@ -34,7 +34,7 @@
 - **真正重要的内存指标** — `MemorySnapshot` 读取系统实际执行限制所依据的物理内存占用及其峰值，在真机上还能读取距离上限所剩的内存。
 - **启动与泄漏** — `LaunchTimer` 从进程创建时（早于 `main`）开始计时，并能识别预热（prewarmed）启动；`LeakTracker` 报告界面关闭后仍然存活的对象。
 - **线上数据与预算** — `FieldMetricsReceiver` 读取 MetricKit 在 iOS 17 至 27 上的每日报告；`PerformanceBudget` 可在测试中用限值检查任意测量结果。
-- **为长时间运行而设计** — 每个缓冲区都有上限，来自内核或 payload 的值在使用前都会校验，URL 在存储前会先脱敏。99 个 Swift Testing 测试在 macOS 上运行，其中 98 个也会在 iPhone 模拟器上运行，测试针对真实的卡死、内存分配和 HTTP 请求。
+- **为长时间运行而设计** — 每个缓冲区都有上限，来自内核或 payload 的值在使用前都会校验，网络耗时不含任何 header 或 body，只带一个脱敏后的 URL。115 个 Swift Testing 测试在 macOS 上运行，其中 114 个也会在 iPhone 模拟器上运行，测试针对真实的卡死、内存分配和 HTTP 请求。
 
 ### 包含的内容
 
@@ -191,6 +191,40 @@ func receiveFieldMetrics() {
 
 MetricKit 大约每天送达一份报告，来源是其所有者同意与开发者共享分析数据的设备。`FieldMetrics` 遵循 `Codable`，且不依赖 MetricKit，因此你可以把它上传并在服务器上解码。在 iOS 27 和 macOS 27 上，接收器使用新的 `MetricManager`，更早的系统则使用 `MXMetricManager`。
 
+### 记录网络请求的耗时
+
+```swift
+let networkTimings = NetworkMetricsCollector(redaction: URLRedaction(allowedQueryParameters: ["page"]))
+
+func loadOrders(page: Int) async throws -> Data {
+    let url = URL(string: "https://api.example.com/v1/orders?page=\(page)")!
+    let (data, _) = try await URLSession.shared.data(from: url, delegate: networkTimings)
+    return data
+}
+
+func logSlowRequests() {
+    Task {
+        for await timing in networkTimings.updates() {
+            if let waiting = timing.phases.waiting, waiting > .milliseconds(500) {
+                print("\(timing.url) waited \(waiting) for the server")
+            }
+        }
+    }
+}
+```
+
+每个 `NetworkTiming` 把请求拆分为 DNS 解析、建立连接、TLS、发送、等待首字节和接收几个阶段。它的 URL 在存储前会先脱敏：`https://api.example.com/v1/users/48213/orders?page=2&token=abc` 会被记录为 `https://api.example.com/v1/users/:id/orders?page=2`.
+
+## 记录哪些内容
+
+本包面向真实用户使用的内部版本和 Beta 版本，因此它生成的报告不能带有用户的数据。
+
+- **会记录：** 耗时、帧与 hitch 数据、内存与 CPU 数据、卡死期间主线程的调用栈（二进制名和符号名）、MetricKit 的各项数据与应用构建版本、界面关闭后仍然存活的对象的类型名，以及每个请求脱敏后的 URL、方法、状态码、协议、各阶段耗时和响应大小。你传给 `PerformanceTracer` 和 `LeakTracker` 的名称会原样记录，因此请使用固定的名称。
+- **绝不会记录：** 请求和响应的 header（`Authorization`、cookie）、请求和响应的 body、URL 中的用户名、密码和 fragment，以及它的 query，只有你按名称允许的参数除外。
+- **URL：** 看起来像标识符的路径段（数字、UUID、电子邮件地址、六位及以上的数字、银行卡号、IBAN、token）会变成 `:id`，紧跟在 `token` 或 `password` 这类名称之后的路径段也一样。经过百分号解码后不是纯 ASCII 的路径段，例如 `Şifre`，或含有来自其他文字、外形相近字母的单词，会被有意地连同下一段一起隐藏。服务器可能有不同解读方式的路径（`..`、`;`、双重百分号编码）只会记录为 scheme 和 host。
+
+脱敏是一道安全网，而不是保证。它无法判断路径里的一个普通单词（比如邀请码 `sunflower`）是机密。请不要把机密放进 URL，或者用 `URLRedaction(recordsHostOnly: true)` 只记录 host。[网络耗时文章](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/recordingnetworktimings)列出了每条规则及其限制。
+
 ## 示例应用
 
 [`Examples/PerformanceLab`](Examples/) 是一个 iOS 和 macOS 应用，它会故意制造每一种问题，让你观察测量值如何变化。从左到右依次是：一次 600 ms 的主线程卡死（其调用栈指向对应的应用函数）、以全速滚动的带慢速行的列表、被 closure 保持存活的 view model，以及能捕获卡死的预算检查。
@@ -212,6 +246,7 @@ MetricKit 大约每天送达一份报告，来源是其所有者同意与开发�
 - [Finding Hangs and Hitches](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/findinghangsandhitches)
 - [Reading Field Metrics](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/readingfieldmetrics)
 - [Setting Performance Budgets](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/settingperformancebudgets)
+- [Recording Network Timings](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/recordingnetworktimings)
 
 ## 系统要求
 

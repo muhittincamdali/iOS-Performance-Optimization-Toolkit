@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@21fa6ae667b204fc005d94d0bc728f2b5ba1e67b status=reviewed -->
+<!-- i18n-source: README.md@7713e35c837f2f5de2312d94c19d1af745744d0e status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-light.svg" alt="Performance Toolkit: Find hangs, hitches, memory growth, slow launches and leaks in Swift apps, and check them in tests."></picture></p>
@@ -34,7 +34,7 @@ Um pacote Swift que mede o que faz um app parecer lento, em iOS 17+, macOS 14+, 
 - **O número de memória que importa** — o `MemorySnapshot` lê a pegada física que o sistema impõe, o seu pico e, em dispositivos, a memória que resta antes do limite.
 - **Abertura e vazamentos** — o `LaunchTimer` mede desde a criação do processo (antes de `main`) e reconhece aberturas pré-aquecidas (prewarmed); o `LeakTracker` informa os objetos que continuam vivos depois que a tela deles foi fechada.
 - **Dados de campo e orçamentos** — o `FieldMetricsReceiver` lê os relatórios diários do MetricKit no iOS 17 a 27; o `PerformanceBudget` verifica qualquer medição contra limites em um teste.
-- **Feito para rodar o dia todo** — todo buffer tem um limite, valores vindos do kernel ou de um payload são verificados antes do uso, e as URLs são ocultadas antes de serem armazenadas. 99 testes do Swift Testing rodam no macOS, 98 deles também em um simulador de iPhone, contra travamentos, alocações e requisições HTTP reais.
+- **Feito para rodar o dia todo** — todo buffer tem um limite, valores vindos do kernel ou de um payload são verificados antes do uso, e as medições de rede não guardam cabeçalhos nem corpos, apenas uma URL ocultada. 115 testes do Swift Testing rodam no macOS, 114 deles também em um simulador de iPhone, contra travamentos, alocações e requisições HTTP reais.
 
 ### O que está incluído
 
@@ -191,6 +191,40 @@ func receiveFieldMetrics() {
 
 O MetricKit entrega um relatório cerca de uma vez por dia a partir de dispositivos cujos donos compartilham dados de análise com os desenvolvedores. `FieldMetrics` é `Codable` e não depende do MetricKit, então você pode enviá-lo e decodificá-lo em um servidor. No iOS 27 e no macOS 27, o receiver usa o novo `MetricManager`; em sistemas anteriores, o `MXMetricManager`.
 
+### Meça o tempo das requisições de rede
+
+```swift
+let networkTimings = NetworkMetricsCollector(redaction: URLRedaction(allowedQueryParameters: ["page"]))
+
+func loadOrders(page: Int) async throws -> Data {
+    let url = URL(string: "https://api.example.com/v1/orders?page=\(page)")!
+    let (data, _) = try await URLSession.shared.data(from: url, delegate: networkTimings)
+    return data
+}
+
+func logSlowRequests() {
+    Task {
+        for await timing in networkTimings.updates() {
+            if let waiting = timing.phases.waiting, waiting > .milliseconds(500) {
+                print("\(timing.url) waited \(waiting) for the server")
+            }
+        }
+    }
+}
+```
+
+Cada `NetworkTiming` divide a requisição em consulta de DNS, conexão, TLS, envio, espera pelo primeiro byte e recebimento. A URL é ocultada antes de ser armazenada: `https://api.example.com/v1/users/48213/orders?page=2&token=abc` é registrada como `https://api.example.com/v1/users/:id/orders?page=2`.
+
+## O que é registrado
+
+O pacote é pensado para builds internos e beta usados por pessoas reais, então seus relatórios não podem carregar os dados dessas pessoas.
+
+- **Registrado:** durações, números de quadros e hitches, números de memória e CPU, pilhas de chamadas da thread principal durante um travamento (nomes de binários e de símbolos), os números do MetricKit e o build do app, os nomes de tipo dos objetos que sobrevivem à sua tela e, de cada requisição, a URL ocultada, o método, o código de status, o protocolo, a duração de cada fase e o tamanho da resposta. Os nomes que você passa ao `PerformanceTracer` e ao `LeakTracker` são registrados como você os dá, então use nomes fixos.
+- **Nunca registrado:** cabeçalhos de requisição e de resposta (`Authorization`, cookies), corpos de requisição e de resposta, o nome de usuário e a senha e o fragmento de uma URL, e a query dela, exceto os parâmetros que você permitir pelo nome.
+- **URLs:** segmentos do caminho que parecem identificadores (números, UUIDs, endereços de e-mail, seis ou mais dígitos, números de cartão, IBANs, tokens) viram `:id`, assim como o segmento depois de um nome como `token` ou `password`. Um segmento que não é ASCII puro depois da decodificação de porcentagem, como `Şifre` ou uma palavra com uma letra parecida de outro alfabeto, é ocultado junto com o seguinte, de propósito. Um caminho que servidores poderiam ler de maneiras diferentes (`..`, `;`, codificação de porcentagem dupla) é registrado apenas como esquema e host.
+
+A ocultação é uma rede de segurança, não uma garantia. Ela não consegue saber que uma palavra comum em um caminho, como o código de convite `sunflower`, é secreta. Mantenha segredos fora das URLs, ou registre só o host com `URLRedaction(recordsHostOnly: true)`. O [artigo sobre as medições de rede](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/recordingnetworktimings) lista todas as regras e seus limites.
+
 ## App de exemplo
 
 [`Examples/PerformanceLab`](Examples/) é um app para iOS e macOS que causa cada problema de propósito para que você veja a medição reagir. Da esquerda para a direita: um travamento de 600 ms da thread principal, com a função do app para a qual a pilha de chamadas aponta; uma lista com linhas lentas rolada na velocidade máxima; um view model mantido vivo por um closure; e uma verificação de orçamento que detecta um travamento.
@@ -212,6 +246,7 @@ A [documentação do DocC](https://muhittincamdali.github.io/iOS-Performance-Opt
 - [Finding Hangs and Hitches](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/findinghangsandhitches)
 - [Reading Field Metrics](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/readingfieldmetrics)
 - [Setting Performance Budgets](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/settingperformancebudgets)
+- [Recording Network Timings](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/recordingnetworktimings)
 
 ## Requisitos
 

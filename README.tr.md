@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@21fa6ae667b204fc005d94d0bc728f2b5ba1e67b status=reviewed -->
+<!-- i18n-source: README.md@7713e35c837f2f5de2312d94c19d1af745744d0e status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-light.svg" alt="Performance Toolkit: Find hangs, hitches, memory growth, slow launches and leaks in Swift apps, and check them in tests."></picture></p>
@@ -34,7 +34,7 @@ Bir uygulamayı yavaş hissettiren şeyleri ölçen, hiçbir bağımlılığı o
 - **Gerçekten önemli bellek değeri** — `MemorySnapshot`, sistemin uyguladığı fiziksel ayak izini, bu değerin tepe noktasını ve cihazlarda sınıra kalan belleği okur.
 - **Açılış ve sızıntılar** — `LaunchTimer`, süreç oluşturulduğu andan (`main`'den önce) itibaren ölçer ve önceden ısıtılmış (prewarmed) açılışları tanır; `LeakTracker`, ekranı kapandıktan sonra hâlâ canlı olan nesneleri raporlar.
 - **Saha verisi ve bütçeler** — `FieldMetricsReceiver`, MetricKit'in günlük raporlarını iOS 17'den 27'ye kadar okur; `PerformanceBudget`, herhangi bir ölçümü bir test içinde sınırlarla karşılaştırır.
-- **Gün boyu çalışacak şekilde tasarlandı** — her tamponun bir sınırı vardır, çekirdekten veya bir payload'dan gelen değerler kullanılmadan önce doğrulanır ve URL'ler saklanmadan önce maskelenir. 99 Swift Testing testi macOS'ta çalışır, bunların 98'i ayrıca bir iPhone simülatöründe de çalışır; testler gerçek takılmalara, bellek ayırmalarına ve HTTP isteklerine karşı yürütülür.
+- **Gün boyu çalışacak şekilde tasarlandı** — her tamponun bir sınırı vardır, çekirdekten veya bir payload'dan gelen değerler kullanılmadan önce doğrulanır; ağ zamanlamaları header ya da body tutmaz, yalnızca maskelenmiş bir URL içerir. 115 Swift Testing testi macOS'ta çalışır, bunların 114'ü ayrıca bir iPhone simülatöründe de çalışır; testler gerçek takılmalara, bellek ayırmalarına ve HTTP isteklerine karşı yürütülür.
 
 ### İçerik
 
@@ -191,6 +191,40 @@ func receiveFieldMetrics() {
 
 MetricKit, sahipleri analiz verilerini geliştiricilerle paylaşan cihazlardan günde yaklaşık bir kez rapor iletir. `FieldMetrics`, `Codable`'dır ve MetricKit'e bağımlılığı yoktur; bu yüzden onu bir sunucuya yükleyip orada çözebilirsiniz. iOS 27 ve macOS 27'de alıcı yeni `MetricManager`'ı, daha eski sistemlerde `MXMetricManager`'ı kullanır.
 
+### Ağ isteklerini zamanlayın
+
+```swift
+let networkTimings = NetworkMetricsCollector(redaction: URLRedaction(allowedQueryParameters: ["page"]))
+
+func loadOrders(page: Int) async throws -> Data {
+    let url = URL(string: "https://api.example.com/v1/orders?page=\(page)")!
+    let (data, _) = try await URLSession.shared.data(from: url, delegate: networkTimings)
+    return data
+}
+
+func logSlowRequests() {
+    Task {
+        for await timing in networkTimings.updates() {
+            if let waiting = timing.phases.waiting, waiting > .milliseconds(500) {
+                print("\(timing.url) waited \(waiting) for the server")
+            }
+        }
+    }
+}
+```
+
+Her `NetworkTiming`, isteği DNS sorgusu, bağlantı, TLS, gönderme, ilk bayta kadar bekleme ve alma aşamalarına böler. URL'si saklanmadan önce maskelenir: `https://api.example.com/v1/users/48213/orders?page=2&token=abc` şu şekilde kaydedilir: `https://api.example.com/v1/users/:id/orders?page=2`.
+
+## Neler kaydedilir
+
+Paket, gerçek kullanıcıların kullandığı dahili ve beta sürümler için tasarlanmıştır; bu yüzden raporları onların verilerini taşımamalıdır.
+
+- **Kaydedilenler:** süreler, kare ve hitch değerleri, bellek ve CPU değerleri, bir takılma sırasında ana iş parçacığının çağrı yığınları (binary ve sembol adları), MetricKit'in değerleri ve uygulama build'i, ekranından uzun yaşayan nesnelerin tür adları ve her istek için maskelenmiş URL'si, metodu, durum kodu, protokolü, aşama zamanlamaları ve yanıt boyutu. `PerformanceTracer` ve `LeakTracker`'a verdiğiniz adlar verdiğiniz gibi kaydedilir; bu yüzden sabit adlar kullanın.
+- **Hiçbir zaman kaydedilmeyenler:** istek ve yanıt header'ları (`Authorization`, cookie'ler), istek ve yanıt body'leri, bir URL'deki kullanıcı adı ve parola ile fragment'i ve query'si; yalnızca adıyla izin verdiğiniz parametreler bunun dışındadır.
+- **URL'ler:** tanımlayıcıya benzeyen path segment'leri (sayılar, UUID'ler, e-posta adresleri, altı veya daha fazla rakam, kart numaraları, IBAN'lar, token'lar) `:id` olur; `token` veya `password` gibi bir addan sonra gelen segment de öyle. Yüzde kodlaması çözüldükten sonra düz ASCII olmayan bir segment, örneğin `Şifre` ya da başka bir yazı sisteminden benzer görünen bir harf içeren bir sözcük, bilerek bir sonrakiyle birlikte gizlenir. Sunucuların farklı biçimlerde okuyabileceği bir path (`..`, `;`, çift yüzde kodlaması) yalnızca scheme ve host olarak kaydedilir.
+
+Maskeleme bir güvenlik ağıdır, garanti değildir. Bir path içindeki sıradan bir sözcüğün, örneğin `sunflower` gibi bir davet kodunun, gizli olduğunu anlayamaz. Gizli bilgileri URL'lerin dışında tutun ya da yalnızca host'u `URLRedaction(recordsHostOnly: true)` ile kaydedin. [Ağ zamanlamaları makalesi](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/recordingnetworktimings) her kuralı ve sınırlarını listeler.
+
 ## Örnek uygulama
 
 [`Examples/PerformanceLab`](Examples/), her sorunu bilerek oluşturan bir iOS ve macOS uygulamasıdır; böylece ölçümün nasıl tepki verdiğini izleyebilirsiniz. Soldan sağa: çağrı yığını uygulama fonksiyonunu gösteren 600 ms'lik bir ana iş parçacığı takılması, yavaş satırlı ve tam hızda kaydırılan bir liste, bir closure tarafından canlı tutulan bir view model ve bir takılmayı yakalayan bütçe denetimi.
@@ -212,6 +246,7 @@ Ekran görüntüleri, çalışan uygulamadan bir iPhone simülatöründe [`scrip
 - [Finding Hangs and Hitches](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/findinghangsandhitches)
 - [Reading Field Metrics](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/readingfieldmetrics)
 - [Setting Performance Budgets](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/settingperformancebudgets)
+- [Recording Network Timings](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/recordingnetworktimings)
 
 ## Gereksinimler
 

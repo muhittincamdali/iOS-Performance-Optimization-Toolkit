@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@21fa6ae667b204fc005d94d0bc728f2b5ba1e67b status=reviewed -->
+<!-- i18n-source: README.md@7713e35c837f2f5de2312d94c19d1af745744d0e status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-light.svg" alt="Performance Toolkit: Find hangs, hitches, memory growth, slow launches and leaks in Swift apps, and check them in tests."></picture></p>
@@ -34,7 +34,7 @@
 - **Показатель памяти, который действительно важен** — `MemorySnapshot` считывает физический объём занятой памяти, на который опирается система, его пик и, на устройствах, объём памяти, оставшийся до лимита.
 - **Запуск и утечки** — `LaunchTimer` измеряет время от создания процесса (до `main`) и распознаёт прогретые (prewarmed) запуски; `LeakTracker` сообщает об объектах, которые остались живы после закрытия их экрана.
 - **Данные из реальной эксплуатации и бюджеты** — `FieldMetricsReceiver` читает ежедневные отчёты MetricKit на iOS с 17 по 27; `PerformanceBudget` сверяет любое измерение с лимитами в тесте.
-- **Рассчитан на работу в течение всего дня** — у каждого буфера есть предел, значения из ядра или payload проверяются перед использованием, а URL маскируются до сохранения. 99 тестов Swift Testing выполняются на macOS, 98 из них — ещё и на симуляторе iPhone, на реальных зависаниях, выделениях памяти и HTTP-запросах.
+- **Рассчитан на работу в течение всего дня** — у каждого буфера есть предел, значения из ядра или payload проверяются перед использованием, а сетевые тайминги не содержат ни заголовков, ни тел запросов и ответов, только замаскированный URL. 115 тестов Swift Testing выполняются на macOS, 114 из них — ещё и на симуляторе iPhone, на реальных зависаниях, выделениях памяти и HTTP-запросах.
 
 ### Что входит
 
@@ -191,6 +191,40 @@ func receiveFieldMetrics() {
 
 MetricKit доставляет отчёт примерно раз в сутки с устройств, владельцы которых делятся аналитикой с разработчиками. `FieldMetrics` соответствует `Codable` и не зависит от MetricKit, поэтому его можно отправить на сервер и декодировать там. На iOS 27 и macOS 27 получатель использует новый `MetricManager`, на более ранних системах — `MXMetricManager`.
 
+### Измерьте время сетевых запросов
+
+```swift
+let networkTimings = NetworkMetricsCollector(redaction: URLRedaction(allowedQueryParameters: ["page"]))
+
+func loadOrders(page: Int) async throws -> Data {
+    let url = URL(string: "https://api.example.com/v1/orders?page=\(page)")!
+    let (data, _) = try await URLSession.shared.data(from: url, delegate: networkTimings)
+    return data
+}
+
+func logSlowRequests() {
+    Task {
+        for await timing in networkTimings.updates() {
+            if let waiting = timing.phases.waiting, waiting > .milliseconds(500) {
+                print("\(timing.url) waited \(waiting) for the server")
+            }
+        }
+    }
+}
+```
+
+Каждый `NetworkTiming` делит запрос на DNS-запрос, соединение, TLS, отправку, ожидание первого байта и получение. URL маскируется до сохранения: `https://api.example.com/v1/users/48213/orders?page=2&token=abc` записывается как `https://api.example.com/v1/users/:id/orders?page=2`.
+
+## Что записывается
+
+Пакет предназначен для внутренних и бета-сборок, которыми пользуются реальные люди, поэтому его отчёты не должны содержать их данных.
+
+- **Записывается:** длительности, показатели кадров и hitch, показатели памяти и CPU, стеки вызовов главного потока во время зависания (имена бинарных файлов и символов), показатели MetricKit и сборка приложения, имена типов объектов, переживших свой экран, а для каждого запроса — замаскированный URL, метод, код статуса, протокол, длительность каждой фазы и размер ответа. Имена, которые вы передаёте в `PerformanceTracer` и `LeakTracker`, записываются как есть, поэтому используйте фиксированные имена.
+- **Никогда не записывается:** заголовки запросов и ответов (`Authorization`, cookie), тела запросов и ответов, имя пользователя и пароль, фрагмент URL и его query, за исключением параметров, которые вы разрешили по имени.
+- **URL:** сегменты пути, похожие на идентификаторы (числа, UUID, адреса электронной почты, шесть и более цифр, номера карт, IBAN, токены), заменяются на `:id`, как и сегмент после имени вроде `token` или `password`. Сегмент, который после раскодирования процентных последовательностей не является чистым ASCII, например `Şifre` или слово с похожей буквой из другого алфавита, намеренно скрывается вместе со следующим. Путь, который серверы могут прочитать по-разному (`..`, `;`, двойное процентное кодирование), записывается только как схема и хост.
+
+Маскирование — это страховочная сетка, а не гарантия. Оно не может понять, что обычное слово в пути, например код приглашения `sunflower`, секретно. Не помещайте секреты в URL или записывайте только хост с помощью `URLRedaction(recordsHostOnly: true)`. [Статья о сетевых таймингах](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/recordingnetworktimings) перечисляет все правила и их ограничения.
+
 ## Пример приложения
 
 [`Examples/PerformanceLab`](Examples/) — приложение для iOS и macOS, которое намеренно вызывает каждую из проблем, чтобы вы видели, как реагирует измерение. Слева направо: зависание главного потока на 600 мс с функцией приложения, на которую указывает его стек вызовов; список с медленными строками, прокручиваемый на полной скорости; view model, удерживаемая в памяти замыканием (closure); и проверка бюджета, которая ловит зависание.
@@ -212,6 +246,7 @@ MetricKit доставляет отчёт примерно раз в сутки 
 - [Finding Hangs and Hitches](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/findinghangsandhitches)
 - [Reading Field Metrics](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/readingfieldmetrics)
 - [Setting Performance Budgets](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/settingperformancebudgets)
+- [Recording Network Timings](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/recordingnetworktimings)
 
 ## Требования
 
