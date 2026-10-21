@@ -117,6 +117,36 @@ extension TimingSensitiveTests {
             #expect(frames.contains { $0.image != nil })
         }
 
+        @Test("releases the main thread's port only once its watching thread has ended")
+        @MainActor
+        func releasesPortAfterWatcher() async throws {
+            // The watching threads of earlier tests release their ports within one check
+            // interval, which is at most one second, after their detector stopped.
+            try await Task.sleep(for: .milliseconds(1_200))
+            let before = mainThreadSendReferences()
+            let detector = HangDetector(threshold: .seconds(1), checkInterval: .milliseconds(500), capturesBacktraces: true)
+            detector.start()
+            #expect(mainThreadSendReferences() == before + 1)
+            // The watching thread is now in its first pause, which lasts 500 ms. It may read the
+            // main thread's stack through the port when it wakes, so stop() leaves the port alone.
+            try await Task.sleep(for: .milliseconds(100))
+            detector.stop()
+            #expect(mainThreadSendReferences() == before + 1)
+            for _ in 0..<100 where mainThreadSendReferences() != before {
+                try await Task.sleep(for: .milliseconds(20))
+            }
+            #expect(mainThreadSendReferences() == before)
+        }
+
+        // The number of references this process holds to the calling thread's port.
+        private func mainThreadSendReferences() -> mach_port_urefs_t {
+            let port = mach_thread_self()
+            defer { mach_port_deallocate(mach_task_self_, port) }
+            var references: mach_port_urefs_t = 0
+            _ = mach_port_get_refs(mach_task_self_, port, MACH_PORT_RIGHT_SEND, &references)
+            return references
+        }
+
         #if os(macOS)
         @Test("time in which the whole process was stopped is not a hang")
         func stoppedProcess() async throws {

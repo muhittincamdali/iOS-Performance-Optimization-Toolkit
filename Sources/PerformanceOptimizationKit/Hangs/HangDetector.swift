@@ -71,8 +71,9 @@ public final class HangDetector: Sendable {
             return true
         }
         guard started else { return }
-        if capturesBacktraces { registerMainThread(runID: runID) }
-        let watcher = Watcher(runID: runID, state: state, queue: queue, threshold: threshold, checkInterval: checkInterval, broadcaster: broadcaster)
+        let mainThread = OSAllocatedUnfairLock(initialState: MainThreadPort.awaited)
+        if capturesBacktraces { Self.registerMainThread(in: mainThread) }
+        let watcher = Watcher(runID: runID, state: state, mainThread: mainThread, queue: queue, threshold: threshold, checkInterval: checkInterval, broadcaster: broadcaster)
         let thread = Thread { watcher.run() }
         thread.name = "PerformanceOptimizationKit.HangDetector"
         thread.qualityOfService = .userInitiated
@@ -81,24 +82,19 @@ public final class HangDetector: Sendable {
 
     /// Stops watching. A hang in progress is not reported.
     public func stop() {
-        let port = state.withLock { state -> thread_t? in
-            defer {
-                state.runID = nil
-                state.mainThread = nil
-            }
-            return state.mainThread
-        }
-        if let port { mach_port_deallocate(mach_task_self_, port) }
+        // The watching thread releases the main thread's port when it ends, because it may be
+        // reading the main thread's stack through that port at this moment.
+        state.withLock { $0.runID = nil }
     }
 
     // mach_thread_self() has to run on the thread it names. From another thread, the main
     // thread registers itself the next time it is free.
-    private func registerMainThread(runID: UUID) {
-        let register: @Sendable () -> Void = { [state] in
+    private static func registerMainThread(in mainThread: OSAllocatedUnfairLock<MainThreadPort>) {
+        let register: @Sendable () -> Void = {
             let port = mach_thread_self()
-            let kept = state.withLock { state -> Bool in
-                guard state.runID == runID, state.mainThread == nil else { return false }
-                state.mainThread = port
+            let kept = mainThread.withLock { slot -> Bool in
+                guard case .awaited = slot else { return false }
+                slot = .registered(port)
                 return true
             }
             if !kept { mach_port_deallocate(mach_task_self_, port) }
@@ -112,6 +108,7 @@ public final class HangDetector: Sendable {
 private struct Watcher: Sendable {
     let runID: UUID
     let state: OSAllocatedUnfairLock<WatchState>
+    let mainThread: OSAllocatedUnfairLock<MainThreadPort>
     let queue: DispatchQueue
     let threshold: Duration
     let checkInterval: Duration
@@ -126,6 +123,17 @@ private struct Watcher: Sendable {
             recordHeartbeat(sleptSince: before)
             captureBacktraceIfOverdue()
         }
+        releaseMainThread()
+    }
+
+    // Only this thread reads the stack through the port, so it is released here, after the
+    // last read, and a registration that comes later releases its own port.
+    private func releaseMainThread() {
+        let previous = mainThread.withLock { slot -> MainThreadPort in
+            defer { slot = .closed }
+            return slot
+        }
+        if case .registered(let port) = previous { mach_port_deallocate(mach_task_self_, port) }
     }
 
     // How long the watching thread may go without running before its measurement is
@@ -184,8 +192,9 @@ private struct Watcher: Sendable {
 
     private func captureBacktraceIfOverdue() {
         let now = Self.uptimeNanoseconds()
+        guard case .registered(let thread) = mainThread.withLock({ $0 }) else { return }
         let target = state.withLock { state -> (thread: thread_t, pingID: UUID)? in
-            guard let thread = state.mainThread, let ping = state.waiting, state.backtrace?.pingID != ping.id else { return nil }
+            guard let ping = state.waiting, state.backtrace?.pingID != ping.id else { return nil }
             let age = Duration.nanoseconds(Int64(clamping: now >= ping.submitted ? now - ping.submitted : 0))
             return age >= threshold ? (thread, ping.id) : nil
         }
@@ -210,7 +219,14 @@ private struct Ping: Sendable {
 private struct WatchState: Sendable {
     var runID: UUID?
     var waiting: Ping?
-    var mainThread: thread_t?
     var backtrace: (pingID: UUID, frames: [StackFrame])?
     var heartbeat: UInt64?
+}
+
+// The main thread's port for one run: awaited until the main thread registers itself, closed
+// once the watching thread has ended.
+private enum MainThreadPort: Sendable {
+    case awaited
+    case registered(thread_t)
+    case closed
 }
