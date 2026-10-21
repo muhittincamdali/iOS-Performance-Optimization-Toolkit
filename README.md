@@ -44,9 +44,9 @@ through MetricKit, and a budget turns any of them into a failing test.
 - **Field data and budgets** — `FieldMetricsReceiver` reads MetricKit's daily reports on iOS
   17 to 27; `PerformanceBudget` checks any measurement against limits in a test.
 - **Built to run all day** — every buffer has a limit, values from the kernel or a payload are
-  checked before use, and URLs are redacted before they are stored. 99 Swift Testing tests run
-  on macOS, 98 of them also on an iPhone simulator, against real hangs, allocations and HTTP
-  requests.
+  checked before use, and network timings hold no headers or bodies and a redacted URL. 115
+  Swift Testing tests run on macOS, 114 of them also on an iPhone simulator, against real
+  hangs, allocations and HTTP requests.
 
 ### What's included
 
@@ -218,6 +218,59 @@ developers. `FieldMetrics` is `Codable` and has no MetricKit dependency, so you 
 and decode it on a server. On iOS 27 and macOS 27 the receiver uses the new `MetricManager`,
 on earlier systems `MXMetricManager`.
 
+### Time network requests
+
+```swift
+let networkTimings = NetworkMetricsCollector(redaction: URLRedaction(allowedQueryParameters: ["page"]))
+
+func loadOrders(page: Int) async throws -> Data {
+    let url = URL(string: "https://api.example.com/v1/orders?page=\(page)")!
+    let (data, _) = try await URLSession.shared.data(from: url, delegate: networkTimings)
+    return data
+}
+
+func logSlowRequests() {
+    Task {
+        for await timing in networkTimings.updates() {
+            if let waiting = timing.phases.waiting, waiting > .milliseconds(500) {
+                print("\(timing.url) waited \(waiting) for the server")
+            }
+        }
+    }
+}
+```
+
+Each `NetworkTiming` splits the request into DNS lookup, connection, TLS, sending, waiting for
+the first byte and receiving. Its URL is redacted before it is stored:
+`https://api.example.com/v1/users/48213/orders?page=2&token=abc` is recorded as
+`https://api.example.com/v1/users/:id/orders?page=2`.
+
+## What is recorded
+
+The package is meant for internal and beta builds that real people use, so its reports must not
+carry their data.
+
+- **Recorded:** durations, frame and hitch figures, memory and CPU figures, call stacks of the
+  main thread during a hang (binary and symbol names), MetricKit's figures and the app build,
+  the type names of objects that outlive their screen, and for each request its redacted URL,
+  method, status code, protocol, phase timings and response size. Names you pass to
+  `PerformanceTracer` and `LeakTracker` are recorded as you give them, so use fixed names.
+- **Never recorded:** request and response headers (`Authorization`, cookies), request and
+  response bodies, the user name and password and the fragment of a URL, and its query, except
+  for parameters you allow by name.
+- **URLs:** path segments that look like identifiers (numbers, UUIDs, e-mail addresses, six or
+  more digits, card numbers, IBANs, tokens) become `:id`, and so does the segment after a name
+  such as `token` or `password`. A segment that is not plain ASCII after percent-decoding, such
+  as `Şifre` or a word with a look-alike letter from another script, is hidden together with the
+  next one, on purpose. A path that servers could read in different ways (`..`, `;`, double
+  percent-encoding) is recorded as scheme and host only.
+
+Redaction is a safety net, not a guarantee. It cannot tell that an ordinary word in a path, such
+as an invitation code `sunflower`, is secret. Keep secrets out of URLs, or record the host only
+with `URLRedaction(recordsHostOnly: true)`. The
+[network timings article](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/recordingnetworktimings)
+lists every rule and its limits.
+
 ## Example app
 
 [`Examples/PerformanceLab`](Examples/) is an iOS and macOS app that causes each problem on
@@ -244,6 +297,7 @@ The [DocC documentation](https://muhittincamdali.github.io/iOS-Performance-Optim
 - [Finding Hangs and Hitches](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/findinghangsandhitches)
 - [Reading Field Metrics](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/readingfieldmetrics)
 - [Setting Performance Budgets](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/settingperformancebudgets)
+- [Recording Network Timings](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/recordingnetworktimings)
 
 ## Requirements
 

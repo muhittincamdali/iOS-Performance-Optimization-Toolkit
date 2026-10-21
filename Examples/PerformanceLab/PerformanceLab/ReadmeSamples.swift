@@ -78,6 +78,26 @@ func receiveFieldMetrics() {
     }
 }
 
+// MARK: Network timings
+
+let networkTimings = NetworkMetricsCollector(redaction: URLRedaction(allowedQueryParameters: ["page"]))
+
+func loadOrders(page: Int) async throws -> Data {
+    let url = URL(string: "https://api.example.com/v1/orders?page=\(page)")!
+    let (data, _) = try await URLSession.shared.data(from: url, delegate: networkTimings)
+    return data
+}
+
+func logSlowRequests() {
+    Task {
+        for await timing in networkTimings.updates() {
+            if let waiting = timing.phases.waiting, waiting > .milliseconds(500) {
+                print("\(timing.url) waited \(waiting) for the server")
+            }
+        }
+    }
+}
+
 /// Stands in for the app's own first screen in the samples above.
 struct ContentView: View {
     var body: some View {
