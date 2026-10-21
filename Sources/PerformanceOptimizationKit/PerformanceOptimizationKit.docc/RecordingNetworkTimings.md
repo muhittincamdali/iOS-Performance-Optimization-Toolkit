@@ -40,6 +40,9 @@ understand is hidden:
 - Path segments that look like identifiers (numbers, UUIDs, e-mail addresses, runs of six or
   more digits, card numbers, IBANs, tokens) become `:id`.
 - The segment after a name such as `token`, `password`, `pin` or `api_key` becomes `:id`.
+- A segment that holds such a name together with more, such as `token-hunter22`, `pin_4831` or
+  `passwordhunter2`, becomes `:id`, because the rest can be the secret, and so does the segment
+  after it.
 - A segment that is not plain ASCII after percent-decoding becomes `:id`, and so does the
   segment after it. This covers look-alike letters from other scripts, invisible format
   characters, combining marks and non-Latin names such as `Şifre`: they are hidden on purpose,
@@ -48,7 +51,9 @@ understand is hidden:
   backslash, a double percent-encoding or an encoded `/`, `?`, `#` or `.`) is recorded as
   scheme and host only, and so is a URL whose path or query is longer than the documented caps.
 - A host that names a secret (`myapp://pin/4831`) keeps only scheme and host; a host that is
-  not a plain DNS name or IP address, or looks like an identifier, keeps only the scheme.
+  not a plain DNS name or IP address (an IPv6 address with a zone such as `%25en0` included),
+  looks like an identifier, or has a label that holds a secret name together with more
+  (`myapp://pin-4831`, and also `oauth2.example.com`) keeps only the scheme.
 - Query parameters are dropped unless you name them in
   `URLRedaction/allowedQueryParameters`. Even then a value is kept only when it is short and
   plain; a value with symbols, an identifier or a secret name becomes `<redacted>`. Names of
@@ -59,7 +64,12 @@ understand is hidden:
 Redaction is a safety net, not a guarantee. It cannot know that an ordinary-looking word is
 secret: in `https://api.example.com/v1/invite/sunflower`, `sunflower` stays in the timing even
 if it is an invitation code. The same goes for a short code of letters and a few digits,
-such as `ab12cd`, that does not follow a secret name. Keep secrets out of URLs; send them in
+such as `ab12cd`, that does not follow a secret name, and for a token of 16 to 31 letters
+without digits, such as `AbCdEfGhIjKlMnOpQrSt`, which cannot be told apart from a long word.
+A short secret name such as `pin`, `key` or `sid` is only recognized inside a segment when a
+separator follows it (`pin_4831`), because it is also part of ordinary words (`ping`,
+`keyboard`): `pin4831` is kept. In a host, `.` separates labels, so in `myapp://pin.ab12cd` the
+label `pin` names a secret and the host is kept as it is. Keep secrets out of URLs; send them in
 headers or in the body, which the collector never records. If even the paths of your API carry
 personal data, use `URLRedaction(recordsHostOnly: true)`.
 

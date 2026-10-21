@@ -58,15 +58,17 @@ iOS 17, macOS 14, tvOS 17, watchOS 10 and visionOS 1 and later.
 ### Security
 
 - Every buffer has a limit, and values read from the kernel or decoded from JSON are checked
-  before they reach integer conversions or arithmetic. `PerformanceTracer` does not record
-  names longer than 256 bytes.
+  before they reach integer conversions or arithmetic. `PerformanceTracer` does not record,
+  and `LeakTracker` does not track, names longer than 256 bytes.
 - Network timings never hold headers or bodies, and a method or protocol name only when it is
   a short plain word. `URLRedaction` hides whatever it does not fully understand: credentials,
   the fragment and the query (except allowed parameters with short plain values) are always
   dropped; identifiers, the segment after a secret name, and names that are not plain ASCII
-  (look-alike letters, invisible characters, combining marks) and the segment after them become
-  `:id`; paths that servers read differently (dot segments, `;`, double or encoded delimiters)
-  and hosts that name a secret keep scheme and host only; unreadable hosts keep the scheme only.
+  (look-alike letters, invisible characters, combining marks) or hold a secret name together
+  with more (`token-hunter22`) and the segment after them become `:id`; paths that servers read
+  differently (dot segments, `;`, double or encoded delimiters) and hosts that name a secret
+  keep scheme and host only; unreadable hosts, IPv6 hosts with a zone and hosts with a label
+  that holds a secret name together with more keep the scheme only.
   Paths, queries and results have documented caps, and URLs of 1 MB are redacted in well under
   a second on a 512 KiB stack.
 
