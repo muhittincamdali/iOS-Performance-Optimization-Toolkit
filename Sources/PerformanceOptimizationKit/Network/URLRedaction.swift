@@ -162,7 +162,7 @@ extension URLRedaction {
         guard !encoded.isEmpty else { return ("", afterLabel) }
         guard let decoded = encoded.removingPercentEncoding else { return (identifierPlaceholder, true) }
         let kind = NameClassification.classify(decoded)
-        if afterLabel { return (identifierPlaceholder, !kind.isOrdinary) }
+        if afterLabel { return (identifierPlaceholder, kind.namesSecret) }
         if IdentifierDetection.isIdentifier(decoded) { return (identifierPlaceholder, false) }
         if let file = FileName(decoded), IdentifierDetection.isIdentifier(file.name) {
             return ("\(identifierPlaceholder).\(file.fileExtension)", false)
@@ -189,13 +189,6 @@ private struct FileName {
               fileExtension.allSatisfy({ ("a"..."z").contains($0) || ("A"..."Z").contains($0) }) else { return nil }
         name = String(String.UnicodeScalarView(scalars[..<dot]))
         self.fileExtension = String(String.UnicodeScalarView(fileExtension))
-    }
-}
-
-private extension NameClassification.Kind {
-    var isOrdinary: Bool {
-        if case .ordinary = self { return true }
-        return false
     }
 }
 
@@ -254,14 +247,13 @@ extension URLRedaction {
     }
 
     // A short number such as a page is kept; in a path it would be an identifier. Anything else
-    // has to be an ordinary name that is not an identifier: a name that holds a secret name, and
-    // one that cannot be read as a name, is hidden.
+    // has to be a name that is not an identifier and does not count as a secret: a name that
+    // holds a secret name, and one that cannot be read as a name, is hidden.
     private static func isPlainWordOrShortNumber(_ text: String) -> Bool {
         let isShortNumber = !text.isEmpty && text.utf8.count < IdentifierDetection.minimumDigitRun
             && text.utf8.allSatisfy { (UInt8(ascii: "0")...UInt8(ascii: "9")).contains($0) }
         if isShortNumber { return true }
-        guard !IdentifierDetection.isIdentifier(text), case .ordinary = NameClassification.classify(text) else { return false }
-        return true
+        return !IdentifierDetection.isIdentifier(text) && !NameClassification.classify(text).namesSecret
     }
 }
 

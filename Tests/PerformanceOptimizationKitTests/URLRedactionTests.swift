@@ -243,3 +243,43 @@ struct URLRedactionQueryTests {
         #expect(try redacted(url, with: redaction) == url)
     }
 }
+
+// The spec's one wildcard rule: a letter, mark or number outside ASCII inside an ASCII word counts
+// as nothing or as any one letter (`tͦken`, `passw〇rd`, `piꞏn`).
+private let namesWithOneWildcard = [
+    "t\u{0366}ken", "passw\u{3007}rd", "pi\u{A78F}n", "p\u{0251}ssword", "user_p\u{0131}n", "t\u{1040}ken", "p\u{0456}n",
+]
+
+@Suite("NameClassification")
+struct NameClassificationTests {
+    // Every check of a name asks namesSecret, so a name that cannot be read has to count as a
+    // secret there: empty, only separators or symbols, a control character, anything outside
+    // ASCII, or too long.
+    @Test("counts a name it cannot read as a secret", arguments: namesWithOneWildcard + [
+        "", "~", "!", "---", "_. -", "c++", "a,b", "order:12345", "to\u{7}ken", "pin\n", "\u{0}", "tab\tname", "\u{7F}x",
+        "to\u{200D}ken", "to\u{00AD}ken", "\u{FF54}oken", "\u{24C5}in", "\u{1D429}in", "\u{015E}ifre", "\u{1F511}",
+        String(repeating: "a", count: NameClassification.maximumNameLength + 1),
+    ])
+    func unreadableNames(name: String) {
+        #expect(NameClassification.classify(name) == .unclear)
+        #expect(NameClassification.classify(name).namesSecret)
+    }
+
+    @Test("counts plain ASCII names without a secret name as ordinary", arguments: [
+        "page", "Sort", "user_id", "v2.1", "per-page", "a b", "ping", "keyboard",
+    ])
+    func ordinaryNames(name: String) {
+        #expect(!NameClassification.classify(name).namesSecret)
+    }
+
+    @Test("hides a name with one wildcard letter wherever a name is read", arguments: namesWithOneWildcard)
+    func wildcardNames(name: String) throws {
+        let encoded = try #require(name.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed))
+        let redaction = URLRedaction(allowedQueryParameters: [name, "page"])
+        #expect(redaction.allowedQueryParameters == ["page"])
+        #expect(try redacted("https://example.com/v1/\(encoded)/hunter2/tail") == "https://example.com/v1/:id/:id/tail")
+        #expect(try redacted("https://example.com/v1?\(encoded)=hunter2&page=2", with: redaction) == "https://example.com/v1?page=2")
+        #expect(try redacted("https://example.com/v1?page=\(encoded)", with: redaction) == "https://example.com/v1?page=<redacted>")
+        #expect(try redacted("myapp://\(encoded)/hunter2") == "myapp:")
+    }
+}

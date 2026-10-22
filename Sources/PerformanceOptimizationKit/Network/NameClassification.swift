@@ -1,6 +1,6 @@
-// The one decision, shared by URL hosts, path segments and query parameter names, of whether a
-// name is ordinary, names a secret, or cannot be understood. Anything that is not understood
-// counts as a secret: the value that belongs to it is hidden.
+// The one decision, shared by URL hosts, path segments, query parameter names and query values,
+// of whether a name is ordinary, names a secret, or cannot be understood. Anything that is not
+// understood counts as a secret: the value that belongs to it is hidden.
 enum NameClassification {
     enum Kind: Equatable {
         /// A plain ASCII name that is not a secret, in its folded form (lowercase, without
@@ -17,9 +17,11 @@ enum NameClassification {
         /// no letter or digit at all.
         case unclear
 
-        /// A Boolean value that indicates whether the name is or contains a secret name.
+        /// A Boolean value that indicates whether the name counts as a secret: it is or contains a
+        /// secret name, or it cannot be read, so it may be one. Only an ordinary name does not.
         var namesSecret: Bool {
-            self == .listedSecret || self == .containsSecret
+            if case .ordinary = self { return false }
+            return true
         }
     }
 
@@ -30,8 +32,12 @@ enum NameClassification {
     ///
     /// Folding removes case and the separators `_`, `-`, `.` and space. Normalization to NFKC is
     /// not needed: it only turns non-ASCII characters into ASCII ones, and any non-ASCII scalar
-    /// already makes a name unclear. So do format characters such as a zero-width joiner, look-
-    /// alike letters from other scripts, full-width letters and combining marks.
+    /// already makes a name unclear. So do control characters, format characters such as a
+    /// zero-width joiner, look-alike letters from other scripts, full-width letters and combining
+    /// marks. No ASCII skeleton is needed either: the redaction rules read one letter, mark or
+    /// number outside ASCII inside an ASCII word as nothing or as any one letter (`tͦken`,
+    /// `passw〇rd`, `piꞏn`), and such a name is unclear, which counts as a secret, whatever its
+    /// skeleton spells.
     static func classify(_ name: some StringProtocol) -> Kind {
         var folded: [UInt8] = []
         // The words between separators: "pin_4831" has a secret name as a word of its own, and
