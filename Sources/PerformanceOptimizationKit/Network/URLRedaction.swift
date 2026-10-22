@@ -160,7 +160,7 @@ extension URLRedaction {
     // Path parameters after ";" are parsed differently by different servers, and dot segments
     // are resolved by some (RFC 3986, section 5.2.4) and not by others. Rather than guess, such
     // a path is not recorded.
-    private static let pathDelimiters: Set<UInt8> = [
+    private static let pathDelimiters: ByteSet = [
         UInt8(ascii: ";"), UInt8(ascii: "\\"), UInt8(ascii: "."), UInt8(ascii: "/"),
         UInt8(ascii: "?"), UInt8(ascii: "#"), UInt8(ascii: "%"),
     ]

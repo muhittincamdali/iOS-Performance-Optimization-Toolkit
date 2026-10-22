@@ -187,9 +187,71 @@ private let largeInputs: [(name: String, url: String, expected: String)] = {
     ]
 }()
 
+// The slowest URLs within the caps, of about 4 KB. The 1 MB inputs above pass a cap at once and
+// are recorded as scheme and host only; here every segment and every allowed value is read, and
+// every word of "1-1-…-1" and "a,1,a,1,…" is checked for a secret name.
+private let slowestInputs: [(name: String, url: String, redaction: URLRedaction, start: String)] = {
+    let digits = Array(repeating: "1", count: 32).joined(separator: "-")
+    let path = Array(repeating: digits, count: URLRedaction.maximumPathSegments - 1).joined(separator: "/")
+    let values = Array(repeating: "a,1", count: 16).joined(separator: ",")
+    let query = Array(repeating: "p=\(values)", count: 60).joined(separator: "&")
+    return [
+        ("63 segments of digits", "https://example.com/\(path)", .standard, "https://example.com/:id/:id/:id/"),
+        ("60 comma-separated values", "https://example.com/v?\(query)", URLRedaction(allowedQueryParameters: ["p"]),
+         "https://example.com/v?p=a,1,a,1,"),
+    ]
+}()
+
+// What the redaction is compared with: split the path and the query, decode each part and look
+// it up in a set.
+private func naivePass(_ url: URL) -> Int {
+    guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return 0 }
+    let names: Set<String> = ["password", "token", "pin", "key", "secret"]
+    var parts: [String] = []
+    let items = components.percentEncodedPath.split(separator: "/", omittingEmptySubsequences: false)
+        + (components.percentEncodedQuery ?? "").split(separator: "&")
+    for item in items {
+        let decoded = item.removingPercentEncoding?.lowercased() ?? ""
+        parts.append(names.contains(decoded) ? ":id" : decoded)
+    }
+    return parts.joined(separator: "/").utf8.count
+}
+
+// The time of the fastest of three rounds, so that time in which the process was paused is not
+// counted.
+private func fastestRound(of iterations: Int, _ work: () -> Void) -> Duration {
+    let clock = ContinuousClock()
+    return (0..<3).map { _ in clock.measure { for _ in 0..<iterations { work() } } }.min() ?? .zero
+}
+
+// The redaction rules ask for under 1 s per MB in an optimized build, with a target of about five
+// times the naive pass; the test allows 15 times. In an unoptimized build the redaction is not
+// optimized, but most of the naive pass runs in Foundation, which is, so both limits are ten
+// times as high there.
+#if DEBUG
+private let slowestInputLimits = (perMegabyte: Duration.seconds(10), naivePassFactor: 150.0)
+#else
+private let slowestInputLimits = (perMegabyte: Duration.seconds(1), naivePassFactor: 15.0)
+#endif
+
 extension TimingSensitiveTests {
     @Suite("URLRedaction limits")
     struct URLRedactionLimitTests {
+        @Test("keeps the slowest URLs within the caps under the time limits")
+        func slowestInputSpeed() throws {
+            let iterations = 50
+            for input in slowestInputs {
+                let url = try #require(URL(string: input.url), "\(input.name)")
+                #expect(input.redaction.redact(url).hasPrefix(input.start), "\(input.name)")
+                let redaction = fastestRound(of: iterations) { _ = input.redaction.redact(url) }
+                let naive = fastestRound(of: iterations) { _ = naivePass(url) }
+                let perMegabyte = redaction / (Double(input.url.utf8.count * iterations) / Double(1 << 20))
+                let factor = redaction / naive
+                #expect(perMegabyte < slowestInputLimits.perMegabyte, "\(input.name) took \(perMegabyte) per MB")
+                #expect(factor < slowestInputLimits.naivePassFactor, "\(input.name) took \(factor) times the naive pass")
+            }
+        }
+
         @Test("redacts 1 MB URLs in under a second each")
         func speed() throws {
             for input in largeInputs {

@@ -10,7 +10,8 @@ enum IdentifierDetection {
         let scalars = Array(value.unicodeScalars)
         guard !scalars.isEmpty else { return false }
         if scalars.contains("@") { return true }
-        if UUID(uuidString: value) != nil { return true }
+        // A UUID string is always 36 characters long; only those are parsed.
+        if scalars.count == 36, UUID(uuidString: value) != nil { return true }
         if isNumber(scalars) || longestDigitRun(scalars) >= minimumDigitRun { return true }
         if isJSONWebToken(scalars) || isBearerToken(scalars) { return true }
         if isCardNumber(scalars) || isIBAN(scalars) { return true }
@@ -20,8 +21,15 @@ enum IdentifierDetection {
     // Six digits or more, also split by separators, as in "123-45-6789" or "+90 555 123 45 67".
     static let minimumDigitRun = 6
 
-    private static let separators: Set<Unicode.Scalar> = ["-", "_", ".", " "]
-    private static let tokenSymbols: Set<Unicode.Scalar> = ["-", "_", "=", "+", ".", "~", "/"]
+    // The symbols are compared one by one rather than looked up in a set, since these checks run
+    // on every scalar of every path segment.
+    private static func isSeparator(_ scalar: Unicode.Scalar) -> Bool {
+        scalar == "-" || scalar == "_" || scalar == "." || scalar == " "
+    }
+
+    private static func isTokenSymbol(_ scalar: Unicode.Scalar) -> Bool {
+        scalar == "-" || scalar == "_" || scalar == "=" || scalar == "+" || scalar == "." || scalar == "~" || scalar == "/"
+    }
 
     private static func isASCIIDigit(_ scalar: Unicode.Scalar) -> Bool {
         ("0"..."9").contains(scalar)
@@ -52,7 +60,7 @@ enum IdentifierDetection {
             if isASCIIDigit(scalar) {
                 current += 1
                 longest = max(longest, current)
-            } else if !separators.contains(scalar) {
+            } else if !isSeparator(scalar) {
                 current = 0
             }
         }
@@ -65,7 +73,7 @@ enum IdentifierDetection {
     }
 
     private static func isBearerToken(_ scalars: [Unicode.Scalar]) -> Bool {
-        scalars.count > 6 && scalars.prefix(6).map(asciiLowercased) == ["b", "e", "a", "r", "e", "r"]
+        scalars.count > 6 && scalars.prefix(6).lazy.map(asciiLowercased).elementsEqual("bearer".unicodeScalars)
     }
 
     // 13 to 19 digits, also split by spaces or dashes, that pass the Luhn check.
@@ -109,7 +117,7 @@ enum IdentifierDetection {
     private static func isLongToken(_ scalars: [Unicode.Scalar]) -> Bool {
         guard scalars.count >= 16 else { return false }
         if scalars.allSatisfy(isHexDigit) { return true }
-        let isTokenLike = scalars.allSatisfy { isASCIILetter($0) || isASCIIDigit($0) || tokenSymbols.contains($0) }
+        let isTokenLike = scalars.allSatisfy { isASCIILetter($0) || isASCIIDigit($0) || isTokenSymbol($0) }
         guard isTokenLike else { return false }
         if scalars.count >= 32 { return true }
         return scalars.contains(where: isASCIILetter) && scalars.contains(where: isASCIIDigit)

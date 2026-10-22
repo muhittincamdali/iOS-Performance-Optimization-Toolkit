@@ -40,6 +40,7 @@ enum NameClassification {
     /// skeleton spells.
     static func classify(_ name: some StringProtocol) -> Kind {
         var folded: [UInt8] = []
+        folded.reserveCapacity(min(name.utf8.count, maximumNameLength + 1))
         // The words between separators: "pin_4831" has a secret name as a word of its own, and
         // "pin4831" a short secret name glued to a code.
         var hasSecretWord = false
@@ -64,9 +65,8 @@ enum NameClassification {
         guard !folded.isEmpty else { return .unclear }
         if isListedName(folded[...]) { return .listedSecret }
         hasSecretWord = hasSecretWord || isSecretWord(folded[wordStart...]) || hasSplitShortName(folded, wordStarts: wordStarts)
-        let foldedName = String(decoding: folded, as: UTF8.self)
-        if hasSecretWord || secretNameParts.contains(where: foldedName.contains) { return .containsSecret }
-        return .ordinary(foldedName)
+        if hasSecretWord || secretNamePartBytes.contains(where: { occurs($0, in: folded) }) { return .containsSecret }
+        return .ordinary(String(decoding: folded, as: UTF8.self))
     }
 
     /// The folded names of secrets: the shared list of the redaction rules plus `bearer`, `jwt`,
@@ -94,6 +94,24 @@ enum NameClassification {
         .sorted()
         .map { Array($0.utf8) }
 
+    // The tables the checks below read, built once from the lists above, so that classifying a
+    // name builds no name, plural or string for each of its words.
+    private static let secretNamePartBytes: [[UInt8]] = secretNameParts.map { Array($0.utf8) }
+    // The short secret names by their first byte: at each place in a name, only the names that
+    // start with the byte there are compared.
+    private static let shortSecretNamesByFirstByte: [[[UInt8]]] = {
+        var table = [[[UInt8]]](repeating: [], count: 256)
+        for name in shortSecretNames { table[Int(name[0])].append(name) }
+        return table
+    }()
+    // The secret names by length in bytes: a word is compared only with names as long as it is.
+    private static let secretNamesByLength: [[[UInt8]]] = {
+        let names = secretNames.map { Array($0.utf8) }
+        var table = [[[UInt8]]](repeating: [], count: (names.map(\.count).max() ?? 0) + 1)
+        for name in names { table[name.count].append(name) }
+        return table
+    }()
+
     private static func isSecretWord(_ word: ArraySlice<UInt8>) -> Bool {
         isListedName(word) || isShortNameGluedToCode(word)
     }
@@ -103,19 +121,12 @@ enum NameClassification {
     // "p_i_n_4831" as "pin". A short name that only starts or ends at a separator is not split:
     // "cdn1.pinterest.com" and "v2.keycdn.com" stay ordinary.
     private static func hasSplitShortName(_ folded: [UInt8], wordStarts: [Int]) -> Bool {
-        for name in shortSecretNames {
-            var start = 0
-            while start + name.count <= folded.count {
-                let end = start + name.count
-                if folded[start..<end].elementsEqual(name), wordStarts.contains(where: { start < $0 && $0 < end }) {
-                    let first = wordStarts.last { $0 <= start } ?? 0
-                    let last = wordStarts.first { $0 >= end } ?? folded.count
-                    if isSecretWord(folded[first..<last]) { return true }
-                }
-                start += 1
-            }
+        hasShortName(in: folded[...]) { start, end in
+            guard wordStarts.contains(where: { start < $0 && $0 < end }) else { return false }
+            let first = wordStarts.last { $0 <= start } ?? 0
+            let last = wordStarts.first { $0 >= end } ?? folded.count
+            return isSecretWord(folded[first..<last])
         }
-        return false
     }
 
     // "pin4831", "4831pin" or "pins4831": a short secret name at one end of the word and a digit
@@ -124,32 +135,28 @@ enum NameClassification {
     // name. "ping", "keyboard" and "signup" have no digit and stay ordinary; "keyboard2" is
     // hidden, which is intended.
     private static func isShortNameGluedToCode(_ word: ArraySlice<UInt8>) -> Bool {
-        guard word.contains(where: isDigit) else { return false }
-        return shortSecretNames.contains { name in
-            hasShortName(name, atAnEndOf: word) || hasShortName(name, nextToDigitIn: word)
+        guard let firstDigit = word.firstIndex(where: isDigit), let lastDigit = word.lastIndex(where: isDigit) else {
+            return false
+        }
+        return hasShortName(in: word) { start, end in
+            let isPlural = end < word.endIndex && word[end] == UInt8(ascii: "s")
+            if start == word.startIndex, lastDigit >= end { return true }
+            if end == word.endIndex || (isPlural && end + 1 == word.endIndex), firstDigit < start { return true }
+            // A digit right before the name, right after it, or right after its plural "s".
+            if start > word.startIndex, isDigit(word[start - 1]) { return true }
+            if end < word.endIndex, isDigit(word[end]) { return true }
+            return isPlural && end + 1 < word.endIndex && isDigit(word[end + 1])
         }
     }
 
-    private static func hasShortName(_ name: [UInt8], atAnEndOf word: ArraySlice<UInt8>) -> Bool {
-        if word.starts(with: name), word.dropFirst(name.count).contains(where: isDigit) { return true }
-        for suffix in [name, name + [UInt8(ascii: "s")]] where word.reversed().starts(with: suffix.reversed()) {
-            if word.dropLast(suffix.count).contains(where: isDigit) { return true }
-        }
-        return false
-    }
-
-    // A digit right before the name, right after it, or right after its plural "s".
-    private static func hasShortName(_ name: [UInt8], nextToDigitIn word: ArraySlice<UInt8>) -> Bool {
-        var start = word.startIndex
-        while start + name.count <= word.endIndex {
-            let end = start + name.count
-            if word[start..<end].elementsEqual(name) {
-                if start > word.startIndex, isDigit(word[start - 1]) { return true }
-                if end < word.endIndex, isDigit(word[end]) { return true }
-                let isPlural = end < word.endIndex && word[end] == UInt8(ascii: "s")
-                if isPlural, end + 1 < word.endIndex, isDigit(word[end + 1]) { return true }
+    // Whether a short secret name occurs in `bytes` at a place, from `start` up to `end`, that
+    // `matches`. One pass over the bytes, whatever the number of names.
+    private static func hasShortName(in bytes: ArraySlice<UInt8>, where matches: (_ start: Int, _ end: Int) -> Bool) -> Bool {
+        for start in bytes.indices {
+            for name in shortSecretNamesByFirstByte[Int(bytes[start])] {
+                let end = start + name.count
+                if end <= bytes.endIndex, bytes[start..<end].elementsEqual(name), matches(start, end) { return true }
             }
-            start += 1
         }
         return false
     }
@@ -160,9 +167,20 @@ enum NameClassification {
 
     // A listed name, or a listed name with an "s" added.
     private static func isListedName(_ folded: ArraySlice<UInt8>) -> Bool {
-        guard !folded.isEmpty else { return false }
-        let name = String(decoding: folded, as: UTF8.self)
-        if secretNames.contains(name) { return true }
-        return name.hasSuffix("s") && secretNames.contains(String(name.dropLast()))
+        if isSecretName(folded) { return true }
+        return folded.last == UInt8(ascii: "s") && isSecretName(folded.dropLast())
+    }
+
+    private static func isSecretName(_ folded: ArraySlice<UInt8>) -> Bool {
+        guard folded.count < secretNamesByLength.count else { return false }
+        return secretNamesByLength[folded.count].contains { $0.elementsEqual(folded) }
+    }
+
+    private static func occurs(_ part: [UInt8], in folded: [UInt8]) -> Bool {
+        guard part.count <= folded.count else { return false }
+        for start in 0...(folded.count - part.count) where folded[start] == part[0] {
+            if folded[start..<(start + part.count)].elementsEqual(part) { return true }
+        }
+        return false
     }
 }

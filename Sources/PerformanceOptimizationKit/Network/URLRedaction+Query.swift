@@ -31,13 +31,14 @@ extension URLRedaction {
     }
 
     // A ";" splits parameters on some servers and not on others.
-    private static let queryDelimiters: Set<UInt8> = [UInt8(ascii: ";"), UInt8(ascii: "%")]
+    private static let queryDelimiters: ByteSet = [UInt8(ascii: ";"), UInt8(ascii: "%")]
 
     // A value is free text: it is kept only when it has no character that could start a secret
     // or a nested structure, is short, and is plain words or short numbers. A comma makes a value
-    // unreadable as one name, so each part between commas is checked, and so is the whole value
-    // with its commas read as spaces, which finds a secret name or a number split by commas
-    // ("pass,word", "4111,1111,1111,1111").
+    // unreadable as one name, so the whole value is read with its commas as spaces, which finds
+    // a secret name or a number split by commas ("pass,word", "4111,1111,1111,1111"), and each
+    // part between commas is checked for an identifier ("name,deadbeefcafebabe"). The value is
+    // classified once, as a whole: the words of its parts are its words.
     private static func displayedQueryValue(_ encodedValue: Substring) -> String {
         guard let value = encodedValue.removingPercentEncoding else { return valuePlaceholder }
         guard !value.isEmpty else { return value }
@@ -46,9 +47,11 @@ extension URLRedaction {
                 || scalar == "-" || scalar == "_" || scalar == "." || scalar == ","
         }
         guard isPlain else { return valuePlaceholder }
-        let parts = value.split(separator: ",").map(String.init)
-        let whole = value.replacingOccurrences(of: ",", with: " ")
-        guard ([whole] + parts).allSatisfy(isPlainWordOrShortNumber) else { return valuePlaceholder }
+        // The value is ASCII here, so it is split and its commas are read as spaces byte by byte.
+        let whole = String(decoding: value.utf8.map { $0 == UInt8(ascii: ",") ? UInt8(ascii: " ") : $0 }, as: UTF8.self)
+        let parts = value.utf8.split(separator: UInt8(ascii: ",")).lazy.map { String(decoding: $0, as: UTF8.self) }
+        guard isPlainWordOrShortNumber(whole),
+              parts.allSatisfy({ isShortNumber($0) || !IdentifierDetection.isIdentifier($0) }) else { return valuePlaceholder }
         return value
     }
 
@@ -56,9 +59,12 @@ extension URLRedaction {
     // has to be a name that is not an identifier and does not count as a secret: a name that
     // holds a secret name, and one that cannot be read as a name, is hidden.
     private static func isPlainWordOrShortNumber(_ text: String) -> Bool {
-        let isShortNumber = !text.isEmpty && text.utf8.count < IdentifierDetection.minimumDigitRun
-            && text.utf8.allSatisfy { (UInt8(ascii: "0")...UInt8(ascii: "9")).contains($0) }
-        if isShortNumber { return true }
+        if isShortNumber(text) { return true }
         return !IdentifierDetection.isIdentifier(text) && !NameClassification.classify(text).namesSecret
+    }
+
+    private static func isShortNumber(_ text: some StringProtocol) -> Bool {
+        !text.isEmpty && text.utf8.count < IdentifierDetection.minimumDigitRun
+            && text.utf8.allSatisfy { (UInt8(ascii: "0")...UInt8(ascii: "9")).contains($0) }
     }
 }

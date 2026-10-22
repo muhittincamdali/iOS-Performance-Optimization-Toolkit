@@ -2,7 +2,7 @@ enum PercentEncoding {
     /// A Boolean value that indicates whether `encoded` has only well-formed percent-encodings,
     /// none of which encodes a control character or a byte in `forbidden`, and no raw byte in
     /// `forbidden` other than `.` and `/`, which are only forbidden in encoded form.
-    static func isUnambiguous(_ encoded: String, forbidding forbidden: Set<UInt8>) -> Bool {
+    static func isUnambiguous(_ encoded: String, forbidding forbidden: ByteSet) -> Bool {
         let bytes = Array(encoded.utf8)
         var index = 0
         while index < bytes.count {
@@ -30,5 +30,19 @@ enum PercentEncoding {
         case UInt8(ascii: "A")...UInt8(ascii: "F"): byte - UInt8(ascii: "A") + 10
         default: nil
         }
+    }
+}
+
+/// A set of bytes that answers `contains` by index instead of by hashing, for the checks that
+/// run on every byte of a path or a query.
+struct ByteSet: Sendable, ExpressibleByArrayLiteral {
+    private var members = [Bool](repeating: false, count: 256)
+
+    init(arrayLiteral bytes: UInt8...) {
+        for byte in bytes { members[Int(byte)] = true }
+    }
+
+    func contains(_ byte: UInt8) -> Bool {
+        members[Int(byte)]
     }
 }
