@@ -106,6 +106,40 @@ struct URLRedactionTests {
         #expect(result == "https://example.com/v1/\(redactedSegment)/:id/tail")
     }
 
+    // An identifier was read with its symbols as separators, so a secret name with one letter
+    // replaced by a symbol was found only when the symbol did not also make the segment an
+    // identifier: "/v/t!ken/x" hid "x", "/v/t@ken/x" and "/v/p!n123456/x" kept it.
+    @Test("hides the segment after an identifier that is not a plain name", arguments: [
+        "t@ken", "p@ssword", "k@y", "c@rd", "@uth", "p%40ssword", "passw%40rd", "s3cr3t@x", "p!n123456",
+        "sess!on123456", "s!d123456", "t*ken123456", "p+n123456", "p~n123456", "t=ken0123456789abcdef",
+        "to@ken.example.com", "pass@word.org",
+    ])
+    func symbolLabels(segment: String) throws {
+        #expect(try redacted("https://api.example.com/v/\(segment)/hunter2") == "https://api.example.com/v/:id/:id")
+    }
+
+    @Test("reads a symbol in a secret name alike whether or not it makes an identifier", arguments: [
+        "token", "password", "pin", "session", "key", "card", "auth", "sid",
+    ])
+    func symbolsReadAlike(name: String) throws {
+        var results: Set<String> = []
+        for symbol in ["@", "!", "*", "$", "=", "%40"] {
+            let disguised = name.prefix(1) + symbol + name.dropFirst(2)
+            for code in ["", "123456"] {
+                results.insert(try redacted("https://api.example.com/v/\(disguised)\(code)/hunter2"))
+            }
+        }
+        #expect(results == ["https://api.example.com/v/:id/:id"])
+    }
+
+    @Test("keeps the segment after an e-mail address of plain names or a number", arguments: [
+        "jane.doe@example.org", "j_doe-2@mail.example.co.uk", "%2B905551234567", "+90%20555%20123%2045%2067",
+        "123-45-6789", "4111-1111-1111-1111",
+    ])
+    func contactIdentifiers(segment: String) throws {
+        #expect(try redacted("https://api.example.com/v/\(segment)/profile") == "https://api.example.com/v/:id/profile")
+    }
+
     // Look-alike letters (Cyrillic, Greek, mathematical, circled, full-width), format characters
     // (zero-width joiner and non-joiner, soft hyphen), combining marks, Unicode line separators,
     // emoji and symbols: a name that is not plain ASCII is hidden, and so is the next segment.

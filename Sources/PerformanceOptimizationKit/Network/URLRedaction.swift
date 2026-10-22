@@ -14,10 +14,12 @@ import Foundation
 ///   more digits (also split by `-`, `_`, `.` or spaces), is a card number, an IBAN, a JSON Web
 ///   Token or a bearer token, has 16 or more hexadecimal digits, or is a token of 16 or more
 ///   characters that mixes letters and digits (32 or more in any mix) becomes `:id`.
-///   `12345.json` becomes `:id.json`. An identifier that holds a secret name or is not ASCII also
-///   hides the next segment, as the rules below do: `/v/token123456/x`, `/v/4831.pin/x` and
-///   `/u/张伟@example.cn/x` become `/v/:id/:id`, `/v/:id.pin/:id` and `/u/:id/:id`, while
-///   `/u/jane@example.org/x` becomes `/u/:id/x`.
+///   `12345.json` becomes `:id.json`. An identifier also hides the next segment by the rules
+///   below, when it holds a secret name or is not a plain name: `/v/token123456/x`,
+///   `/v/4831.pin/x`, `/v/t@ken/x`, `/v/p!n123456/x` and `/u/张伟@example.cn/x` become
+///   `/v/:id/:id`, `/v/:id.pin/:id`, `/v/:id/:id`, `/v/:id/:id` and `/u/:id/:id`. Only an e-mail
+///   address of plain names and a number keep it: `/u/jane@example.org/x` and
+///   `/u/+905551234567/x` become `/u/:id/x`.
 /// - **Secret names:** after a segment that names a secret, such as `token`, `password`, `pin` or
 ///   `api_key`, the next segment becomes `:id`: `/reset/token/abc` becomes `/reset/token/:id`.
 ///   A segment that contains such a name together with more, which can be the secret itself,
@@ -25,9 +27,9 @@ import Foundation
 ///   become `/reset/:id` and `/v/:id`.
 /// - **Names it cannot read:** a segment that is not plain ASCII letters, digits, `_`, `-`, `.`
 ///   and spaces after percent-decoding, such as `Şifre`, `c++` or a word with a look-alike letter
-///   from another script, becomes `:id`, and so does the segment after it. Only an ASCII
-///   identifier without a secret name, such as an e-mail address or a phone number, keeps the
-///   next segment.
+///   from another script, becomes `:id`, and so does the segment after it, also when it is an
+///   identifier. Only an e-mail address whose parts are plain names without a secret name and a
+///   number written with `+`, spaces, `.` or `-` keep the next segment.
 /// - **Host only:** when the path has a `.` or `..` segment, a `;`, a backslash or a double
 ///   percent-encoding, or encodes a `.`, `/`, `?`, `#` or control character; when the host names
 ///   a secret (`myapp://pin/4831`); when the path or the query is longer than the documented caps.
@@ -169,9 +171,9 @@ extension URLRedaction {
         guard let decoded = encoded.removingPercentEncoding else { return (identifierPlaceholder, true) }
         let kind = NameClassification.classify(decoded)
         if afterLabel { return (identifierPlaceholder, kind.namesSecret) }
-        if IdentifierDetection.isIdentifier(decoded) { return (identifierPlaceholder, isLabel(identifier: decoded)) }
+        if IdentifierDetection.isIdentifier(decoded) { return (identifierPlaceholder, isLabel(identifier: decoded, kind: kind)) }
         if let file = FileName(decoded), IdentifierDetection.isIdentifier(file.name) {
-            return ("\(identifierPlaceholder).\(file.fileExtension)", isLabel(identifier: decoded))
+            return ("\(identifierPlaceholder).\(file.fileExtension)", isLabel(identifier: decoded, kind: kind))
         }
         switch kind {
         case .ordinary: return (String(encoded), false)
@@ -181,16 +183,41 @@ extension URLRedaction {
         }
     }
 
-    // An identifier is a label too when it is not ASCII ("张伟@example.cn") or holds a secret
-    // name ("token123456", "4831.pin"), like any other segment. The symbols that make an e-mail
-    // address or a phone number unreadable as a name are read as separators, so "pin@x" is a
-    // label and "jane.doe@example.org" and "+905551234567" are not.
-    private static func isLabel(identifier decoded: String) -> Bool {
-        guard decoded.unicodeScalars.allSatisfy(\.isASCII) else { return true }
-        let words = String(String.UnicodeScalarView(decoded.unicodeScalars.map { scalar in
-            ("a"..."z").contains(scalar) || ("A"..."Z").contains(scalar) || ("0"..."9").contains(scalar) ? scalar : " "
-        }))
-        return NameClassification.classify(words).namesSecret
+    // An identifier is a label by the rule for any other segment, read from the same
+    // classification: unless it is a plain name without a secret name, it may be one in
+    // disguise ("token123456", "4831.pin", "t@ken", "p!n123456", "张伟@example.cn"). Reading its
+    // symbols as separators made "t@ken" an ordinary name while "t!ken" was a label. The only
+    // symbols that do not make a label are those of the two identifiers that need them: an
+    // e-mail address of plain names ("jane.doe@example.org") and a number ("+905551234567").
+    private static func isLabel(identifier decoded: String, kind: NameClassification.Kind) -> Bool {
+        guard kind.namesSecret else { return false }
+        return !isEmailAddress(decoded) && !isNumber(decoded)
+    }
+
+    // "jane.doe@example.org": a local part, one "@" and a domain of two or more labels that
+    // ends in letters. The whole address is read as one name with its "@" as a separator, so it
+    // has to be plain ASCII and a secret name split by the "@" or a "." is found ("to@ken.com").
+    private static func isEmailAddress(_ decoded: String) -> Bool {
+        let parts = decoded.utf8.split(separator: UInt8(ascii: "@"), omittingEmptySubsequences: false)
+        guard parts.count == 2, !parts[0].isEmpty else { return false }
+        let labels = parts[1].split(separator: UInt8(ascii: "."), omittingEmptySubsequences: false)
+        guard labels.count >= 2, labels.allSatisfy({ !$0.isEmpty }),
+              let topLevel = labels.last, topLevel.allSatisfy(isASCIILetter) else { return false }
+        let name = String(decoding: parts[0], as: UTF8.self) + "." + String(decoding: parts[1], as: UTF8.self)
+        return !NameClassification.classify(name).namesSecret
+    }
+
+    // "+905551234567", "+90 555 123 45 67" or "123-45-6789": digits, "+", spaces, "." and "-",
+    // which spell no name.
+    private static func isNumber(_ decoded: String) -> Bool {
+        decoded.utf8.allSatisfy { byte in
+            (UInt8(ascii: "0")...UInt8(ascii: "9")).contains(byte) || byte == UInt8(ascii: "+")
+                || byte == UInt8(ascii: " ") || byte == UInt8(ascii: ".") || byte == UInt8(ascii: "-")
+        }
+    }
+
+    private static func isASCIILetter(_ byte: UInt8) -> Bool {
+        (UInt8(ascii: "a")...UInt8(ascii: "z")).contains(byte) || (UInt8(ascii: "A")...UInt8(ascii: "Z")).contains(byte)
     }
 }
 
