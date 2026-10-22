@@ -38,7 +38,9 @@ misread one. `URLRedaction` handles the URL. Its rule is that anything it does n
 understand is hidden:
 
 - Path segments that look like identifiers (numbers, UUIDs, e-mail addresses, runs of six or
-  more digits, card numbers, IBANs, tokens) become `:id`.
+  more digits, card numbers, IBANs, tokens) become `:id`. An identifier that holds a secret
+  name or is not ASCII, such as `token123456`, `4831.pin` or `张伟@example.cn`, also hides the
+  segment after it, as the rules below do; an ASCII e-mail address or phone number does not.
 - The segment after a name such as `token`, `password`, `pin` or `api_key` becomes `:id`.
 - A segment that holds such a name together with more, such as `token-hunter22`, `pin_4831`,
   `pin4831` or `passwordhunter2`, becomes `:id`, because the rest can be the secret, and so does
@@ -73,9 +75,11 @@ such as `ab12cd`, that does not follow a secret name, and for a token of 16 to 3
 without digits, such as `AbCdEfGhIjKlMnOpQrSt`, which cannot be told apart from a long word.
 A short secret name such as `pin`, `key` or `sid` is also part of ordinary words (`ping`,
 `keyboard`), so inside a segment it is only recognized with a separator (`pin_4831`) or next to
-a digit, at either end of the segment or in the middle (`pin4831`, `4831pin`, `mypin4831`):
-`pinabcd` and `mypinabc` are kept, and `keyboard2` is hidden. Keep secrets out of URLs; send
-them in headers or in the body, which the collector never records.
+a digit, at either end of the segment or in the middle (`pin4831`, `4831pin`, `mypin4831`), also
+when a separator splits the name itself (`p.in4831`, `p-i-n-4831`): `pinabcd` and `mypinabc`
+are kept, and `keyboard2` is hidden. A short name at the end of a longer word whose code
+follows after a separator, such as `mypin_4831`, is not recognized. Keep secrets out of URLs;
+send them in headers or in the body, which the collector never records.
 If even the paths of your API carry personal data, use `URLRedaction(recordsHostOnly: true)`.
 
 ## Limits
