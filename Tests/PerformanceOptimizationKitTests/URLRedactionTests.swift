@@ -116,7 +116,9 @@ struct URLRedactionTests {
 
     @Test("records scheme and host only when the host names a secret", arguments: [
         ("myapp://pin/4831", "myapp://pin"),
-        ("https://token.example.com/x/y?z=1", "https://token.example.com"),
+        ("myapp://Tokens/abc?x=1", "myapp://tokens"),
+        ("myapp://pin:4831/x", "myapp://pin"),
+        ("myapp://pass.word/hunter2", "myapp://pass.word"),
     ])
     func secretHost(input: String, expected: String) throws {
         #expect(try redacted(input) == expected)
@@ -134,6 +136,13 @@ struct URLRedactionTests {
         ("https://newpin4831.example.com/x", "https:"),
         ("https://oauth2.example.com/x", "https:"),
         ("https://pass.wordhunter2.example.com/x", "https:"),
+        ("myapp://pin.ab12cd/x", "myapp:"),
+        ("myapp://password.hunter2/x", "myapp:"),
+        ("myapp://hunter2.token/x", "myapp:"),
+        ("https://token.example.com/x/y?z=1", "https:"),
+        ("https://api.pin.example.com/x", "https:"),
+        ("myapp://eyJpZCI6MX0/x", "myapp:"),
+        ("https://eyJpZCI6MX0.example.com/x", "https:"),
         ("https://[fe80::1%25hunter2secret]/u", "https:"),
         ("https://[fe80::1%25en0]:8080/u", "https:"),
         ("https://exa%6Dple.com/u", "https:"),

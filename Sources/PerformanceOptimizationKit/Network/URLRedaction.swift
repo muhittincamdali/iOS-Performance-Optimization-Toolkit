@@ -27,10 +27,11 @@ import Foundation
 ///   percent-encoding, or encodes a `.`, `/`, `?`, `#` or control character; when the host names
 ///   a secret (`myapp://pin/4831`); when the path or the query is longer than the documented caps.
 /// - **Scheme only:** when the host is not a plain DNS name or IP address (an IPv6 address with
-///   a zone such as `%25en0` included), looks like an identifier itself, or has a label that
-///   contains a secret name together with more, such as `myapp://pin-4831` or
-///   `oauth2.example.com`. URLs without a host, such as `data:` and `mailto:` URLs, keep only
-///   their scheme. A URL that does not parse becomes ``unparsedPlaceholder``.
+///   a zone such as `%25en0` included), has a label that looks like an identifier, or holds a
+///   secret name together with more, also in another label, such as `myapp://pin-4831`,
+///   `myapp://pin.ab12cd`, `token.example.com` or `oauth2.example.com`. URLs without a host,
+///   such as `data:` and `mailto:` URLs, keep only their scheme. A URL that does not parse
+///   becomes ``unparsedPlaceholder``.
 ///
 /// Redaction is a safety net, not a guarantee: a secret that looks like an ordinary word in an
 /// ordinary place of the path is not recognized. Keep secrets out of URLs; send them in headers

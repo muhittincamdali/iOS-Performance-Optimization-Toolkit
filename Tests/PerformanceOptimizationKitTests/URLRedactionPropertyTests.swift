@@ -104,16 +104,13 @@ struct URLRedactionPropertyTests {
                 secret = first + secret.dropFirst().dropLast() + last
             }
             for glued in gluedSpellings(of: name, secret: secret) {
-                var urls = [
+                let urls = [
                     "https://example.com/v1/\(glued)",
                     "https://example.com/v1/\(glued)/tail",
                     "https://example.com/v1/items?page=\(glued)",
+                    "myapp://\(glued)/tail",
+                    "https://\(glued).example.com/tail",
                 ]
-                // In a host, "." separates labels, and a label that is a secret name keeps the
-                // host as it is ("token.example.com").
-                if !glued.contains(".") {
-                    urls += ["myapp://\(glued)/tail", "https://\(glued).example.com/tail"]
-                }
                 for string in urls {
                     guard let url = URL(string: string) else { continue }
                     let result = redaction.redact(url)

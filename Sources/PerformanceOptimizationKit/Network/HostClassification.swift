@@ -2,12 +2,14 @@ import Foundation
 
 // Decides how the host of a URL is recorded. Only plain DNS names and IP addresses are shown;
 // anything else, such as a percent-encoded or non-ASCII host, is not understood and is hidden.
+// In a custom scheme the host is the first item of the URL (`pin` in `myapp://pin/4831`), so it
+// is read like a name: with the shared NameClassification, its `.` folded like a separator.
 enum HostClassification {
     struct Host: Equatable {
         /// The host as it is recorded: lowercase, IPv6 addresses in brackets.
         let text: String
-        /// A Boolean value that indicates whether a label of the host names a secret, as `pin`
-        /// does in `myapp://pin/4831`, so the rest of the URL is its value.
+        /// A Boolean value that indicates whether the host is a secret name, as `pin` is in
+        /// `myapp://pin/4831`, so the rest of the URL is its value.
         let namesSecret: Bool
     }
 
@@ -26,21 +28,21 @@ enum HostClassification {
         if isIPAddress(unbracketed, family: AF_INET6) { return Host(text: "[\(unbracketed.lowercased())]", namesSecret: false) }
         if isIPAddress(unbracketed, family: AF_INET) { return Host(text: unbracketed, namesSecret: false) }
         let host = encodedHost.lowercased()
-        guard host.utf8.count <= maximumHostLength else { return nil }
-        let labels = host.split(separator: ".", omittingEmptySubsequences: false)
-        guard labels.allSatisfy(isDNSLabel) else { return nil }
-        // A label such as "a1b2c3d4e5f6a7b8" or "1234567" names a tenant or a user.
+        guard host.utf8.count <= maximumHostLength,
+              host.split(separator: ".", omittingEmptySubsequences: false).allSatisfy(isDNSLabel) else { return nil }
+        // A label such as "a1b2c3d4e5f6a7b8" or "1234567" names a tenant or a user. The labels
+        // are checked as written: lowercase hides the "eyJ" that starts a JSON Web Token.
+        let labels = encodedHost.split(separator: ".", omittingEmptySubsequences: false)
         guard !labels.contains(where: { IdentifierDetection.isIdentifier(String($0)) }) else { return nil }
-        // "pin-4831" or "tokenhunter22": a label that holds a secret name and more can hold the
-        // secret, so the host is not recorded.
-        let labelKinds = labels.map { NameClassification.classify($0) }
-        guard !labelKinds.contains(.containsSecret) else { return nil }
-        // "pass.word" folds to "password": the host as a whole is classified as well as each
-        // label. A secret name that runs across labels ("pass.wordhunter2") hides the host too.
-        let labelNamesSecret = labelKinds.contains(.listedSecret)
-        let hostKind = NameClassification.classify(host)
-        guard hostKind != .containsSecret || labelNamesSecret else { return nil }
-        return Host(text: host, namesSecret: labelNamesSecret || hostKind == .listedSecret)
+        switch NameClassification.classify(host) {
+        case .ordinary: return Host(text: host, namesSecret: false)
+        // "pin", "tokens" or "pass.word", which folds to "password".
+        case .listedSecret: return Host(text: host, namesSecret: true)
+        // "pin-4831", "pin.ab12cd", "password.hunter2" or "token.example.com": a host that holds
+        // a secret name and more can hold the secret, as a path segment can, so it is not
+        // recorded.
+        case .containsSecret, .unclear: return nil
+        }
     }
 
     // Letters, digits and hyphens, not starting or ending with a hyphen.
