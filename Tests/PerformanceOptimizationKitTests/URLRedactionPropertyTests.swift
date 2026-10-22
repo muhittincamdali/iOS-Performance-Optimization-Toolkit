@@ -243,12 +243,20 @@ extension TimingSensitiveTests {
             for input in slowestInputs {
                 let url = try #require(URL(string: input.url), "\(input.name)")
                 #expect(input.redaction.redact(url).hasPrefix(input.start), "\(input.name)")
-                let redaction = fastestRound(of: iterations) { _ = input.redaction.redact(url) }
-                let naive = fastestRound(of: iterations) { _ = naivePass(url) }
-                let perMegabyte = redaction / (Double(input.url.utf8.count * iterations) / Double(1 << 20))
-                let factor = redaction / naive
-                #expect(perMegabyte < slowestInputLimits.perMegabyte, "\(input.name) took \(perMegabyte) per MB")
-                #expect(factor < slowestInputLimits.naivePassFactor, "\(input.name) took \(factor) times the naive pass")
+                // A runner that other jobs share can slow one round down for a second or more. A
+                // slowdown of the redaction itself shows in every attempt, so one clean attempt is enough.
+                var attempts: [(perMegabyte: Duration, factor: Double)] = []
+                for _ in 0..<3 {
+                    let redaction = fastestRound(of: iterations) { _ = input.redaction.redact(url) }
+                    let naive = fastestRound(of: iterations) { _ = naivePass(url) }
+                    let perMegabyte = redaction / (Double(input.url.utf8.count * iterations) / Double(1 << 20))
+                    attempts.append((perMegabyte, redaction / naive))
+                    if perMegabyte < slowestInputLimits.perMegabyte, attempts[attempts.count - 1].factor < slowestInputLimits.naivePassFactor { break }
+                }
+                let best = attempts.min { $0.perMegabyte < $1.perMegabyte } ?? attempts[0]
+                #expect(best.perMegabyte < slowestInputLimits.perMegabyte, "\(input.name) took \(best.perMegabyte) per MB")
+                let bestFactor = attempts.map(\.factor).min() ?? .infinity
+                #expect(bestFactor < slowestInputLimits.naivePassFactor, "\(input.name) took \(bestFactor) times the naive pass")
             }
         }
 
