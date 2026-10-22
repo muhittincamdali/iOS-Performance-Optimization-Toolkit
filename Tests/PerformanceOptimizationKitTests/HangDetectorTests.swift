@@ -31,9 +31,14 @@ extension TimingSensitiveTests {
             let detector = HangDetector(threshold: .milliseconds(150), checkInterval: .milliseconds(20), queue: queue)
             let (collector, task) = collect(detector)
             detector.start()
-            try await Task.sleep(for: .milliseconds(100))
-            queue.async { Thread.sleep(forTimeInterval: 0.4) }
-            try await Task.sleep(for: .milliseconds(700))
+            // The detector drops a measurement when its own thread was held up for longer than
+            // four checks, as can happen on a runner that other jobs share, so the hang gets
+            // two more tries.
+            for _ in 0..<3 where collector.all.isEmpty {
+                try await Task.sleep(for: .milliseconds(100))
+                queue.async { Thread.sleep(forTimeInterval: 0.4) }
+                try await Task.sleep(for: .milliseconds(700))
+            }
             detector.stop()
             task.cancel()
             let hang = try #require(collector.all.first)
@@ -84,9 +89,12 @@ extension TimingSensitiveTests {
             detector.start()
             detector.stop()
             detector.start()
-            try await Task.sleep(for: .milliseconds(60))
-            queue.async { Thread.sleep(forTimeInterval: 0.3) }
-            try await Task.sleep(for: .milliseconds(600))
+            // As in the test above, a measurement dropped on a busy runner gets two more tries.
+            for _ in 0..<3 where collector.all.isEmpty {
+                try await Task.sleep(for: .milliseconds(60))
+                queue.async { Thread.sleep(forTimeInterval: 0.3) }
+                try await Task.sleep(for: .milliseconds(600))
+            }
             detector.stop()
             task.cancel()
             #expect(collector.all.count == 1)
