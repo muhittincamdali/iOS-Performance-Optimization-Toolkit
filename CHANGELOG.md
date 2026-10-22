@@ -62,13 +62,15 @@ iOS 17, macOS 14, tvOS 17, watchOS 10 and visionOS 1 and later.
   and `LeakTracker` does not track, names longer than 256 bytes.
 - Network timings never hold headers or bodies, and a method or protocol name only when it is
   a short plain word. `URLRedaction` hides whatever it does not fully understand: credentials,
-  the fragment and the query (except allowed parameters with short plain values) are always
-  dropped; identifiers, the segment after a secret name, and names that are not plain ASCII
-  (look-alike letters, invisible characters, combining marks) or hold a secret name together
+  the fragment and the query (except allowed parameters with short plain values, checked part
+  by part when they hold commas) are always dropped; identifiers, the segment after a secret
+  name, and names that are not plain ASCII (look-alike letters, a single letter from another
+  script inside a word, invisible characters, combining marks) or hold a secret name together
   with more (`token-hunter22`) and the segment after them become `:id`; paths that servers read
   differently (dot segments, `;`, double or encoded delimiters) and hosts that name a secret
-  keep scheme and host only; unreadable hosts, IPv6 hosts with a zone and hosts with a label
-  that holds a secret name together with more keep the scheme only.
+  keep scheme and host only; unreadable hosts, IPv6 hosts with a zone and hosts that hold a
+  secret name together with more (`myapp://pin.ab12cd`, `token.example.com`) keep the scheme
+  only.
   Paths, queries and results have documented caps, and URLs of 1 MB are redacted in well under
   a second on a 512 KiB stack.
 

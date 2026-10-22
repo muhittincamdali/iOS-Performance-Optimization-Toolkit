@@ -20,9 +20,9 @@ Please report privately anything that makes it:
 - deadlock or crash the app while reading a thread's call stack;
 - keep an object alive that it was only meant to watch (`LeakTracker` holds objects weakly);
 - store or emit a part of a URL that `URLRedaction` documents that it hides (credentials,
-  fragment, query parameters that are not allowed, identifiers, a segment that holds a secret
-  name together with more, the segment after a secret name or an unreadable name, paths that
-  servers read differently), let a URL put a line break
+  fragment, query parameters that are not allowed, identifiers, a segment or a host that holds
+  a secret name together with more, the segment after a secret name or an unreadable name,
+  paths that servers read differently), let a URL put a line break
   into its output, or record a request header or body;
 - take more than a second, or crash on a 512 KiB stack, while redacting a URL of 1 MB.
 

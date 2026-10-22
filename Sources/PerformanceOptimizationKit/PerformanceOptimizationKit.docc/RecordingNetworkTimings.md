@@ -44,20 +44,25 @@ understand is hidden:
   `pin4831` or `passwordhunter2`, becomes `:id`, because the rest can be the secret, and so does
   the segment after it.
 - A segment that is not plain ASCII after percent-decoding becomes `:id`, and so does the
-  segment after it. This covers look-alike letters from other scripts, invisible format
-  characters, combining marks and non-Latin names such as `Şifre`: they are hidden on purpose,
-  even when they are harmless.
+  segment after it. This covers look-alike letters from other scripts, a single letter, mark or
+  number from another script inside a word (`tͦken`, `passw〇rd`, `piꞏn`), invisible format
+  characters, control characters, combining marks and non-Latin names such as `Şifre`: they are
+  hidden on purpose, even when they are harmless.
 - A path that servers could read in different ways (with `.` or `..` segments, a `;`, a
   backslash, a double percent-encoding or an encoded `/`, `?`, `#` or `.`) is recorded as
   scheme and host only, and so is a URL whose path or query is longer than the documented caps.
-- A host that names a secret (`myapp://pin/4831`) keeps only scheme and host; a host that is
-  not a plain DNS name or IP address (an IPv6 address with a zone such as `%25en0` included),
-  looks like an identifier, or has a label that holds a secret name together with more
-  (`myapp://pin-4831`, and also `oauth2.example.com`) keeps only the scheme.
+- A host is read like a name, its `.` like the other separators. A host that names a secret
+  (`myapp://pin/4831`) keeps only scheme and host; a host that is not a plain DNS name or IP
+  address (an IPv6 address with a zone such as `%25en0` included), has a label that looks like
+  an identifier, or holds a secret name together with more, also in another label
+  (`myapp://pin-4831`, `myapp://pin.ab12cd`, and also `token.example.com` and
+  `oauth2.example.com`), keeps only the scheme.
 - Query parameters are dropped unless you name them in
   `URLRedaction/allowedQueryParameters`. Even then a value is kept only when it is short and
-  plain; a value with symbols, an identifier or a secret name becomes `<redacted>`. Names of
-  secrets and names that are not plain ASCII cannot be allowed.
+  plain; a value with symbols, an identifier or a secret name becomes `<redacted>`. A value
+  with commas is checked part by part and as a whole, so `name,token` and
+  `4111,1111,1111,1111` become `<redacted>` while `name,asc` is kept. Names of secrets and
+  names that are not plain ASCII cannot be allowed.
 
 ## What it does not find
 
@@ -69,9 +74,8 @@ without digits, such as `AbCdEfGhIjKlMnOpQrSt`, which cannot be told apart from 
 A short secret name such as `pin`, `key` or `sid` is also part of ordinary words (`ping`,
 `keyboard`), so inside a segment it is only recognized with a separator (`pin_4831`) or next to
 a digit, at either end of the segment or in the middle (`pin4831`, `4831pin`, `mypin4831`):
-`pinabcd` and `mypinabc` are kept, and `keyboard2` is hidden. In a host, `.` separates labels,
-so in `myapp://pin.ab12cd` the label `pin` names a secret and the host is kept as it is. Keep
-secrets out of URLs; send them in headers or in the body, which the collector never records.
+`pinabcd` and `mypinabc` are kept, and `keyboard2` is hidden. Keep secrets out of URLs; send
+them in headers or in the body, which the collector never records.
 If even the paths of your API carry personal data, use `URLRedaction(recordsHostOnly: true)`.
 
 ## Limits
