@@ -235,21 +235,33 @@ extension URLRedaction {
     private static let queryDelimiters: Set<UInt8> = [UInt8(ascii: ";"), UInt8(ascii: "%")]
 
     // A value is free text: it is kept only when it has no character that could start a secret
-    // or a nested structure, is short, is not an identifier and does not name a secret.
+    // or a nested structure, is short, and is plain words or short numbers. A comma makes a value
+    // unreadable as one name, so each part between commas is checked, and so is the whole value
+    // with its commas read as spaces, which finds a secret name or a number split by commas
+    // ("pass,word", "4111,1111,1111,1111").
     private static func displayedQueryValue(_ encodedValue: Substring) -> String {
         guard let value = encodedValue.removingPercentEncoding else { return valuePlaceholder }
+        guard !value.isEmpty else { return value }
         let isPlain = value.unicodeScalars.count <= maximumQueryValueLength && value.unicodeScalars.allSatisfy { scalar in
             ("a"..."z").contains(scalar) || ("A"..."Z").contains(scalar) || ("0"..."9").contains(scalar)
                 || scalar == "-" || scalar == "_" || scalar == "." || scalar == ","
         }
         guard isPlain else { return valuePlaceholder }
-        // A short number such as a page is kept; in a path it would be an identifier.
-        let isShortNumber = value.utf8.count < IdentifierDetection.minimumDigitRun
-            && value.utf8.allSatisfy { (UInt8(ascii: "0")...UInt8(ascii: "9")).contains($0) }
-        guard isShortNumber || !IdentifierDetection.isIdentifier(value), !NameClassification.classify(value).namesSecret else {
-            return valuePlaceholder
-        }
+        let parts = value.split(separator: ",").map(String.init)
+        let whole = value.replacingOccurrences(of: ",", with: " ")
+        guard ([whole] + parts).allSatisfy(isPlainWordOrShortNumber) else { return valuePlaceholder }
         return value
+    }
+
+    // A short number such as a page is kept; in a path it would be an identifier. Anything else
+    // has to be an ordinary name that is not an identifier: a name that holds a secret name, and
+    // one that cannot be read as a name, is hidden.
+    private static func isPlainWordOrShortNumber(_ text: String) -> Bool {
+        let isShortNumber = !text.isEmpty && text.utf8.count < IdentifierDetection.minimumDigitRun
+            && text.utf8.allSatisfy { (UInt8(ascii: "0")...UInt8(ascii: "9")).contains($0) }
+        if isShortNumber { return true }
+        guard !IdentifierDetection.isIdentifier(text), case .ordinary = NameClassification.classify(text) else { return false }
+        return true
     }
 }
 

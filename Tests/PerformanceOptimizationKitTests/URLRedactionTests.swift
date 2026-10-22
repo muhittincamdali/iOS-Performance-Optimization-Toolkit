@@ -209,6 +209,23 @@ struct URLRedactionQueryTests {
         #expect(try redacted(input, with: redaction) == expected)
     }
 
+    // A comma used to make the whole value unreadable as a name, and an unreadable value was not
+    // checked for secret names, so each of these was kept as it was.
+    @Test("hides a value with a secret or an identifier among its comma-separated parts", arguments: [
+        "password,hunter2", "token,abc", "pin,4831", "a,mypin1234", "4111,1111,1111,1111",
+        "pass,word", "name,deadbeefcafebabe", "asc,b-token", "1,2,3,4,5,6", "jane,oauth",
+    ])
+    func commaSeparatedValues(value: String) throws {
+        let input = "https://api.example.com/v1/items?sort=\(value)&page=2"
+        #expect(try redacted(input, with: redaction) == "https://api.example.com/v1/items?sort=<redacted>&page=2")
+    }
+
+    @Test("keeps a value whose comma-separated parts are all plain", arguments: ["name,asc", "1,2,3", "price,-date", "name,", ""])
+    func plainCommaSeparatedValues(value: String) throws {
+        let url = "https://api.example.com/v1/items?sort=\(value)"
+        #expect(try redacted(url, with: redaction) == url)
+    }
+
     @Test("drops the query when servers could read it differently", arguments: [
         "https://api.example.com/v1/items?page=2&PAGE=3",
         "https://api.example.com/v1/items?pa%67e=2&page=3",

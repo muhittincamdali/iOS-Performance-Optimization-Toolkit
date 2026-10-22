@@ -124,6 +124,45 @@ struct URLRedactionPropertyTests {
         }
         #expect(checked > 3_000)
     }
+
+    @Test("no generated secret survives in a comma-separated value of an allowed parameter")
+    func commaSeparatedSecretsNeverSurvive() throws {
+        var generator = SeededGenerator(state: 0xC0_44A)
+        let alphanumerics = Array("abcdefghijklmnopqrstuvwxyz0123456789")
+        let redaction = URLRedaction(allowedQueryParameters: ["page"])
+        var checked = 0
+        for name in secretNames {
+            // A short name reads as a name next to a digit, so its code starts and ends with one.
+            var secret = String((0..<Int.random(in: 8...16, using: &generator)).map { _ in alphanumerics.randomElement(using: &generator)! })
+            secret = String(Int.random(in: 0...9, using: &generator)) + secret.dropFirst().dropLast() + String(Int.random(in: 0...9, using: &generator))
+            let middle = name.index(name.startIndex, offsetBy: name.count / 2)
+            let values = [
+                "\(name),\(secret)", "\(secret),\(name)", "asc,\(name),\(secret)", "\(name.uppercased()),\(secret)",
+                "\(name)s,\(secret)", "asc,\(name)\(secret)", "\(name)_\(secret),asc",
+                name.count >= 6 ? "\(name[..<middle]),\(name[middle...]),\(secret)" : "\(name)\(secret),asc",
+            ]
+            for value in values {
+                let result = try redaction.redact(#require(URL(string: "https://example.com/v1/items?page=\(value)")))
+                #expect(!result.lowercased().contains(secret), "\(value) became \(result)")
+                checked += 1
+            }
+        }
+        // Six digits or more, split into groups of one to five by commas.
+        for _ in 0..<200 {
+            var groups: [String] = []
+            var digits = 0
+            while digits < 6 || Bool.random(using: &generator) {
+                let group = String((0..<Int.random(in: 1...5, using: &generator)).map { _ in "0123456789".randomElement(using: &generator)! })
+                groups.append(group)
+                digits += group.count
+            }
+            let value = groups.joined(separator: ",")
+            let result = try redaction.redact(#require(URL(string: "https://example.com/v1/items?page=\(value)")))
+            #expect(result == "https://example.com/v1/items?page=<redacted>", "\(value) became \(result)")
+            checked += 1
+        }
+        #expect(checked > 300)
+    }
 }
 
 // Redaction runs on URLs the app does not control, so it must stay fast and must not need a deep
