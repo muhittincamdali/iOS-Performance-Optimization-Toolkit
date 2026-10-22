@@ -44,8 +44,8 @@ through MetricKit, and a budget turns any of them into a failing test.
 - **Field data and budgets** — `FieldMetricsReceiver` reads MetricKit's daily reports on iOS
   17 to 27; `PerformanceBudget` checks any measurement against limits in a test.
 - **Built to run all day** — every buffer has a limit, values from the kernel or a payload are
-  checked before use, and network timings hold no headers or bodies and a redacted URL. 124
-  Swift Testing tests run on macOS, 123 of them also on an iPhone simulator, against real
+  checked before use, and network timings hold no headers or bodies and a redacted URL. 128
+  Swift Testing tests run on macOS, 127 of them also on an iPhone simulator, against real
   hangs, allocations and HTTP requests.
 
 ### What's included

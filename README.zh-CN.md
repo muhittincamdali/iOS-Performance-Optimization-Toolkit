@@ -34,7 +34,7 @@
 - **真正重要的内存指标** — `MemorySnapshot` 读取系统实际执行限制所依据的物理内存占用及其峰值，在真机上还能读取距离上限所剩的内存。
 - **启动与泄漏** — `LaunchTimer` 从进程创建时（早于 `main`）开始计时，并能识别预热（prewarmed）启动；`LeakTracker` 报告界面关闭后仍然存活的对象。
 - **线上数据与预算** — `FieldMetricsReceiver` 读取 MetricKit 在 iOS 17 至 27 上的每日报告；`PerformanceBudget` 可在测试中用限值检查任意测量结果。
-- **为长时间运行而设计** — 每个缓冲区都有上限，来自内核或 payload 的值在使用前都会校验，网络耗时不含任何 header 或 body，只带一个脱敏后的 URL。124 个 Swift Testing 测试在 macOS 上运行，其中 123 个也会在 iPhone 模拟器上运行，测试针对真实的卡死、内存分配和 HTTP 请求。
+- **为长时间运行而设计** — 每个缓冲区都有上限，来自内核或 payload 的值在使用前都会校验，网络耗时不含任何 header 或 body，只带一个脱敏后的 URL。128 个 Swift Testing 测试在 macOS 上运行，其中 127 个也会在 iPhone 模拟器上运行，测试针对真实的卡死、内存分配和 HTTP 请求。
 
 ### 包含的内容
 

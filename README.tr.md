@@ -34,7 +34,7 @@ Bir uygulamayı yavaş hissettiren şeyleri ölçen, hiçbir bağımlılığı o
 - **Gerçekten önemli bellek değeri** — `MemorySnapshot`, sistemin uyguladığı fiziksel ayak izini, bu değerin tepe noktasını ve cihazlarda sınıra kalan belleği okur.
 - **Açılış ve sızıntılar** — `LaunchTimer`, süreç oluşturulduğu andan (`main`'den önce) itibaren ölçer ve önceden ısıtılmış (prewarmed) açılışları tanır; `LeakTracker`, ekranı kapandıktan sonra hâlâ canlı olan nesneleri raporlar.
 - **Saha verisi ve bütçeler** — `FieldMetricsReceiver`, MetricKit'in günlük raporlarını iOS 17'den 27'ye kadar okur; `PerformanceBudget`, herhangi bir ölçümü bir test içinde sınırlarla karşılaştırır.
-- **Gün boyu çalışacak şekilde tasarlandı** — her tamponun bir sınırı vardır, çekirdekten veya bir payload'dan gelen değerler kullanılmadan önce doğrulanır; ağ zamanlamaları header ya da body tutmaz, yalnızca maskelenmiş bir URL içerir. 124 Swift Testing testi macOS'ta çalışır, bunların 123'ü ayrıca bir iPhone simülatöründe de çalışır; testler gerçek takılmalara, bellek ayırmalarına ve HTTP isteklerine karşı yürütülür.
+- **Gün boyu çalışacak şekilde tasarlandı** — her tamponun bir sınırı vardır, çekirdekten veya bir payload'dan gelen değerler kullanılmadan önce doğrulanır; ağ zamanlamaları header ya da body tutmaz, yalnızca maskelenmiş bir URL içerir. 128 Swift Testing testi macOS'ta çalışır, bunların 127'si ayrıca bir iPhone simülatöründe de çalışır; testler gerçek takılmalara, bellek ayırmalarına ve HTTP isteklerine karşı yürütülür.
 
 ### İçerik
 
