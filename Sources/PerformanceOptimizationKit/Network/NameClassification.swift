@@ -10,8 +10,8 @@ enum NameClassification {
         /// such a name with an `s` added, such as `tokens`.
         case listedSecret
         /// A plain ASCII name that contains a secret name without being one, such as
-        /// `resetToken`, `token-hunter22`, `pin_4831` or `pin4831`. It can carry the secret
-        /// itself, so it is hidden like a value.
+        /// `resetToken`, `token-hunter22`, `pin_4831`, `pin4831` or `p.in4831`. It can carry the
+        /// secret itself, so it is hidden like a value.
         case containsSecret
         /// A name that is not plain ASCII, contains other symbols or control characters, or has
         /// no letter or digit at all.
@@ -44,6 +44,7 @@ enum NameClassification {
         // "pin4831" a short secret name glued to a code.
         var hasSecretWord = false
         var wordStart = 0
+        var wordStarts = [0]
         for byte in name.utf8 {
             switch byte {
             case UInt8(ascii: "A")...UInt8(ascii: "Z"):
@@ -53,6 +54,7 @@ enum NameClassification {
             case UInt8(ascii: "_"), UInt8(ascii: "-"), UInt8(ascii: "."), UInt8(ascii: " "):
                 hasSecretWord = hasSecretWord || isSecretWord(folded[wordStart...])
                 wordStart = folded.count
+                wordStarts.append(wordStart)
                 continue
             default:
                 return .unclear
@@ -61,7 +63,7 @@ enum NameClassification {
         }
         guard !folded.isEmpty else { return .unclear }
         if isListedName(folded[...]) { return .listedSecret }
-        hasSecretWord = hasSecretWord || isSecretWord(folded[wordStart...])
+        hasSecretWord = hasSecretWord || isSecretWord(folded[wordStart...]) || hasSplitShortName(folded, wordStarts: wordStarts)
         let foldedName = String(decoding: folded, as: UTF8.self)
         if hasSecretWord || secretNameParts.contains(where: foldedName.contains) { return .containsSecret }
         return .ordinary(foldedName)
@@ -94,6 +96,26 @@ enum NameClassification {
 
     private static func isSecretWord(_ word: ArraySlice<UInt8>) -> Bool {
         isListedName(word) || isShortNameGluedToCode(word)
+    }
+
+    // "p.in4831", "pi-n4831" or "p_i_n_4831": a short secret name that a separator splits. The
+    // words it spans are joined and checked as one word, so "p.in4831" reads as "pin4831" and
+    // "p_i_n_4831" as "pin". A short name that only starts or ends at a separator is not split:
+    // "cdn1.pinterest.com" and "v2.keycdn.com" stay ordinary.
+    private static func hasSplitShortName(_ folded: [UInt8], wordStarts: [Int]) -> Bool {
+        for name in shortSecretNames {
+            var start = 0
+            while start + name.count <= folded.count {
+                let end = start + name.count
+                if folded[start..<end].elementsEqual(name), wordStarts.contains(where: { start < $0 && $0 < end }) {
+                    let first = wordStarts.last { $0 <= start } ?? 0
+                    let last = wordStarts.first { $0 >= end } ?? folded.count
+                    if isSecretWord(folded[first..<last]) { return true }
+                }
+                start += 1
+            }
+        }
+        return false
     }
 
     // "pin4831", "4831pin" or "pins4831": a short secret name at one end of the word and a digit

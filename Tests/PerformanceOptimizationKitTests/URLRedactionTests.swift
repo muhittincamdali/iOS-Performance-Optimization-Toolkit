@@ -45,6 +45,9 @@ struct URLRedactionTests {
         "https://example.com/v/pinabcd",
         "https://example.com/v/mypinabc",
         "https://example.com/v/mapping3",
+        "https://cdn1.pinterest.com/x",
+        "https://v2.keycdn.com/x",
+        "https://s3.cardinal.io/x",
     ])
     func keepsPlainPaths(input: String) throws {
         #expect(try redacted(input) == input)
@@ -146,6 +149,9 @@ struct URLRedactionTests {
         ("myapp://pin-4831/x", "myapp:"),
         ("myapp://tokenhunter22/x", "myapp:"),
         ("myapp://pin1234/x", "myapp:"),
+        ("myapp://p-in4831/x", "myapp:"),
+        ("myapp://pi-n-4831/x", "myapp:"),
+        ("https://p-in4831.example.com/x", "https:"),
         ("https://sid42.example.com/x", "https:"),
         ("https://newpin4831.example.com/x", "https:"),
         ("https://oauth2.example.com/x", "https:"),
@@ -290,9 +296,26 @@ struct NameClassificationTests {
 
     @Test("counts plain ASCII names without a secret name as ordinary", arguments: [
         "page", "Sort", "user_id", "v2.1", "per-page", "a b", "ping", "keyboard",
+        "cdn1.pinterest.com", "v2.keycdn.com", "s3.cardinal.io",
     ])
     func ordinaryNames(name: String) {
         #expect(!NameClassification.classify(name).namesSecret)
+    }
+
+    // The rule for a short secret name glued to a code ran on each word between separators, so a
+    // short name split by a separator was not found: "pin4831" was hidden and "p.in4831" kept.
+    @Test("hides a short secret name split by separators wherever a name is read", arguments: [
+        "p.in4831", "pi-n4831", "p_i_n_4831", "p-in-4831", "p.i.n.4831", "4831.p.i.n", "o.t.p.4831",
+        "k.e.y.4831", "c.v.v.123", "s.i.d.abc123", "p.w.d.hunter2", "ca.rd4831", "j-wt4831",
+    ])
+    func splitShortNames(name: String) throws {
+        #expect(NameClassification.classify(name) == .containsSecret)
+        let redaction = URLRedaction(allowedQueryParameters: ["q"])
+        let commas = name.replacingOccurrences(of: ".", with: ",")
+        #expect(try redacted("https://example.com/reset/\(name)/next") == "https://example.com/reset/:id/:id")
+        #expect(try redacted("https://example.com/v1?q=\(name)", with: redaction) == "https://example.com/v1?q=<redacted>")
+        #expect(try redacted("https://example.com/v1?q=\(commas)", with: redaction) == "https://example.com/v1?q=<redacted>")
+        #expect(try redacted("myapp://\(name)/x") == "myapp:")
     }
 
     @Test("hides a name with one wildcard letter wherever a name is read", arguments: namesWithOneWildcard)

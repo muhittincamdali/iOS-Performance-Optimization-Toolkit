@@ -62,6 +62,12 @@ private func gluedSpellings(of name: String, secret: String) -> [String] {
         spellings.append(secret + separator + name)
     }
     spellings += [name + secret, name.capitalized + secret, secret + name]
+    // The name split in the middle by a separator and glued to the value, such as "p.in4831".
+    let middle = name.index(name.startIndex, offsetBy: name.count / 2)
+    for separator in ["_", "-", ".", "%20"] {
+        let split = String(name[..<middle]) + separator + String(name[middle...])
+        spellings += [split + secret, secret + split]
+    }
     // The name in the middle of a word, after a prefix such as "my" or "new".
     return spellings + ["new" + name + secret, "my" + name.capitalized + secret, "new" + secret + name + "new"]
 }
@@ -137,6 +143,7 @@ struct URLRedactionPropertyTests {
                 "\(name),\(secret)", "\(secret),\(name)", "asc,\(name),\(secret)", "\(name.uppercased()),\(secret)",
                 "\(name)s,\(secret)", "asc,\(name)\(secret)", "\(name)_\(secret),asc",
                 name.count >= 6 ? "\(name[..<middle]),\(name[middle...]),\(secret)" : "\(name)\(secret),asc",
+                "\(name[..<middle]),\(name[middle...])\(secret)", "\(secret)\(name[..<middle]),\(name[middle...])",
             ]
             for value in values {
                 let result = try redaction.redact(#require(URL(string: "https://example.com/v1/items?page=\(value)")))
