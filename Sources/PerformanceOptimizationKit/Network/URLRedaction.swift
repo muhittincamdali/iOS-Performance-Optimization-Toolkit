@@ -14,7 +14,10 @@ import Foundation
 ///   more digits (also split by `-`, `_`, `.` or spaces), is a card number, an IBAN, a JSON Web
 ///   Token or a bearer token, has 16 or more hexadecimal digits, or is a token of 16 or more
 ///   characters that mixes letters and digits (32 or more in any mix) becomes `:id`.
-///   `12345.json` becomes `:id.json`.
+///   `12345.json` becomes `:id.json`. An identifier that holds a secret name or is not ASCII also
+///   hides the next segment, as the rules below do: `/v/token123456/x`, `/v/4831.pin/x` and
+///   `/u/张伟@example.cn/x` become `/v/:id/:id`, `/v/:id.pin/:id` and `/u/:id/:id`, while
+///   `/u/jane@example.org/x` becomes `/u/:id/x`.
 /// - **Secret names:** after a segment that names a secret, such as `token`, `password`, `pin` or
 ///   `api_key`, the next segment becomes `:id`: `/reset/token/abc` becomes `/reset/token/:id`.
 ///   A segment that contains such a name together with more, which can be the secret itself,
@@ -22,7 +25,9 @@ import Foundation
 ///   become `/reset/:id` and `/v/:id`.
 /// - **Names it cannot read:** a segment that is not plain ASCII letters, digits, `_`, `-`, `.`
 ///   and spaces after percent-decoding, such as `Şifre`, `c++` or a word with a look-alike letter
-///   from another script, becomes `:id`, and so does the segment after it.
+///   from another script, becomes `:id`, and so does the segment after it. Only an ASCII
+///   identifier without a secret name, such as an e-mail address or a phone number, keeps the
+///   next segment.
 /// - **Host only:** when the path has a `.` or `..` segment, a `;`, a backslash or a double
 ///   percent-encoding, or encodes a `.`, `/`, `?`, `#` or control character; when the host names
 ///   a secret (`myapp://pin/4831`); when the path or the query is longer than the documented caps.
@@ -164,9 +169,9 @@ extension URLRedaction {
         guard let decoded = encoded.removingPercentEncoding else { return (identifierPlaceholder, true) }
         let kind = NameClassification.classify(decoded)
         if afterLabel { return (identifierPlaceholder, kind.namesSecret) }
-        if IdentifierDetection.isIdentifier(decoded) { return (identifierPlaceholder, false) }
+        if IdentifierDetection.isIdentifier(decoded) { return (identifierPlaceholder, isLabel(identifier: decoded)) }
         if let file = FileName(decoded), IdentifierDetection.isIdentifier(file.name) {
-            return ("\(identifierPlaceholder).\(file.fileExtension)", false)
+            return ("\(identifierPlaceholder).\(file.fileExtension)", isLabel(identifier: decoded))
         }
         switch kind {
         case .ordinary: return (String(encoded), false)
@@ -174,6 +179,18 @@ extension URLRedaction {
         // "token-hunter22" or "passwordhunter2": the name and its value in one segment.
         case .containsSecret, .unclear: return (identifierPlaceholder, true)
         }
+    }
+
+    // An identifier is a label too when it is not ASCII ("张伟@example.cn") or holds a secret
+    // name ("token123456", "4831.pin"), like any other segment. The symbols that make an e-mail
+    // address or a phone number unreadable as a name are read as separators, so "pin@x" is a
+    // label and "jane.doe@example.org" and "+905551234567" are not.
+    private static func isLabel(identifier decoded: String) -> Bool {
+        guard decoded.unicodeScalars.allSatisfy(\.isASCII) else { return true }
+        let words = String(String.UnicodeScalarView(decoded.unicodeScalars.map { scalar in
+            ("a"..."z").contains(scalar) || ("A"..."Z").contains(scalar) || ("0"..."9").contains(scalar) ? scalar : " "
+        }))
+        return NameClassification.classify(words).namesSecret
     }
 }
 

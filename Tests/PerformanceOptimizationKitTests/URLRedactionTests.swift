@@ -13,7 +13,7 @@ struct URLRedactionTests {
         ("https://example.com:8443/v1/orders/3F2504E0-4F89-11D3-9A0C-0305E82C3301", "https://example.com:8443/v1/orders/:id"),
         ("https://example.com/files/9f86d081884c7d659a2feaa0c55ad015", "https://example.com/files/:id"),
         ("https://example.com/users/jane.doe@example.org/profile", "https://example.com/users/:id/profile"),
-        ("https://example.com/users/%E5%BC%A0%E4%BC%9F@example.cn/profile", "https://example.com/users/:id/profile"),
+        ("https://example.com/users/%E5%BC%A0%E4%BC%9F@example.cn/profile", "https://example.com/users/:id/:id"),
         ("https://example.com/s/eyJhbGciOiJIUzI1NiJ9abc123xyz", "https://example.com/s/:id"),
         ("https://example.com/s/Bearer%20abcdef", "https://example.com/s/:id"),
         ("https://example.com/users/12345.json", "https://example.com/users/:id.json"),
@@ -87,6 +87,20 @@ struct URLRedactionTests {
     ])
     func secretNames(input: String, expected: String) throws {
         #expect(try redacted(input) == expected)
+    }
+
+    // An identifier used to end a label: the segment after it was kept even when the identifier
+    // held a secret name, in its name or in its extension, or was not ASCII.
+    @Test("hides the segment after an identifier that holds a secret name or is not ASCII", arguments: [
+        ("token123456", ":id"), ("pin123456", ":id"), ("password-123456", ":id"), ("token1234567890abcdef", ":id"),
+        ("apikey.12345678", ":id"), ("token:123456", ":id"), ("pin@x", ":id"), ("123456.pin", ":id"),
+        ("4831.pin", ":id.pin"), ("12345.key", ":id.key"), ("1234.pwd", ":id.pwd"), ("1.token", ":id.token"),
+        ("%C5%9Eifre123456", ":id"), ("%E5%AF%86%E7%A0%81123456", ":id"), ("p%D0%B0ssword123456", ":id"),
+        ("p%D1%96n123456", ":id"), ("t%CD%A6ken-123456", ":id"), ("passw%E3%80%87rd123456", ":id"), ("p%D1%96n@x", ":id"),
+    ])
+    func identifierLabels(segment: String, redactedSegment: String) throws {
+        let result = try redacted("https://example.com/v1/\(segment)/hunter2/tail")
+        #expect(result == "https://example.com/v1/\(redactedSegment)/:id/tail")
     }
 
     // Look-alike letters (Cyrillic, Greek, mathematical, circled, full-width), format characters
