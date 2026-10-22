@@ -22,9 +22,10 @@ Please report privately anything that makes it:
 - store or emit a part of a URL that `URLRedaction` documents that it hides (credentials,
   fragment, query parameters that are not allowed, identifiers, a segment or a host that holds
   a secret name together with more, the segment after a secret name, an unreadable name or an
-  identifier that holds either, paths that servers read differently), let a URL put a line
-  break into its output, or record a request header or body;
-- take more than a second, or crash on a 512 KiB stack, while redacting a URL of 1 MB.
+  identifier that holds either or is not a plain name, paths that servers read differently),
+  let a URL put a line break into its output, or record a request header or body;
+- take more than a second, or crash on a 512 KiB stack, while redacting a URL of 1 MB, or take
+  more than a second per MB in an optimized build for a URL within the documented caps.
 
 `URLRedaction` is a safety net: a secret that looks like an ordinary word in an ordinary place
 of a path is a documented limit, not a vulnerability (see "What it does not find" in the

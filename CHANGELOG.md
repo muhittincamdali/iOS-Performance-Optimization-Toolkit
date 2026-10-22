@@ -62,18 +62,20 @@ iOS 17, macOS 14, tvOS 17, watchOS 10 and visionOS 1 and later.
   and `LeakTracker` does not track, names longer than 256 bytes.
 - Network timings never hold headers or bodies, and a method or protocol name only when it is
   a short plain word. `URLRedaction` hides whatever it does not fully understand: credentials,
-  the fragment and the query (except allowed parameters with short plain values, checked part
-  by part when they hold commas) are always dropped; identifiers, the segment after a secret
-  name, and names that are not plain ASCII (look-alike letters, a single letter from another
-  script inside a word, invisible characters, combining marks) or hold a secret name together
-  with more (`token-hunter22`, also split by a separator as in `p.in4831`) and the segment after
-  them become `:id`, also when they are identifiers (`token123456`, `张伟@example.cn`); paths
-  that servers read differently (dot segments, `;`, double or encoded delimiters) and hosts
-  that name a secret keep scheme and host only; unreadable hosts, IPv6 hosts with a zone and
-  hosts that hold a secret name together with more (`myapp://pin.ab12cd`, `token.example.com`)
-  keep the scheme only.
+  the fragment and the query (except allowed parameters with short plain values, checked as a
+  whole and part by part when they hold commas) are always dropped; identifiers, the segment
+  after a secret name, and names that are not plain ASCII names (symbols, look-alike letters, a
+  single letter from another script inside a word, invisible characters, combining marks) or
+  hold a secret name together with more (`token-hunter22`, also split by a separator as in
+  `p.in4831`) and the segment after them become `:id`, also when they are identifiers
+  (`token123456`, `t@ken`, `p!n123456`, `张伟@example.cn`; only an e-mail address of plain names
+  and a number keep the next segment); paths that servers read differently (dot segments, `;`,
+  double or encoded delimiters) and hosts that name a secret keep scheme and host only;
+  unreadable hosts, IPv6 hosts with a zone and hosts that hold a secret name together with more
+  (`myapp://pin.ab12cd`, `token.example.com`) keep the scheme only.
   Paths, queries and results have documented caps, and URLs of 1 MB are redacted in well under
-  a second on a 512 KiB stack.
+  a second on a 512 KiB stack. The slowest URLs within the caps are redacted in under a second
+  per MB in an optimized build; the tables of secret names are built once, not for each word.
 
 ## [1.0.0] - 2026-02-02
 
