@@ -34,7 +34,7 @@ Un paquet Swift qui mesure ce qui rend une app lente, sur iOS 17+, macOS 14+, tv
 - **La mesure mémoire qui compte** — `MemorySnapshot` lit l’empreinte physique que le système applique, son pic et, sur appareil, la mémoire restante avant la limite.
 - **Lancement et fuites** — `LaunchTimer` mesure depuis la création du processus (avant `main`) et reconnaît les lancements préchauffés (prewarmed) ; `LeakTracker` signale les objets encore en vie après la fermeture de leur écran.
 - **Données de terrain et budgets** — `FieldMetricsReceiver` lit les rapports quotidiens de MetricKit sur iOS 17 à 27 ; `PerformanceBudget` vérifie n’importe quelle mesure par rapport à des limites dans un test.
-- **Conçu pour tourner toute la journée** — chaque tampon a une limite, les valeurs issues du noyau ou d’un payload sont vérifiées avant d’être utilisées, et les mesures réseau ne contiennent ni en-têtes ni corps, seulement une URL masquée. 122 tests Swift Testing s’exécutent sur macOS, dont 121 également sur un simulateur d’iPhone, face à de vrais blocages, de vraies allocations et de vraies requêtes HTTP.
+- **Conçu pour tourner toute la journée** — chaque tampon a une limite, les valeurs issues du noyau ou d’un payload sont vérifiées avant d’être utilisées, et les mesures réseau ne contiennent ni en-têtes ni corps, seulement une URL masquée. 124 tests Swift Testing s’exécutent sur macOS, dont 123 également sur un simulateur d’iPhone, face à de vrais blocages, de vraies allocations et de vraies requêtes HTTP.
 
 ### Contenu
 

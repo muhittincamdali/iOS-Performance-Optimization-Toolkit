@@ -34,7 +34,7 @@ Um pacote Swift que mede o que faz um app parecer lento, em iOS 17+, macOS 14+, 
 - **O número de memória que importa** — o `MemorySnapshot` lê a pegada física que o sistema impõe, o seu pico e, em dispositivos, a memória que resta antes do limite.
 - **Abertura e vazamentos** — o `LaunchTimer` mede desde a criação do processo (antes de `main`) e reconhece aberturas pré-aquecidas (prewarmed); o `LeakTracker` informa os objetos que continuam vivos depois que a tela deles foi fechada.
 - **Dados de campo e orçamentos** — o `FieldMetricsReceiver` lê os relatórios diários do MetricKit no iOS 17 a 27; o `PerformanceBudget` verifica qualquer medição contra limites em um teste.
-- **Feito para rodar o dia todo** — todo buffer tem um limite, valores vindos do kernel ou de um payload são verificados antes do uso, e as medições de rede não guardam cabeçalhos nem corpos, apenas uma URL ocultada. 122 testes do Swift Testing rodam no macOS, 121 deles também em um simulador de iPhone, contra travamentos, alocações e requisições HTTP reais.
+- **Feito para rodar o dia todo** — todo buffer tem um limite, valores vindos do kernel ou de um payload são verificados antes do uso, e as medições de rede não guardam cabeçalhos nem corpos, apenas uma URL ocultada. 124 testes do Swift Testing rodam no macOS, 123 deles também em um simulador de iPhone, contra travamentos, alocações e requisições HTTP reais.
 
 ### O que está incluído
 

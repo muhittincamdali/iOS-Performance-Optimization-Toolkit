@@ -46,8 +46,8 @@ iOS 17, macOS 14, tvOS 17, watchOS 10 and visionOS 1 and later.
 - Budgets: `PerformanceBudget` checks `PerformanceMeasurements` and returns
   `BudgetViolation`s.
 - Overlay: `PerformanceMonitor` (`@Observable`) and `PerformanceHUD`.
-- The PerformanceLab example app, a DocC catalog with five articles, and 122 Swift Testing
-  tests that run on macOS, 121 of them also on an iPhone simulator.
+- The PerformanceLab example app, a DocC catalog with five articles, and 124 Swift Testing
+  tests that run on macOS, 123 of them also on an iPhone simulator.
 
 ### Removed
 
