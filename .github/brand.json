@@ -1,0 +1,46 @@
+{
+  "name": "Performance Toolkit",
+  "repository": "muhittincamdali/iOS-Performance-Optimization-Toolkit",
+  "branch": "master",
+  "tagline": {
+    "en": "Find hangs, hitches, memory growth, slow launches and leaks in Swift apps, and check them in tests."
+  },
+  "tags": {
+    "en": [
+      "Swift 6",
+      "MetricKit",
+      "No dependencies"
+    ]
+  },
+  "motif": "phone",
+  "buttons": [
+    "start",
+    "docs",
+    "examples"
+  ],
+  "links": {
+    "docs": "https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/",
+    "examples": "Examples/"
+  },
+  "languages": [
+    "en",
+    "tr",
+    "zh-CN",
+    "ja",
+    "ko",
+    "es",
+    "de",
+    "fr",
+    "pt-BR",
+    "ru"
+  ],
+  "docc": {
+    "targets": [
+      "PerformanceOptimizationKit"
+    ]
+  },
+  "socialTheme": "dark",
+  "badgeOverrides": {
+    "version": "2.0.0"
+  }
+}

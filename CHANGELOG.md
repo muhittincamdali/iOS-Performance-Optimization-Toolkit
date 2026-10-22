@@ -1,301 +1,86 @@
-# 📋 Changelog
+# Changelog
 
-All notable changes to the iOS Performance Optimization Toolkit project will be documented in this file.
+All notable changes to this project are documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-### Added
-- Advanced performance prediction algorithms
-- Real-time performance monitoring dashboard
-- Machine learning-based optimization suggestions
-- Advanced battery optimization features
-- Performance regression detection
+## [2.0.0] - 2026-10-22
 
-### Changed
-- Improved memory optimization performance by 30%
-- Enhanced battery optimization algorithms
-- Updated CPU optimization for better efficiency
-- Optimized UI performance monitoring
-
-### Fixed
-- Memory leak detection false positives
-- Battery optimization timing issues
-- CPU monitoring accuracy improvements
-- UI performance measurement precision
-
-## [2.1.0] - 2024-12-15
+A rebuilt package. The 1.0.0 sources did not build: `PerformanceDashboard.swift` and
+`StartupTimeAnalyzer.swift` both declared `RecommendationCategory`, the test targets referred
+to types that had been removed, and the README described features the code did not have.
+This release replaces them with a dependency-free package in the Swift 6 language mode for
+iOS 17, macOS 14, tvOS 17, watchOS 10 and visionOS 1 and later.
 
 ### Added
-- **Advanced Performance Prediction**
-  - Machine learning-based performance prediction
-  - Predictive optimization recommendations
-  - Performance trend analysis
-  - Automated optimization scheduling
 
-- **Enhanced Battery Optimization**
-  - Smart background task management
-  - Location services optimization
-  - Network request batching
-  - Battery health monitoring
+- Hangs: `HangDetector` watches the main queue (or any serial queue) from a background thread
+  and reports `HangEvent`s from a threshold (250 ms by default). With `capturesBacktraces`, it
+  records the main thread's call stack while the hang is still going on, as `StackFrame`s
+  with binary and demangled symbol names. Time in which the whole process was stopped, such
+  as an app in the background, is not reported as a hang. `HangSeverity` follows the limits
+  in Apple's "Understanding hangs in your app".
+- Frames: `FrameTimeline` turns display link callbacks into `FrameStatistics` (frame rate,
+  hitch time, hitch time ratio in ms/s, dropped frames), treating jitter and pauses correctly;
+  `FrameRateMonitor` runs the display link (also on macOS 14 through `NSScreen`);
+  `HitchRating` uses the limits in Apple's "Understanding hitches in your app".
+- Memory and CPU: `MemorySnapshot` reads the physical footprint, its peak, the resident size
+  and the memory left before the app's limit; `CPUSnapshot` reads the usage of every thread;
+  `ProcessCPUTime` measures CPU time over an interval and on the calling thread.
+- Launch: `ProcessLaunch` reads the process start time from the kernel and detects prewarmed
+  launches; `LaunchTimer` and `measuresLaunch()` record the first frame and the moment the app
+  became usable.
+- Leaks: `LeakTracker` reports objects that are still alive after a grace period.
+- Operations: `PerformanceTracer` runs work in `OSSignposter` intervals and keeps statistics
+  (`SampleStatistics`, p50 to p99) per name.
+- Network: `NetworkMetricsCollector` records the phases of each request as `NetworkTiming`,
+  with URLs redacted by `URLRedaction`; query parameters can be kept by name with
+  `URLRedaction(allowedQueryParameters:)`, or everything but the host dropped with
+  `recordsHostOnly`.
+- Field data: `FieldMetricsReceiver` turns MetricKit's reports into `FieldMetrics`, using
+  `MetricManager` on iOS 27 and macOS 27 and `MXMetricManager` before; `FieldHistogram`
+  estimates percentiles from MetricKit's histograms.
+- Budgets: `PerformanceBudget` checks `PerformanceMeasurements` and returns
+  `BudgetViolation`s.
+- Overlay: `PerformanceMonitor` (`@Observable`) and `PerformanceHUD`.
+- The PerformanceLab example app, a DocC catalog with five articles, and 128 Swift Testing
+  tests that run on macOS, 127 of them also on an iPhone simulator.
 
-- **Advanced Memory Management**
-  - Intelligent memory leak detection
-  - Automatic memory defragmentation
-  - Image cache optimization
-  - Memory pressure monitoring
+### Removed
 
-- **Real-time Performance Monitoring**
-  - Live performance metrics dashboard
-  - Performance alert system
-  - Historical performance tracking
-  - Performance regression detection
+- The 1.0.0 API (`PerformanceCore`, the optimizer and profiler singletons, the dashboard)
+  and its dependencies on swift-log and swift-metrics.
+- The CocoaPods podspec, which pointed at a pod that was never published.
 
-### Changed
-- Updated minimum iOS version to 15.0
-- Improved memory optimization algorithms
-- Enhanced battery optimization efficiency
-- Optimized CPU monitoring accuracy
+### Security
 
-### Fixed
-- Memory leak detection false positives
-- Battery optimization timing issues
-- CPU monitoring accuracy improvements
-- Performance metrics calculation errors
+- Every buffer has a limit, and values read from the kernel or decoded from JSON are checked
+  before they reach integer conversions or arithmetic. `PerformanceTracer` does not record,
+  and `LeakTracker` does not track, names longer than 256 bytes.
+- Network timings never hold headers or bodies, and a method or protocol name only when it is
+  a short plain word. `URLRedaction` hides whatever it does not fully understand: credentials,
+  the fragment and the query (except allowed parameters with short plain values, checked as a
+  whole and part by part when they hold commas) are always dropped; identifiers, the segment
+  after a secret name, and names that are not plain ASCII names (symbols, look-alike letters, a
+  single letter from another script inside a word, invisible characters, combining marks) or
+  hold a secret name together with more (`token-hunter22`, also split by a separator as in
+  `p.in4831`) and the segment after them become `:id`, also when they are identifiers
+  (`token123456`, `t@ken`, `p!n123456`, `张伟@example.cn`; only an e-mail address of plain names
+  and a number keep the next segment); paths that servers read differently (dot segments, `;`,
+  double or encoded delimiters) and hosts that name a secret keep scheme and host only;
+  unreadable hosts, IPv6 hosts with a zone and hosts that hold a secret name together with more
+  (`myapp://pin.ab12cd`, `token.example.com`) keep the scheme only.
+  Paths, queries and results have documented caps, and URLs of 1 MB are redacted in well under
+  a second on a 512 KiB stack. The slowest URLs within the caps are redacted in under a second
+  per MB in an optimized build; the tables of secret names are built once, not for each word.
 
-### Deprecated
-- `PerformanceManager.legacyOptimize` - Use new optimization methods
-- `MemoryOptimizer.oldDetectLeaks` - Use new leak detection
+## [1.0.0] - 2026-02-02
 
-## [2.0.0] - 2024-11-20
+First tagged release. Its sources did not build.
 
-### Added
-- **Major Release**: Complete performance optimization framework
-- **PerformanceManager**: Core performance management component
-- **MemoryOptimizer**: Advanced memory optimization
-- **BatteryOptimizer**: Comprehensive battery optimization
-- **CPUOptimizer**: CPU performance monitoring and optimization
-- **UIOptimizer**: UI performance optimization
-- **PerformanceAnalyticsManager**: Performance analytics and reporting
-
-- **Performance Features**
-  - Real-time performance monitoring
-  - Memory leak detection and prevention
-  - Battery usage optimization
-  - CPU performance optimization
-  - UI frame rate optimization
-  - Performance analytics and reporting
-
-- **Advanced Optimization**
-  - Automatic performance optimization
-  - Performance level management
-  - Memory pressure monitoring
-  - Battery health monitoring
-  - CPU usage monitoring
-  - UI performance monitoring
-
-### Changed
-- **Breaking Changes**: Updated performance APIs for better consistency
-- Improved performance by 50% across all optimizations
-- Enhanced memory optimization algorithms
-- Updated battery optimization for better efficiency
-- Comprehensive performance analytics and reporting
-
-### Fixed
-- Critical performance bottlenecks in optimization algorithms
-- Memory leak detection accuracy issues
-- Battery optimization timing problems
-- CPU monitoring precision issues
-
-### Migration Guide
-```swift
-// Old API
-let optimizer = LegacyPerformanceOptimizer()
-optimizer.optimize { result in }
-
-// New API
-let performanceManager = PerformanceManager()
-performanceManager.optimizeAppPerformance()
-let metrics = performanceManager.getPerformanceMetrics()
-```
-
-## [1.5.0] - 2024-10-10
-
-### Added
-- **Enhanced Memory Optimization**
-  - Advanced memory leak detection
-  - Automatic memory cleanup
-  - Memory fragmentation analysis
-  - Image cache optimization
-
-- **Advanced Battery Optimization**
-  - Smart power management
-  - Background task optimization
-  - Location services optimization
-  - Network request optimization
-
-- **CPU Performance Monitoring**
-  - Real-time CPU usage monitoring
-  - Thread optimization
-  - Background task management
-  - Performance scoring
-
-### Changed
-- Improved memory optimization performance
-- Enhanced battery optimization algorithms
-- Updated CPU monitoring accuracy
-- Optimized performance metrics calculation
-
-### Fixed
-- Memory leak detection accuracy issues
-- Battery optimization timing problems
-- CPU monitoring precision issues
-- Performance metrics calculation errors
-
-## [1.0.0] - 2024-09-01
-
-### Added
-- **Initial Release**: Core performance optimization components
-- **PerformanceManager**: Main performance management component
-- **MemoryOptimizer**: Memory optimization and leak detection
-- **BatteryOptimizer**: Battery usage optimization
-- **CPUOptimizer**: CPU performance monitoring
-- **UIOptimizer**: UI performance optimization
-- **PerformanceAnalyticsManager**: Performance analytics
-
-### Features
-- 100+ performance optimization utilities
-- Real-time performance monitoring
-- Memory leak detection and prevention
-- Battery usage optimization
-- CPU performance optimization
-- UI frame rate optimization
-- Comprehensive performance analytics
-- 100% test coverage
-
-## [0.9.0] - 2024-08-15
-
-### Added
-- Beta release with core performance components
-- Basic memory optimization
-- Simple battery optimization
-- Basic CPU monitoring
-
-### Changed
-- Improved performance optimization architecture
-- Enhanced monitoring accuracy
-- Better error handling
-
-## [0.8.0] - 2024-08-01
-
-### Added
-- Alpha release
-- Foundation performance components
-- Basic optimization features
-- Initial documentation
-
----
-
-## 🔄 Migration Guides
-
-### Migrating from 1.x to 2.0
-1. Update performance manager initialization
-2. Replace deprecated optimization methods
-3. Update performance metrics API usage
-4. Test performance optimization flow
-
-### Migrating from 0.x to 1.0
-1. Update minimum iOS version to 15.0
-2. Replace old performance APIs
-3. Update optimization usage
-4. Test all performance features
-
----
-
-## 📊 Release Statistics
-
-- **Total Performance Components**: 100+
-- **Test Coverage**: 100%
-- **Performance**: 50% improvement
-- **Optimization**: App Store Top 100 quality
-- **Documentation**: 30+ performance guides
-
----
-
-## 🎯 Roadmap
-
-### Upcoming Features
-- **AI-Powered Optimization**: Machine learning optimization
-- **Predictive Performance**: Performance prediction algorithms
-- **Advanced Analytics**: Deep performance analytics
-- **Cloud Integration**: Cloud-based performance monitoring
-- **Cross-Platform**: macOS and watchOS support
-
-### Planned Improvements
-- Enhanced optimization algorithms
-- Advanced performance monitoring
-- Performance optimizations
-- Additional optimization features
-- Better documentation
-
----
-
-**⚡ Build App Store Top 100 performance with iOS Performance Optimization Toolkit!** # iOS-Performance-Optimization-Toolkit - Update 1
-# iOS-Performance-Optimization-Toolkit - Update 2
-# iOS-Performance-Optimization-Toolkit - Update 3
-# iOS-Performance-Optimization-Toolkit - Update 4
-# iOS-Performance-Optimization-Toolkit - Update 5
-# iOS-Performance-Optimization-Toolkit - Update 6
-# iOS-Performance-Optimization-Toolkit - Update 7
-# iOS-Performance-Optimization-Toolkit - Update 8
-# iOS-Performance-Optimization-Toolkit - Update 9
-# iOS-Performance-Optimization-Toolkit - Update 10
-# iOS-Performance-Optimization-Toolkit - Update 11
-# iOS-Performance-Optimization-Toolkit - Update 12
-# iOS-Performance-Optimization-Toolkit - Update 13
-# iOS-Performance-Optimization-Toolkit - Update 14
-# iOS-Performance-Optimization-Toolkit - Update 15
-# iOS-Performance-Optimization-Toolkit - Update 16
-# iOS-Performance-Optimization-Toolkit - Update 17
-# iOS-Performance-Optimization-Toolkit - Update 18
-# iOS-Performance-Optimization-Toolkit - Update 19
-# iOS-Performance-Optimization-Toolkit - Update 20
-# iOS-Performance-Optimization-Toolkit - Update 21
-# iOS-Performance-Optimization-Toolkit - Update 22
-# iOS-Performance-Optimization-Toolkit - Update 23
-# iOS-Performance-Optimization-Toolkit - Update 24
-# iOS-Performance-Optimization-Toolkit - Update 25
-# iOS-Performance-Optimization-Toolkit - Update 26
-# iOS-Performance-Optimization-Toolkit - Update 27
-# iOS-Performance-Optimization-Toolkit - Update 28
-# iOS-Performance-Optimization-Toolkit - Update 29
-# iOS-Performance-Optimization-Toolkit - Update 30
-# iOS-Performance-Optimization-Toolkit - Update 31
-# iOS-Performance-Optimization-Toolkit - Update 32
-# iOS-Performance-Optimization-Toolkit - Update 33
-# iOS-Performance-Optimization-Toolkit - Update 34
-# iOS-Performance-Optimization-Toolkit - Update 35
-# iOS-Performance-Optimization-Toolkit - Update 36
-# iOS-Performance-Optimization-Toolkit - Update 37
-# iOS-Performance-Optimization-Toolkit - Update 38
-# iOS-Performance-Optimization-Toolkit - Update 39
-# iOS-Performance-Optimization-Toolkit - Update 40
-# iOS-Performance-Optimization-Toolkit - Update 41
-# iOS-Performance-Optimization-Toolkit - Update 42
-# iOS-Performance-Optimization-Toolkit - Update 43
-# iOS-Performance-Optimization-Toolkit - Update 44
-# iOS-Performance-Optimization-Toolkit - Update 45
-# iOS-Performance-Optimization-Toolkit - Update 46
-# iOS-Performance-Optimization-Toolkit - Update 47
-# iOS-Performance-Optimization-Toolkit - Update 48
-# iOS-Performance-Optimization-Toolkit - Update 49
-# iOS-Performance-Optimization-Toolkit - Update 50
-# iOS-Performance-Optimization-Toolkit - Update 51
-# iOS-Performance-Optimization-Toolkit - Update 52
-# iOS-Performance-Optimization-Toolkit - Update 53
-# iOS-Performance-Optimization-Toolkit - Update 54
-# iOS-Performance-Optimization-Toolkit - Update 55
-# iOS-Performance-Optimization-Toolkit - Update 56
-# iOS-Performance-Optimization-Toolkit - Update 57
+[Unreleased]: https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/compare/v1.0.0...v2.0.0
+[1.0.0]: https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/releases/tag/v1.0.0

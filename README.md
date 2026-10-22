@@ -1,486 +1,325 @@
-<p align="center">
-  <img src="https://img.shields.io/badge/iOS-15.0%2B-blue?style=for-the-badge&logo=apple" alt="iOS 15+"/>
-  <img src="https://img.shields.io/badge/Swift-5.9-orange?style=for-the-badge&logo=swift" alt="Swift 5.9"/>
-  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="MIT License"/>
-  <img src="https://img.shields.io/badge/SPM-Compatible-brightgreen?style=for-the-badge&logo=swift" alt="SPM Compatible"/>
-</p>
+<!-- brand:start -->
 
-<h1 align="center">🚀 iOS Performance Optimization Toolkit</h1>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/banner-light.svg" alt="Performance Toolkit: Find hangs, hitches, memory growth, slow launches and leaks in Swift apps, and check them in tests."></picture></p>
 
-<p align="center">
-  <strong>The World's Most Comprehensive iOS Performance Profiling Framework</strong>
-</p>
+<!-- lang-selector:start -->
+<p align="center"><a href="README.md">English</a> · <a href="README.tr.md">Türkçe</a> · <a href="README.zh-CN.md">简体中文</a> · <a href="README.ja.md">日本語</a> · <a href="README.ko.md">한국어</a> · <a href="README.es.md">Español</a> · <a href="README.de.md">Deutsch</a> · <a href="README.fr.md">Français</a> · <a href="README.pt-BR.md">Português (Brasil)</a> · <a href="README.ru.md">Русский</a></p>
+<!-- lang-selector:end -->
 
 <p align="center">
-  Production-ready tools for memory, CPU, network, UI, and Core Data profiling.<br/>
-  Real-time monitoring • Actionable insights • Zero overhead in production.
+<a href="https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/actions/workflows/ci.yml"><img src="https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/actions/workflows/ci.yml/badge.svg" alt="CI status"></a>
+<a href="https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/releases"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/badge-version-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/badge-version-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/badge-version-light.svg" alt="Latest version: v2.0.0"></picture></a>
+<a href="https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/blob/master/Package.swift"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/badge-platforms-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/badge-platforms-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/badge-platforms-light.svg" alt="Supported platforms: iOS 17+ · macOS 14+ · tvOS 17+ · watchOS 10+ · visionOS 1+"></picture></a>
+<a href="https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/blob/master/Package.swift"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/badge-language-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/badge-language-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/badge-language-light.svg" alt="Language version: Swift 6.2+"></picture></a>
+<a href="https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/blob/master/LICENSE"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/badge-license-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/badge-license-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/badge-license-light.svg" alt="License: MIT"></picture></a>
 </p>
 
----
+<p align="center">
+<a href="#quick-start"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/button-start-en-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/button-start-en-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/button-start-en-light.svg" alt="Get started"></picture></a>
+<a href="https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/button-docs-en-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/button-docs-en-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/button-docs-en-light.svg" alt="Documentation"></picture></a>
+<a href="https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/tree/master/Examples"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/button-examples-en-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/button-examples-en-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/master/.github/brand/button-examples-en-light.svg" alt="Examples"></picture></a>
+</p>
 
-## ✨ Features
+<!-- brand:end -->
 
-| Module | Description | Key Capabilities |
-|--------|-------------|------------------|
-| 💾 **Memory Profiler** | Real-time memory analysis | Usage tracking, leak detection, pressure monitoring |
-| ⚡ **CPU Profiler** | Process & system CPU monitoring | Thread analysis, usage breakdown, bottleneck detection |
-| 🎯 **Frame Rate Monitor** | Smooth scrolling analysis | FPS tracking, hitch detection, jank scoring |
-| 🌐 **Network Profiler** | Request performance tracking | Latency analysis, bandwidth monitoring, slow request detection |
-| 🔋 **Battery Tracker** | Power consumption analysis | Drain detection, thermal monitoring |
-| 💿 **Disk I/O Monitor** | Storage performance | Usage tracking, read/write analysis |
-| 🚀 **Startup Analyzer** | App launch optimization | Cold/warm start analysis, phase breakdown |
-| 🔍 **Memory Leak Detector** | Automatic leak detection | Object tracking, retain cycle detection |
-| 🧵 **Thread Analyzer** | Concurrency analysis | Deadlock detection, main thread blocking |
-| 📊 **Core Data Profiler** | Database performance | Fetch/save profiling, query optimization |
-| 📈 **Real-time Dashboard** | Live performance monitoring | Health scores, alerts, recommendations |
+A Swift package that measures what makes an app feel slow, on iOS 17+, macOS 14+, tvOS 17+,
+watchOS 10+ and visionOS 1+, with no dependencies. It reports main-thread hangs with the
+call stack that caused them, late frames as Apple's hitch time ratio, the memory footprint
+the system compares with your app's limit, launch time from the moment the process started,
+and view models that outlive their screen. The same figures come from people's devices
+through MetricKit, and a budget turns any of them into a failing test.
 
----
+## Highlights
 
-## 🎯 Quick Start
+- **Hangs with call stacks** — `HangDetector` reports when the main thread stops responding
+  for 250 ms or more and, while it is still blocked, records its call stack with demangled
+  Swift names.
+- **Hitches the way Apple counts them** — `FrameTimeline` measures how late each frame is and
+  reports the hitch time ratio in ms/s, graded with the limits from Apple's documentation.
+- **The memory figure that matters** — `MemorySnapshot` reads the physical footprint the
+  system enforces, its peak, and on devices the memory left before the limit.
+- **Launch and leaks** — `LaunchTimer` measures from process creation (before `main`) and
+  recognises prewarmed launches; `LeakTracker` reports objects still alive after their screen
+  closed.
+- **Field data and budgets** — `FieldMetricsReceiver` reads MetricKit's daily reports on iOS
+  17 to 27; `PerformanceBudget` checks any measurement against limits in a test.
+- **Built to run all day** — every buffer has a limit, values from the kernel or a payload are
+  checked before use, and network timings hold no headers or bodies and a redacted URL. 128
+  Swift Testing tests run on macOS, 127 of them also on an iPhone simulator, against real
+  hangs, allocations and HTTP requests.
 
-### Installation
+### What's included
 
-Add to your `Package.swift`:
+| Area | API |
+| --- | --- |
+| Live overlay | `PerformanceMonitor`, `PerformanceHUD`, `PerformanceSnapshot` |
+| Hangs | `HangDetector`, `HangEvent`, `HangSeverity`, `StackFrame` |
+| Frames | `FrameRateMonitor`, `FrameTimeline`, `FrameStatistics`, `HitchRating` |
+| Memory and CPU | `MemorySnapshot`, `CPUSnapshot`, `ProcessCPUTime` |
+| Launch | `LaunchTimer`, `LaunchMeasurement`, `ProcessLaunch`, `measuresLaunch()` |
+| Leaks | `LeakTracker`, `LeakReport` |
+| Operations | `PerformanceTracer` (signposts for Instruments), `SampleStatistics` |
+| Network | `NetworkMetricsCollector`, `NetworkTiming`, `URLRedaction` |
+| Field data | `FieldMetricsReceiver`, `FieldMetrics`, `FieldHistogram` |
+| Budgets | `PerformanceBudget`, `PerformanceMeasurements`, `BudgetViolation` |
+
+## Quick start
+
+**1. Add the package**
+
+In Xcode, choose **File › Add Package Dependencies…** and enter the repository URL:
+
+```text
+https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit.git
+```
+
+Paste it into the search field at the top right of the window. Leave **Dependency Rule** at
+**Up to Next Major Version** from `2.0.0`, then click **Add Package**. In the next window,
+choose your app target next to **PerformanceOptimizationKit** and click **Add Package** again.
+
+**2. Import the module**
+
+```swift
+import PerformanceOptimizationKit
+```
+
+**3. Show the overlay**
+
+Wrap your first view in a view that starts a `PerformanceMonitor` and shows its
+`PerformanceHUD`:
+
+```swift
+struct RootView: View {
+    @State private var monitor = PerformanceMonitor()
+
+    var body: some View {
+        ContentView()
+            .overlay(alignment: .topTrailing) {
+                PerformanceHUD(monitor: monitor).padding()
+            }
+            .task { monitor.start() }
+    }
+}
+```
+
+Show `RootView()` instead of `ContentView()` in your `App` and run the app: the overlay in the
+top right corner shows the frame rate, hitch ratio, CPU, memory and the last hang, and updates
+every second. The frame monitor keeps the display at its full refresh rate, so show the
+overlay in debug builds only (`#if DEBUG`).
+
+## Installation
+
+### Swift Package Manager
+
+In Xcode, choose **File › Add Package Dependencies…** and enter the repository URL:
+
+```text
+https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit.git
+```
+
+Or add it to the `dependencies` in your `Package.swift`:
 
 ```swift
 dependencies: [
     .package(url: "https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit.git", from: "2.0.0")
+],
+targets: [
+    .target(name: "YourApp", dependencies: [
+        .product(name: "PerformanceOptimizationKit", package: "iOS-Performance-Optimization-Toolkit")
+    ])
 ]
 ```
 
-Or in Xcode: File → Add Package Dependencies → Enter the repository URL.
+Use 2.0.0 or later: the 1.0.0 release did not build, and 2.0.0 replaces its API.
 
-### Basic Usage
+## Usage
 
-```swift
-import PerformanceOptimizationKit
-
-// Initialize the toolkit
-PerformanceOptimizationKit.initialize()
-
-// Start comprehensive monitoring
-await PerformanceDashboard.shared.startMonitoring()
-
-// Get real-time metrics
-let metrics = PerformanceDashboard.shared.currentMetrics
-print("Memory: \(metrics.memoryUsage)%")
-print("CPU: \(metrics.cpuUsage)%")
-print("FPS: \(metrics.frameRate)")
-
-// Get detailed performance report
-let report = await PerformanceDashboard.shared.getPerformanceReport()
-print("Health Score: \(report.healthScore)/100")
-```
-
----
-
-## 📊 Module Deep Dive
-
-### 💾 Memory Profiling
-
-Real-time memory analysis using Mach kernel APIs:
+### Find out what blocks the main thread
 
 ```swift
-// Get current memory usage
-let memoryInfo = SystemMetrics.shared.getMemoryUsage()
-print("Resident: \(memoryInfo.formattedResidentSize)")
-print("Usage: \(memoryInfo.usagePercentage)%")
-
-// Get memory footprint (actual impact)
-let footprint = SystemMetrics.shared.getMemoryFootprint()
-
-// Check memory pressure
-let pressure = SystemMetrics.shared.getMemoryPressure()
-switch pressure {
-case .normal: print("Memory OK")
-case .warning: print("Memory pressure warning")
-case .critical: print("Critical memory pressure!")
-}
-```
-
-### 🔍 Memory Leak Detection
-
-Automatic leak detection with retain cycle analysis:
-
-```swift
-// Configure leak detector
-var config = MemoryLeakDetector.Configuration()
-config.leakThresholdSeconds = 30.0
-config.enableRetainCycleDetection = true
-MemoryLeakDetector.shared.configure(config)
-
-// Track objects
-MemoryLeakDetector.shared.track(myViewController)
-MemoryLeakDetector.shared.track(myService, identifier: "NetworkService")
-
-// Check for leaks
-let leaks = MemoryLeakDetector.shared.checkForLeaks()
-for leak in leaks {
-    print("⚠️ Potential leak: \(leak.className)")
-    print("   Age: \(leak.formattedAge)")
-    print("   Severity: \(leak.severity.emoji) \(leak.severity.rawValue)")
-}
-
-// Get statistics
-let stats = MemoryLeakDetector.shared.getStatistics()
-print("Tracked: \(stats.totalTrackedObjects)")
-print("Potential leaks: \(stats.potentialLeaks)")
-```
-
-### ⚡ CPU Profiling
-
-Comprehensive CPU and thread analysis:
-
-```swift
-// Get CPU usage
-let cpuInfo = SystemMetrics.shared.getCPUUsage()
-print("Process CPU: \(cpuInfo.processUsage)%")
-print("System CPU: \(cpuInfo.systemWideUsage)%")
-print("Threads: \(cpuInfo.threadCount)")
-print("Active: \(cpuInfo.activeThreads)")
-
-// Per-thread breakdown
-for thread in cpuInfo.threads {
-    print("Thread \(thread.threadId): \(thread.formattedCPUUsage)")
-    print("  State: \(thread.state.emoji) \(thread.state.description)")
-}
-```
-
-### 🎯 Frame Rate Monitoring
-
-Smooth UI performance analysis:
-
-```swift
-// Configure monitoring
-var config = FrameRateMonitor.Configuration()
-config.targetFrameRate = 60
-config.hitchThresholdMs = 16.67
-FrameRateMonitor.shared.configure(config)
-
-// Set up callbacks
-FrameRateMonitor.shared.onFrameRateUpdate = { info in
-    print("FPS: \(Int(info.currentFPS)) \(info.grade.emoji)")
-}
-
-FrameRateMonitor.shared.onHitchDetected = { hitch in
-    print("⚠️ Hitch: \(hitch.duration)ms (\(hitch.severity.rawValue))")
-}
-
-// Start monitoring
-await FrameRateMonitor.shared.startMonitoring()
-
-// Get analytics
-let analytics = FrameRateMonitor.shared.getAnalytics()
-print("Average FPS: \(analytics.averageFPS)")
-print("95th percentile: \(analytics.percentile95)")
-print("Smoothness score: \(analytics.smoothnessScore)")
-```
-
-### 🌐 Network Profiling
-
-Request performance tracking:
-
-```swift
-// Enable network profiling
-NetworkProfiler.shared.enable()
-
-// Or create a profiled session
-let session = NetworkProfiler.shared.createProfiledSession()
-
-// Set up callbacks
-NetworkProfiler.shared.onSlowRequestDetected = { request in
-    print("🐌 Slow request: \(request.url)")
-    print("   Duration: \(request.formattedDuration)")
-}
-
-// Get statistics
-let stats = NetworkProfiler.shared.getStatistics()
-print("Total requests: \(stats.totalRequests)")
-print("Success rate: \(stats.successRate)%")
-print("Avg response: \(stats.averageResponseTime)s")
-
-// Get performance analysis
-let analysis = NetworkProfiler.shared.getPerformanceAnalysis()
-print("Network health: \(analysis.grade)")
-for issue in analysis.issues {
-    print("⚠️ \(issue.description)")
-}
-```
-
-### 🚀 Startup Time Analysis
-
-App launch optimization:
-
-```swift
-// In main.swift (as early as possible)
-StartupTimeAnalyzer.shared.markMainFunction()
-
-// In AppDelegate
-func application(_ application: UIApplication,
-                 didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    StartupTimeAnalyzer.shared.markDidFinishLaunching()
-    // ...
-}
-
-// After first frame renders
-StartupTimeAnalyzer.shared.markFirstFrame()
-
-// When app is fully interactive
-StartupTimeAnalyzer.shared.markInteractive()
-
-// Get report
-let report = StartupTimeAnalyzer.shared.generateReport()
-print(report.summary)
-// Output:
-// Startup Report
-// ==============
-// Total Time: 850 ms
-// Type: Cold Start
-// Grade: Good 🔵
-//
-// Breakdown:
-// - Pre-main: 120ms
-// - Main → didFinishLaunching: 280ms
-// - didFinishLaunching → First Frame: 320ms
-// - First Frame → Interactive: 130ms
-
-// Get recommendations
-for rec in report.recommendations {
-    print("💡 \(rec.title)")
-    print("   \(rec.description)")
-    print("   Impact: \(rec.impact.rawValue)")
-}
-```
-
-### 🧵 Thread Analysis
-
-Concurrency and deadlock detection:
-
-```swift
-// Configure analyzer
-var config = ThreadAnalyzer.Configuration()
-config.mainThreadBlockThresholdMs = 16.67
-config.enableDeadlockDetection = true
-ThreadAnalyzer.shared.configure(config)
-
-// Set up callbacks
-ThreadAnalyzer.shared.onMainThreadBlocked = { event in
-    print("🔴 Main thread blocked: \(event.formattedDuration)")
-    print("Stack trace:")
-    event.stackTrace.prefix(5).forEach { print("  \($0)") }
-}
-
-ThreadAnalyzer.shared.onDeadlockDetected = { deadlock in
-    print("💀 Potential deadlock detected!")
-    print("Involved threads: \(deadlock.involvedThreads)")
-}
-
-// Start monitoring
-ThreadAnalyzer.shared.startMonitoring()
-
-// Get health report
-let health = ThreadAnalyzer.shared.analyzeThreadHealth()
-print("Thread health: \(health.grade)")
-print("Thread count: \(health.threadCount)")
-for issue in health.issues {
-    print("⚠️ \(issue.description)")
-}
-```
-
-### 📊 Core Data Profiling
-
-Database performance optimization:
-
-```swift
-// Enable profiling
-CoreDataProfiler.shared.enable()
-
-// Profile a fetch request
-let request = NSFetchRequest<User>(entityName: "User")
-request.predicate = NSPredicate(format: "isActive == true")
-let users = try CoreDataProfiler.shared.profileFetch(request, in: context)
-
-// Analyze fetch request for optimization
-let analysis = CoreDataProfiler.shared.analyzeFetchRequest(request)
-print("Fetch optimization score: \(analysis.grade)")
-for issue in analysis.issues {
-    print("⚠️ \(issue.description)")
-}
-for rec in analysis.recommendations {
-    print("💡 \(rec.title)")
-    if let code = rec.code {
-        print("   Code: \(code)")
+func watchForHangs() {
+    let detector = HangDetector(capturesBacktraces: true)
+    detector.start()
+    Task {
+        for await hang in detector.events() {
+            print("Main thread blocked for \(hang.duration)")
+            for frame in hang.backtrace?.prefix(5) ?? [] {
+                print("  \(frame.image ?? "?")  \(frame.symbol ?? "?")")
+            }
+        }
     }
 }
-
-// Profile save operations
-try CoreDataProfiler.shared.profileSave(in: context, label: "User update")
-
-// Get statistics
-let stats = CoreDataProfiler.shared.getStatistics()
-print("Total fetches: \(stats.totalFetches)")
-print("Avg fetch time: \(stats.averageFetchTime)ms")
-print("Slow fetches: \(stats.slowFetchCount)")
 ```
 
-### 📈 Real-time Dashboard
+The innermost frames show what the main thread was running when the hang reached 250 ms. In a
+release build without symbols the frames carry addresses and binary names; symbolicate them
+with the dSYM.
 
-Comprehensive monitoring with health scores:
+### Measure the launch
 
 ```swift
-import SwiftUI
-
-struct PerformanceView: View {
-    @ObservedObject var dashboard = PerformanceDashboard.shared
-    
+struct LaunchSampleApp: View {
     var body: some View {
-        VStack {
-            // Health Score
-            Text("Health: \(Int(dashboard.healthScore))%")
-                .font(.largeTitle)
-            
-            // Real-time metrics
-            HStack {
-                MetricView(title: "Memory", value: "\(Int(dashboard.currentMetrics.memoryUsage))%")
-                MetricView(title: "CPU", value: "\(Int(dashboard.currentMetrics.cpuUsage))%")
-                MetricView(title: "FPS", value: "\(Int(dashboard.currentMetrics.frameRate))")
+        ContentView()
+            .measuresLaunch()
+            .task {
+                let launch = LaunchTimer.markInteractive()
+                if !launch.wasPrewarmed, let firstFrame = launch.timeToFirstFrame {
+                    print("First frame after \(firstFrame)")
+                }
             }
-            
-            // Alerts
-            ForEach(dashboard.alerts) { alert in
-                AlertView(alert: alert)
-            }
-        }
-        .onAppear {
-            Task {
-                await dashboard.startMonitoring()
+    }
+}
+```
+
+The time starts when the kernel created the process, so it includes the dynamic linker and
+static initializers before `main`. A prewarmed process waited suspended before the person
+opened the app; `wasPrewarmed` tells you to leave that launch out.
+
+### Check a budget
+
+```swift
+@MainActor
+func checkBudget(of monitor: PerformanceMonitor) {
+    let budget = PerformanceBudget(
+        maximumFootprintBytes: 200 * 1_048_576,
+        maximumHitchTimeRatio: HitchRating.goodLimit,
+        maximumHangDuration: .milliseconds(250)
+    )
+    for violation in budget.evaluate(monitor.measurements) {
+        print("Over budget: \(violation)")
+    }
+}
+```
+
+Each violation reads like `hang of 900 ms exceeds 250 ms`. In a unit test, pass
+`PerformanceTracer` statistics and `#expect(violations.isEmpty)`; the
+[budgets article](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/settingperformancebudgets) shows how.
+
+### Read field data from MetricKit
+
+```swift
+let fieldMetrics = FieldMetricsReceiver()
+
+func receiveFieldMetrics() {
+    fieldMetrics.start()
+    Task {
+        for await metrics in fieldMetrics.updates() {
+            if let launches = metrics.timeToFirstDraw, let median = launches.percentile(0.5) {
+                print("Median launch: \(median) s over \(launches.totalCount) launches")
             }
         }
     }
 }
+```
 
-// Get comprehensive report
-let report = await PerformanceDashboard.shared.getPerformanceReport()
-print("Overall grade: \(report.grade)")
+MetricKit delivers a report about once a day from devices whose owners share analytics with
+developers. `FieldMetrics` is `Codable` and has no MetricKit dependency, so you can upload it
+and decode it on a server. On iOS 27 and macOS 27 the receiver uses the new `MetricManager`,
+on earlier systems `MXMetricManager`.
 
-// Export as JSON
-if let json = await PerformanceDashboard.shared.exportReport() {
-    // Save or send report
+### Time network requests
+
+```swift
+let networkTimings = NetworkMetricsCollector(redaction: URLRedaction(allowedQueryParameters: ["page"]))
+
+func loadOrders(page: Int) async throws -> Data {
+    let url = URL(string: "https://api.example.com/v1/orders?page=\(page)")!
+    let (data, _) = try await URLSession.shared.data(from: url, delegate: networkTimings)
+    return data
+}
+
+func logSlowRequests() {
+    Task {
+        for await timing in networkTimings.updates() {
+            if let waiting = timing.phases.waiting, waiting > .milliseconds(500) {
+                print("\(timing.url) waited \(waiting) for the server")
+            }
+        }
+    }
 }
 ```
 
----
+Each `NetworkTiming` splits the request into DNS lookup, connection, TLS, sending, waiting for
+the first byte and receiving. Its URL is redacted before it is stored:
+`https://api.example.com/v1/users/48213/orders?page=2&token=abc` is recorded as
+`https://api.example.com/v1/users/:id/orders?page=2`.
 
-## 🏗️ Architecture
+## What is recorded
 
-```
-PerformanceOptimizationKit/
-├── Core/
-│   ├── SystemMetrics.swift          # Mach kernel metrics
-│   ├── FrameRateMonitor.swift       # CADisplayLink FPS monitoring
-│   ├── MemoryLeakDetector.swift     # Object tracking & leak detection
-│   ├── StartupTimeAnalyzer.swift    # App launch analysis
-│   ├── NetworkProfiler.swift        # URL request profiling
-│   ├── ThreadAnalyzer.swift         # Thread & deadlock analysis
-│   ├── CoreDataProfiler.swift       # Core Data performance
-│   └── PerformanceDashboard.swift   # Real-time monitoring hub
-└── PerformanceOptimizationKit/
-    └── PerformanceOptimizationKit.swift  # Public API
-```
+The package is meant for internal and beta builds that real people use, so its reports must not
+carry their data.
 
----
+- **Recorded:** durations, frame and hitch figures, memory and CPU figures, call stacks of the
+  main thread during a hang (binary and symbol names), MetricKit's figures and the app build,
+  the type names of objects that outlive their screen, and for each request its redacted URL,
+  method, status code, protocol, phase timings and response size. Names you pass to
+  `PerformanceTracer` and `LeakTracker` are recorded as you give them, so use fixed names.
+- **Never recorded:** request and response headers (`Authorization`, cookies), request and
+  response bodies, the user name and password and the fragment of a URL, and its query, except
+  for parameters you allow by name.
+- **URLs:** path segments that look like identifiers (numbers, UUIDs, e-mail addresses, six or
+  more digits, card numbers, IBANs, tokens) become `:id`, and so does the segment after a name
+  such as `token` or `password`. A segment that is not plain ASCII after percent-decoding, such
+  as `Şifre` or a word with a look-alike letter from another script, is hidden together with the
+  next one, on purpose. A path that servers could read in different ways (`..`, `;`, double
+  percent-encoding) is recorded as scheme and host only.
 
-## 📋 Requirements
+Redaction is a safety net, not a guarantee. It cannot tell that an ordinary word in a path, such
+as an invitation code `sunflower`, is secret. Keep secrets out of URLs, or record the host only
+with `URLRedaction(recordsHostOnly: true)`. The
+[network timings article](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/recordingnetworktimings)
+lists every rule and its limits.
 
-| Platform | Minimum Version |
-|----------|-----------------|
-| iOS | 15.0+ |
-| macOS | 12.0+ |
-| watchOS | 8.0+ |
-| tvOS | 15.0+ |
-| visionOS | 1.0+ |
-| Swift | 5.9+ |
+## Example app
 
----
-
-## 🔧 Best Practices
-
-### Production vs Debug
-
-```swift
-#if DEBUG
-// Full monitoring in debug builds
-PerformanceOptimizationKit.initialize(configuration: .init(
-    enableDetailedLogging: true,
-    enableAutoOptimization: false
-))
-await PerformanceDashboard.shared.startMonitoring()
-#else
-// Minimal monitoring in production
-// Or disable entirely for zero overhead
-#endif
-```
-
-### Memory-Efficient Monitoring
-
-```swift
-// Only enable what you need
-var config = PerformanceDashboard.Configuration()
-config.enableHistory = false  // Don't store history
-config.updateInterval = 5.0   // Less frequent updates
-PerformanceDashboard.shared.configure(config)
-```
-
-### CI/CD Integration
-
-```swift
-// Generate performance report for CI
-let report = await PerformanceDashboard.shared.getPerformanceReport()
-
-// Fail build if health score is too low
-if report.healthScore < 70 {
-    fatalError("Performance regression detected: \(report.healthScore)")
-}
-
-// Export metrics
-if let json = await PerformanceDashboard.shared.exportReport() {
-    try json.write(to: URL(fileURLWithPath: "performance-report.json"))
-}
-```
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'feat: add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🙏 Acknowledgments
-
-- Apple's Instruments team for inspiration
-- The Swift community for feedback and contributions
-
----
+[`Examples/PerformanceLab`](Examples/) is an iOS and macOS app that causes each problem on
+purpose so you can watch the measurement react. From left to right: a 600 ms main-thread hang
+with the app function its call stack points at, a list with slow rows scrolled at full speed,
+a view model kept alive by a closure, and a budget check that catches a hang.
 
 <p align="center">
-  <strong>Built with ❤️ for the iOS community</strong>
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/example-hangs-dark.png"><img src="docs/images/example-hangs-light.png" width="200" alt="Hangs screen: a hang of about 600 ms whose call stack points at PerformanceLab.blockMainThread"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/example-frames-dark.png"><img src="docs/images/example-frames-light.png" width="200" alt="Frames screen: frame rate about 40 of 60 fps and a severe hitch ratio while slow rows scroll"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/example-leaks-dark.png"><img src="docs/images/example-leaks-light.png" width="200" alt="Leaks screen: the report 'Profile (leaks)' for PerformanceLab.ProfileModel"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/example-budget-dark.png"><img src="docs/images/example-budget-light.png" width="200" alt="Budget screen: five limits and the violation 'hang exceeds 250 ms'"></picture>
 </p>
 
-<p align="center">
-  <a href="https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/stargazers">⭐ Star this repo</a> •
-  <a href="https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/issues">🐛 Report Bug</a> •
-  <a href="https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/issues">💡 Request Feature</a>
-</p>
+The screenshots are taken from the running app on an iPhone simulator by
+[`scripts/capture-example-screens.sh`](scripts/capture-example-screens.sh), so the figures are
+measured, not drawn.
+
+## Documentation
+
+The [DocC documentation](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/) covers every public type, with these articles:
+
+- [Getting Started](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/gettingstarted)
+- [Finding Hangs and Hitches](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/findinghangsandhitches)
+- [Reading Field Metrics](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/readingfieldmetrics)
+- [Setting Performance Budgets](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/settingperformancebudgets)
+- [Recording Network Timings](https://muhittincamdali.github.io/iOS-Performance-Optimization-Toolkit/documentation/performanceoptimizationkit/recordingnetworktimings)
+
+## Requirements
+
+| Platform | Minimum |
+| -------- | ------- |
+| iOS      | 17.0    |
+| macOS    | 14.0    |
+| tvOS     | 17.0    |
+| watchOS  | 10.0    |
+| visionOS | 1.0     |
+
+Swift 6.2 or later (Xcode 26 or later). The package builds in the Swift 6 language mode. The
+frame monitor needs a display link, so it is not available on watchOS; MetricKit is not
+available on tvOS and watchOS. Call stacks of hangs are read on arm64 and x86_64, on every
+platform except watchOS, which does not let an app suspend its own threads.
+
+## Contributing
+
+Bug reports and pull requests are welcome; [CONTRIBUTING.md](CONTRIBUTING.md) explains how to
+build, test and regenerate the screenshots. To report a security issue privately, see
+[SECURITY.md](SECURITY.md).
+
+## License
+
+MIT. See [LICENSE](LICENSE).

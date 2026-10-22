@@ -1,406 +1,68 @@
-# 🤝 Contributing Guidelines
-
-<div align="center">
-
-**🌟 Want to contribute to this project?**
-
-[📋 Code of Conduct](CODE_OF_CONDUCT.md) • [🐛 Bug Report](https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/issues) • [💡 Feature Request](https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/issues)
-
-</div>
-
----
-
-## 🎯 Contribution Types
-
-### 🐛 Bug Reports
-- **Clear and concise** description
-- **Reproducible** steps
-- **Expected vs Actual** behavior
-- **Environment** information (iOS version, Xcode version)
-- **Screenshots/GIFs** (if possible)
-
-### 💡 Feature Requests
-- **Problem** description
-- **Proposed solution** suggestion
-- **Use case** scenarios
-- **Mockups/wireframes** (if possible)
-
-### 📚 Documentation
-- **README** updates
-- **Code comments** improvements
-- **Architecture** documentation
-- **Tutorial** writing
-
-### 🧪 Tests
-- **Unit tests** addition
-- **Integration tests** writing
-- **UI tests** creation
-- **Performance tests** addition
-
----
-
-## 🚀 Contribution Process
-
-### 1. 🍴 Fork & Clone
-```bash
-# Fork the repository
-# Then clone
-git clone https://github.com/YOUR_USERNAME/iOS-Performance-Optimization-Toolkit.git
-cd iOS-Performance-Optimization-Toolkit
-```
-
-### 2. 🌿 Create Branch
-```bash
-# Feature branch
-git checkout -b feature/amazing-feature
-
-# Bug fix branch
-git checkout -b fix/bug-description
-
-# Documentation branch
-git checkout -b docs/update-readme
-```
-
-### 3. 🔧 Development
-```bash
-# Open in Xcode
-open iOS-Performance-Optimization-Toolkit.xcodeproj
-```
-
-### 4. ✅ Test
-```bash
-# Unit tests
-xcodebuild test -project iOS-Performance-Optimization-Toolkit.xcodeproj -scheme iOS-Performance-Optimization-Toolkit -destination 'platform=iOS Simulator,name=iPhone 15'
-
-# UI tests
-xcodebuild test -project iOS-Performance-Optimization-Toolkit.xcodeproj -scheme iOS-Performance-Optimization-Toolkit -destination 'platform=iOS Simulator,name=iPhone 15' -only-testing:iOS-Performance-Optimization-ToolkitUITests
-```
-
-### 5. 📝 Commit
-```bash
-# Use conventional commits
-git commit -m "feat: add new performance optimization"
-git commit -m "fix: resolve memory leak issue"
-git commit -m "docs: update performance documentation"
-git commit -m "test: add performance tests"
-```
-
-### 6. 🚀 Push & Pull Request
-```bash
-# Push
-git push origin feature/amazing-feature
-
-# Create Pull Request
-# Click "Compare & pull request" on GitHub
-```
-
----
-
-## 📋 Pull Request Template
-
-### 🎯 PR Title
-```
-feat: add memory leak detection with automatic cleanup
-fix: resolve CPU usage optimization issue
-docs: update performance optimization guide
-test: add comprehensive performance tests
-```
-
-### 📝 PR Description
-```markdown
-## 🎯 Change Type
-- [ ] 🐛 Bug fix
-- [ ] ✨ New feature
-- [ ] 📚 Documentation
-- [ ] 🧪 Tests
-- [ ] 🔧 Refactoring
-- [ ] ⚡ Performance improvement
-- [ ] 🔒 Security enhancement
-
-## 📋 Change Description
-This PR includes the following changes:
-
-- New memory leak detection feature
-- Enhanced CPU optimization algorithms
-- Performance monitoring improvements
-- Comprehensive test coverage
-
-## 🧪 Tested
-- [ ] Unit tests pass
-- [ ] UI tests pass
-- [ ] Manual testing completed
-- [ ] Performance tests pass
-
-## 📸 Screenshots (for UI changes)
-![Screenshot](url-to-screenshot)
-
-## 🔗 Related Issue
-Closes #123
-
-## ✅ Checklist
-- [ ] Code follows performance best practices
-- [ ] SOLID principles applied
-- [ ] Error handling added
-- [ ] Logging added
-- [ ] Documentation updated
-- [ ] Tests added
-- [ ] Performance optimized
-```
-
----
-
-## ⚡ Performance Standards
-
-### 🔧 Performance Guidelines
-```swift
-// ✅ Performance Optimized Implementation
-class PerformanceOptimizer {
-    private let memoryOptimizer = MemoryOptimizer()
-    private let cpuOptimizer = CPUOptimizer()
-    
-    func optimizePerformance() {
-        // Use background queues for heavy operations
-        DispatchQueue.global(qos: .userInitiated).async {
-            self.performHeavyOperation()
-        }
-        
-        // Implement lazy loading
-        lazy var expensiveComponent = ExpensiveComponent()
-        
-        // Use autorelease pools
-        autoreleasepool {
-            // Perform memory-intensive operations
-        }
-    }
-    
-    func loadImageOptimized(from url: URL) {
-        // Check cache first
-        if let cachedImage = imageCache.object(forKey: url.absoluteString) {
-            return cachedImage
-        }
-        
-        // Load and cache
-        DispatchQueue.global(qos: .userInitiated).async {
-            // Load image
-            // Cache result
-        }
-    }
-}
-
-// ❌ Performance Issues
-class PerformanceIssues {
-    func loadImagesSynchronously() {
-        // Don't load images on main thread
-        for url in imageURLs {
-            let image = UIImage(contentsOf: url) // Blocking call
-        }
-    }
-    
-    func performHeavyOperationOnMainThread() {
-        // Don't perform heavy operations on main thread
-        let result = expensiveAlgorithm() // Blocks UI
-    }
-}
-```
-
-### 📊 Performance Best Practices
-```swift
-// ✅ Memory Management
-class MemoryOptimizer {
-    func optimizeMemoryUsage() {
-        // Use weak references to avoid retain cycles
-        weak var weakReference = self
-        
-        // Clear caches when memory pressure is high
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleMemoryWarning),
-            name: UIApplication.didReceiveMemoryWarningNotification,
-            object: nil
-        )
-    }
-    
-    @objc private func handleMemoryWarning() {
-        // Clear image caches
-        // Release unused objects
-        // Compact memory
-    }
-}
-
-// ✅ CPU Optimization
-class CPUOptimizer {
-    func optimizeCPUUsage() {
-        // Use appropriate queue priorities
-        DispatchQueue.global(qos: .userInitiated).async {
-            // User-initiated tasks
-        }
-        
-        DispatchQueue.global(qos: .background).async {
-            // Background tasks
-        }
-        
-        // Implement caching
-        let cache = NSCache<NSString, AnyObject>()
-        cache.countLimit = 100
-    }
-}
-```
-
-### 🧪 Performance Test Standards
-```swift
-// ✅ Performance Tests
-class PerformanceOptimizationTests: XCTestCase {
-    func testMemoryOptimization() {
-        // Given
-        let memoryOptimizer = MemoryOptimizer()
-        
-        // When
-        memoryOptimizer.enableAutomaticCleanup()
-        let memoryUsage = memoryOptimizer.getMemoryUsage()
-        
-        // Then
-        XCTAssertLessThan(memoryUsage.used, 200 * 1024 * 1024) // Less than 200MB
-    }
-    
-    func testCPUOptimization() {
-        // Given
-        let cpuOptimizer = CPUOptimizer()
-        
-        // When
-        cpuOptimizer.startProfiling()
-        let cpuUsage = cpuOptimizer.getCPUUsage()
-        
-        // Then
-        XCTAssertLessThan(cpuUsage.current, 80) // Less than 80%
-    }
-    
-    func testUIOptimization() {
-        // Given
-        let uiOptimizer = UIOptimizer()
-        
-        // When
-        uiOptimizer.enable60fpsAnimations()
-        let fps = uiOptimizer.getFPS()
-        
-        // Then
-        XCTAssertGreaterThan(fps.current, 55) // More than 55 FPS
-    }
-}
-```
-
----
-
-## 🔧 Development Environment
-
-### 📋 Requirements
-- **Xcode 14.0+**
-- **iOS 15.0+**
-- **Swift 5.7+**
-- **Instruments framework**
-
-### ⚙️ Setup
-```bash
-# 1. Clone repository
-git clone https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit.git
-
-# 2. Open in Xcode
-open iOS-Performance-Optimization-Toolkit.xcodeproj
-```
-
-### 🧪 Test Running
-```bash
-# Unit tests
-xcodebuild test -project iOS-Performance-Optimization-Toolkit.xcodeproj -scheme iOS-Performance-Optimization-Toolkit
-
-# UI tests
-xcodebuild test -project iOS-Performance-Optimization-Toolkit.xcodeproj -scheme iOS-Performance-Optimization-Toolkit -only-testing:iOS-Performance-Optimization-ToolkitUITests
-```
-
----
-
-## 📚 Documentation Standards
-
-### 📝 Code Comments
-```swift
-/**
- * Performance Optimizer
- * 
- * Provides comprehensive performance optimization for iOS applications.
- * Implements memory management, CPU optimization, and UI performance improvements.
- * 
- * - Parameters:
- *   - memoryThreshold: Memory usage threshold for cleanup
- *   - cpuThreshold: CPU usage threshold for optimization
- * 
- * - Returns: Performance metrics and optimization status
- * 
- * - Example:
- * ```swift
- * let optimizer = PerformanceOptimizer()
- * optimizer.enableAutomaticCleanup()
- * let metrics = optimizer.getPerformanceMetrics()
- * ```
- */
-class PerformanceOptimizer {
-    // Implementation
-}
-```
-
-### 📖 README Updates
-- **New performance features** documentation
-- **API changes** migration guide
-- **Performance improvements** benchmark results
-- **Optimization techniques** best practices
-
----
-
-## 🎯 Contribution Priorities
-
-### 🔥 High Priority
-- **Performance bottlenecks** fixes
-- **Memory leaks** solutions
-- **CPU optimization** improvements
-- **UI performance** enhancements
-
-### 🚀 Medium Priority
-- **New optimization features** addition
-- **Performance monitoring** improvements
-- **Documentation** updates
-- **Test coverage** increase
-
-### 📚 Low Priority
-- **Code refactoring** improvements
-- **Minor optimizations** small changes
-- **Documentation** fixes
-- **Code comments** improvements
-
----
-
-## 🌟 Contributors
-
-<div align="center">
-
-**Thank you to everyone who contributes to this project!**
-
-[![Contributors](https://contrib.rocks/image?repo=muhittincamdali/iOS-Performance-Optimization-Toolkit)](https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/graphs/contributors)
-
-</div>
-
----
-
-## 📞 Contact
-
-- **Issues**: [GitHub Issues](https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/muhittincamdali/iOS-Performance-Optimization-Toolkit/discussions)
-- **Email**: your-email@example.com
-- **Twitter**: [@your-twitter](https://twitter.com/your-twitter)
-
----
-
-<div align="center">
-
-**🌟 Thank you for contributing!**
-
-**⚡ App Store Top 100 Performance Optimization Toolkit**
-
-</div> 
+# Contributing
+
+Thanks for taking the time to improve Performance Toolkit.
+
+## Reporting bugs
+
+Open an issue with:
+
+- what you measured (hangs, frames, memory, launch, leaks, network or MetricKit) and how the
+  monitor or detector was configured,
+- what you expected and what you got, with the figures (a `HangEvent`, `FrameStatistics` or
+  `MemorySnapshot` printed as JSON helps),
+- for MetricKit, the payload as JSON with identifying fields removed,
+- platform and OS version (simulator or device) and Xcode version.
+
+## Pull requests
+
+1. Fork the repository and branch from `master`.
+2. Keep each pull request focused on one change.
+3. Run the tests on macOS and on an iOS simulator:
+
+    ```sh
+    swift test
+    xcodebuild test -scheme PerformanceOptimizationKit \
+      -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
+    ```
+
+   Some tests block a queue or the main thread for a few hundred milliseconds, allocate 64 MB
+   or send requests to an HTTP server on 127.0.0.1; nothing goes to the internet.
+4. Add or update a test for every behaviour you change in `Tests/PerformanceOptimizationKitTests`.
+   Measure real effects where you can (a blocked queue, written memory, a real request) and
+   avoid assertions on wall-clock time that a busy CI runner can miss.
+5. Anything that comes from the kernel, a display link, MetricKit or a decoded file may be
+   missing, NaN, negative or huge. Check it before it reaches an integer conversion, a
+   `Duration` or arithmetic, and add a test with the extreme value. New buffers need a limit.
+6. `URLRedaction` follows one rule: what it does not fully understand is hidden. Do not add
+   look-alike tables or special cases that show more; add a test for every input a change
+   hides, and run the limit tests in the release configuration as well, where they also check
+   the 512 KiB stack:
+
+    ```sh
+    swift test -c release -Xswiftc -enable-testing --filter URLRedaction
+    ```
+
+7. Code that runs while another thread is suspended (`ThreadBacktrace`) must not allocate or
+   take locks.
+8. If you change a README code sample, change the copy in
+   `Examples/PerformanceLab/PerformanceLab/ReadmeSamples.swift` as well; the example app
+   compiles that file. Build the app with:
+
+    ```sh
+    cd Examples/PerformanceLab
+    xcodebuild build -scheme PerformanceLab -destination 'generic/platform=iOS Simulator'
+    ```
+
+9. If a change affects what the example app shows, regenerate the screenshots with
+   `scripts/capture-example-screens.sh`.
+10. If you change `README.md` and cannot update its translations, say so in the pull request.
+
+## Code style
+
+- Follow the [Swift API Design Guidelines](https://www.swift.org/documentation/api-design-guidelines/).
+- The package builds in the Swift 6 language mode and has no dependencies; new code should
+  not add warnings or dependencies.
+- Document public API with DocC comments (`///`); the documentation builds with
+  `--warnings-as-errors`.
+- Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/)
+  (`feat:`, `fix:`, `docs:`, `test:`, `refactor:`, `ci:`, `chore:`).
