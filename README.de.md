@@ -34,7 +34,7 @@ Ein Swift-Paket, das misst, was eine App langsam wirken lässt – auf iOS 17+, 
 - **Der Speicherwert, auf den es ankommt** — `MemorySnapshot` liest den physischen Footprint, den das System durchsetzt, dessen Spitzenwert und auf Geräten den Speicher, der bis zum Limit noch bleibt.
 - **Start und Leaks** — `LaunchTimer` misst ab der Erstellung des Prozesses (vor `main`) und erkennt vorgewärmte (prewarmed) Starts; `LeakTracker` meldet Objekte, die nach dem Schließen ihres Screens noch leben.
 - **Felddaten und Budgets** — `FieldMetricsReceiver` liest die täglichen MetricKit-Berichte auf iOS 17 bis 27; `PerformanceBudget` prüft jede Messung in einem Test gegen Grenzwerte.
-- **Für den Dauerbetrieb gebaut** — jeder Puffer hat ein Limit, Werte aus dem Kernel oder einem Payload werden vor der Verwendung geprüft, und Netzwerk-Timings enthalten weder Header noch Bodies, sondern nur eine unkenntlich gemachte URL. 115 Swift-Testing-Tests laufen auf macOS, 114 davon auch in einem iPhone-Simulator, gegen echte Hangs, Speicherallokationen und HTTP-Anfragen.
+- **Für den Dauerbetrieb gebaut** — jeder Puffer hat ein Limit, Werte aus dem Kernel oder einem Payload werden vor der Verwendung geprüft, und Netzwerk-Timings enthalten weder Header noch Bodies, sondern nur eine unkenntlich gemachte URL. 122 Swift-Testing-Tests laufen auf macOS, 121 davon auch in einem iPhone-Simulator, gegen echte Hangs, Speicherallokationen und HTTP-Anfragen.
 
 ### Was enthalten ist
 
